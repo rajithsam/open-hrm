@@ -4,7 +4,19 @@
 		<title>Open Hrm</title>
 		<link rel="stylesheet" href="{{url('public/bower_components/bootstrap/dist/css/bootstrap.min.css')}}" type="text/css" />
 		<link rel="stylesheet" href="{{url('public/css/style.css')}}" type="text/css" />
+		<script type="text/javascript" src="{{url('public/bower_components/jquery/dist/jquery.min.js')}}"></script>
+		<script type="text/javascript" src="{{url('public/bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+		<script type="text/javascript" src="{{url('public/bower_components/angular/angular.min.js')}}"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
+		@if(isset($styles) && count($styles))
+			@foreach($styles as $style)
+				<script type="text/javascript" src="{{$style}}"></script>
+			@endforeach
+		@endif
 		
+		<script type="text/javascript">
+			var BASE = "{{url('/').'/'}}";
+		</script>
 	</head>
 	<body>
 		<header>
@@ -51,34 +63,29 @@
 				<ul class="nav nav-stacked">
 					<li role="presentation" ><a  href="#">Dashboard</a></li>
 					<li role="presentation" >
-						<a class="selected hasChild" href="#">Organization <span class="pull-right right-caret"></span></a>
+						<a class="selected hasChild">Organization <span class="pull-right right-caret"></span></a>
 						<ul class="nav nav-sub">
 							<li><a href="#">Create</a></li>
+						</ul>
+					</li>
+					<li role="presentation" >
+						<a class="selected hasChild">User Manager <span class="pull-right right-caret"></span></a>
+						<ul class="nav nav-sub">
+							<li><a href="{{url('role')}}">Role</a></li>
+							<li><a href="#">Permissions</a></li>
+							<li><a href="#">Users</a></li>
 						</ul>
 					</li>
 		
 				</ul>
 			</aside>
-			<section class="col-lg-10 content">
-				<ol class="breadcrumb">
-				  <li><a href="#">Home</a></li>
-				  <li><a href="#">Library</a></li>
-				  <li class="active">Data</li>
-				</ol>
-				<div class="panel panel-default">
-			      <div class="panel-heading">
-			      	Panel Header
-			      </div>
-				  <div class="panel-body">
-				    Panel content
-				  </div>
-				  <div class="panel-footer">Panel footer</div>
-				</div>
-			</section>
+			@yield('content')
 		
-		
-		<script type="text/javascript" src="{{url('public/bower_components/jquery/dist/jquery.min.js')}}"></script>
-		<script type="text/javascript" src="{{url('public/bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
-		<script type="text/javascript" src="{{url('public/js/common.js')}}"></script>
+			@if(isset($scripts) && count($scripts))
+				@foreach($scripts as $script)
+					<script type="text/javascript" src="{{$script}}"></script>
+				@endforeach
+			@endif
+			<script type="text/javascript" src="{{url('public/js/common.js')}}"></script>
 	</body>
 </html>

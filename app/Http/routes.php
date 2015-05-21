@@ -11,11 +11,18 @@
 |
 */
 
-Route::get('/', 'WelcomeController@index');
+Route::get('/', 'HomeController@index');
 
 Route::get('home', 'HomeController@index');
+Route::get('test','TestController@index');
+Route::get('role','RoleController@index');
+
+Route::get('roles.json','RoleController@all');
+
+Route::any('role/store','RoleController@store');
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
+	'test' => 'TestController'
 ]);
