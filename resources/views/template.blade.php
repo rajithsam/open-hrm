@@ -63,9 +63,11 @@
 				<ul class="nav nav-stacked">
 					<li role="presentation" ><a  href="#">Dashboard</a></li>
 					<li role="presentation" >
-						<a class="selected hasChild">Organization <span class="pull-right right-caret"></span></a>
+						<a class="selected hasChild">System <span class="pull-right right-caret"></span></a>
 						<ul class="nav nav-sub">
-							<li><a href="#">Create</a></li>
+							<li><a href="{{url('system/org')}}">Organiztion</a></li>
+							<li><a href="{{url('system/department')}}">Department</a></li>
+							<li><a href="{{url('system/workweek')}}">WorkWeek</a></li>
 						</ul>
 					</li>
 					<li role="presentation" >
@@ -76,6 +78,7 @@
 							<li><a href="#">Users</a></li>
 						</ul>
 					</li>
+					
 		
 				</ul>
 			</aside>

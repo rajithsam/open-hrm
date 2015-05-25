@@ -1,7 +1,7 @@
 @extends('template')
 
 @section('content')
-<section class="col-lg-10 content" ng-app="RoleApp" ng-controller="RoleController">
+<section class="col-lg-10 content" ng-app="RoleApp" ng-controller="RoleController" ng-cloak>
 	<ol class="breadcrumb">
 	  <li><a href="#">Home</a></li>
 	  <li><a href="#">Library</a></li>

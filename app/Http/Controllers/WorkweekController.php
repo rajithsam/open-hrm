@@ -1,13 +1,13 @@
 <?php namespace App\Http\Controllers;
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
-use App\Model\Role;
-use Illuminate\Http\Request;
-use App\Http\Requests\RoleForm;
 use App\Helpers\Theme;
+use App\Http\Requests;
+use App\Http\Requests\WorkWeekForm;
+use App\Http\Controllers\Controller;
+use App\Model\System\WorkWeek;
+use Illuminate\Http\Request;
 
-class RoleController extends Controller {
+class WorkweekController extends Controller {
 
 	/**
 	 * Display a listing of the resource.
@@ -16,12 +16,13 @@ class RoleController extends Controller {
 	 */
 	public function index()
 	{
-		//
 		$theme = new Theme;
-		$theme->addScript(url('public/js/controller/role-controller.js'));
+		$theme->addScript(url('public/js/controller/workweek-controller.js'));
 		$viewModel['scripts'] = $theme->getScripts();
-		$viewModel['page_title'] = "Manage Roles";
-		return view('role.list',$viewModel);
+		$viewModel['page_title'] = "Specify Work Week";
+	//	$viewModel['days'] = array('Sunday','Monday','Tuesday','Wednessday','Thursday','Friday','Saturday');
+	//	$viewModel['status'] = array('Working day','Not Working Day');
+		return view('system.workweek',$viewModel);
 	}
 
 	/**
@@ -35,23 +36,37 @@ class RoleController extends Controller {
 	}
 
 	/**
+	 * Get all as json
+	 * @return Json
+	 */
+	public function getAll()
+	{
+		return json_encode(WorkWeek::getDays());	
+	}
+	
+	/**
 	 * Store a newly created resource in storage.
 	 *
 	 * @return Response
 	 */
-	public function store(RoleForm $req)
+	public function store(Request $req)
 	{
-		if(!count($req->messages()))
+		$days = $req->all();
+		if(count($days))
 		{
-			$role = new Role;
-			$role->name = strtolower(str_replace(" ", "-",$req->get('name')));
-			$role->display_name = $req->get('name');
-			$role->description = $req->get('description');
-			$role->save();
-			return json_encode(array('message'=>array('New role '.$role->name.' successfully Added')));
-		}else{
-			return $req->messages();
+			
+			foreach($days as $day=>$status)
+			{
+				$status = trim($status);
+				if(!empty($status)){
+					$workWeek = WorkWeek::firstOrNew(array('day_name'=>$day));
+					$workWeek->status = $status;
+					$workWeek->save();
+				}
+			}	
+		
 		}
+		return json_encode(array('message'=>array('Organization Information updated successfully')));
 	}
 
 	/**
@@ -96,11 +111,6 @@ class RoleController extends Controller {
 	public function destroy($id)
 	{
 		//
-	}
-	
-	public function all()
-	{
-		return Role::all()->toJson();
 	}
 
 }

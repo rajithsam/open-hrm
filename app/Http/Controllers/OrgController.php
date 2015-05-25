@@ -1,14 +1,19 @@
 <?php namespace App\Http\Controllers;
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
-use App\Model\Role;
-use Illuminate\Http\Request;
-use App\Http\Requests\RoleForm;
 use App\Helpers\Theme;
+use App\Http\Requests;
+use App\Http\Requests\OrgForm;
+use App\Http\Controllers\Controller;
+use App\Model\System\HrmOrg;
+use Illuminate\Http\Request;
 
-class RoleController extends Controller {
+class OrgController extends Controller {
 
+	public function __construct()
+	{
+		//$this->middleware('auth');
+	}
+	
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -16,12 +21,11 @@ class RoleController extends Controller {
 	 */
 	public function index()
 	{
-		//
 		$theme = new Theme;
-		$theme->addScript(url('public/js/controller/role-controller.js'));
+		$theme->addScript(url('public/js/controller/org-controller.js'));
 		$viewModel['scripts'] = $theme->getScripts();
-		$viewModel['page_title'] = "Manage Roles";
-		return view('role.list',$viewModel);
+		$viewModel['page_title'] = "System Inforamtion";
+		return view('system.org',$viewModel);
 	}
 
 	/**
@@ -35,20 +39,38 @@ class RoleController extends Controller {
 	}
 
 	/**
+	 * Get Org Json data
+	 * 
+	 */
+	public function getOrg()
+	{
+		$org = HrmOrg::orderBy('id','desc')->first();
+		
+		return (count($org))? $org->toJson() : (new HrmOrg())->toJson();
+	}
+
+	/**
 	 * Store a newly created resource in storage.
 	 *
 	 * @return Response
 	 */
-	public function store(RoleForm $req)
+	public function store(OrgForm $req)
 	{
 		if(!count($req->messages()))
 		{
-			$role = new Role;
-			$role->name = strtolower(str_replace(" ", "-",$req->get('name')));
-			$role->display_name = $req->get('name');
-			$role->description = $req->get('description');
-			$role->save();
-			return json_encode(array('message'=>array('New role '.$role->name.' successfully Added')));
+			
+			$hrmOrg = HrmOrg::firstOrNew(array('title'=>$req->get('title')));
+			$hrmOrg->phone = $req->get('phone');
+			$hrmOrg->fax = $req->get('fax');
+			$hrmOrg->email = $req->get('email');
+			$hrmOrg->address = $req->get('address');
+			$hrmOrg->country = $req->get('country');
+			$hrmOrg->city = $req->get('city');
+			$hrmOrg->state = $req->get('state');
+			$hrmOrg->postcode = $req->get('postcode');
+			$hrmOrg->save();
+			return json_encode(array('message'=>array('Organization Information updated successfully')));
+			
 		}else{
 			return $req->messages();
 		}
@@ -96,11 +118,6 @@ class RoleController extends Controller {
 	public function destroy($id)
 	{
 		//
-	}
-	
-	public function all()
-	{
-		return Role::all()->toJson();
 	}
 
 }

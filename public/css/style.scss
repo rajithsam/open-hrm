@@ -36,6 +36,7 @@ header{
     padding:0px;
     background-color:$white;
     height:100%;
+    position:fixed;
     li{
         a{
             padding:10px 0px 10px 32px;
@@ -85,8 +86,9 @@ header{
     margin-right:$rightPx;
     margin-top:$topPx;
 }
-.caret{ @include caret-margin(10px,8px);}
-.right-caret {
+#sidebar a > span.caret{ @include caret-margin(10px,8px);}
+
+#sidebar a > span.right-caret {
     border-bottom: 5px solid transparent;
     border-top: 5px solid transparent;
     border-left: 4px solid;
@@ -95,7 +97,12 @@ header{
     vertical-align: middle;
     @include caret-margin(10px,4px);
 }
-
+.vertical-seperator{
+    border-left:1px solid #eee;
+}
+ul.sub-level-1{
+    margin-left:30px;
+}
 /***** override css *****/
 ul.errors,ul.success{
     li{

@@ -17,12 +17,26 @@ Route::get('home', 'HomeController@index');
 Route::get('test','TestController@index');
 Route::get('role','RoleController@index');
 
-Route::get('roles.json','RoleController@all');
-
 Route::any('role/store','RoleController@store');
+Route::get('api/roles.json','RoleController@all');
+
+// Org route
+Route::get('system/org','OrgController@index');
+Route::post('org/store','OrgController@store');
+Route::get('api/org.json','OrgController@getOrg');
+
+// Department route
+Route::get('system/department','DepartmentController@index');
+Route::post('department/store','DepartmentController@store');
+Route::get('api/departments.json','DepartmentController@getAll');
+
+// WorkWeek route
+Route::get('system/workweek','WorkweekController@index');
+Route::post('workweek/store','WorkweekController@store');
+Route::get('api/workweek.json','WorkweekController@getAll');
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
-	'test' => 'TestController'
+
 ]);

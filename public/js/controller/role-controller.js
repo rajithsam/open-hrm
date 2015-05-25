@@ -28,7 +28,7 @@ controller('RoleController',['$scope','$http',function($scope,$http){
             console.log(res);
             $scope.successes = res.message;
             resetFrm();
-            $http.get('/roles.json').success(function(data){
+            $http.get('/api/roles.json').success(function(data){
                 $scope.roles = data;
             });
         }).error(function(res){
