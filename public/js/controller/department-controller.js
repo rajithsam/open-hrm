@@ -22,9 +22,33 @@ service('webservice',function($http){
 }).
 controller('departmentCtrl',['$scope','webservice',function($scope,webservice){
     
-    $scope.department = {name:'',parent_department:[]};
+    $scope.department = {id:'',name:'',parent_department:[]};
     
-    var loadOrgInfo = function()
+    $scope.cancelUpdate = function(){
+        $scope.department = {id:'',name:'',parent_department:[]};
+        $scope.parent_department = '';
+        $scope.selectedItemId = '';
+    }
+    $scope.deleteDepartment = function()
+    {
+        $scope.successes = [];
+        $scope.errors = [];
+        
+        if($scope.selectedItemId)
+        {
+            var deleteObj = {id:$scope.selectedItemId};
+            var response = webservice.post(BASE+'department/remove',deleteObj);
+            response.success(function(res){
+                loadInfo();
+                $scope.successes = res.message;
+            }).error(function(res){
+                
+                $scope.errors = res.name;
+            });
+        }
+    }
+    
+    var loadInfo = function()
     {
         var response = webservice.get(BASE+'api/departments.json');
         response.success(function(res){
@@ -34,22 +58,41 @@ controller('departmentCtrl',['$scope','webservice',function($scope,webservice){
         });
         
         $scope.department = {name:'',parent_department:[]};
-        
+        $scope.parent_department = '';
+        $scope.selectedItemId = '';
     }
     
     $scope.saveDepartment = function()
     {
         $scope.successes = [];
         $scope.errors = [];
-        var response = webservice.post(BASE+'department/store',$scope.department);
+        if($scope.parent_department)
+        {
+            $scope.department.parent_department.splice(0,1,$scope.parent_department);
+            
+            var response = webservice.post(BASE+'department/update',$scope.department);
+        }else{
+            var response = webservice.post(BASE+'department/create',$scope.department);
+        }
+        
+        
         response.success(function(res){
-            loadOrgInfo();
+            loadInfo();
             $scope.successes = res.message;
         }).error(function(res){
             
             $scope.errors = res.name;
         });
         
+    }
+    
+    $scope.selectDepartment = function(department)
+    {
+       $scope.department.name = department.name;
+       $scope.setParent(department);
+       $scope.parent_department = department.parent_department;
+       $scope.department.id = department.id;
+       $scope.selectedItemId = department.id
     }
     
     $scope.setParent = function(department)
@@ -62,6 +105,6 @@ controller('departmentCtrl',['$scope','webservice',function($scope,webservice){
             $scope.department.parent_department.splice(index,1);
     }
     
-    loadOrgInfo();
+    loadInfo();
     
 }]);

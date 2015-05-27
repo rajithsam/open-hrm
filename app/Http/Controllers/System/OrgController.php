@@ -1,14 +1,19 @@
-<?php namespace App\Http\Controllers;
+<?php namespace App\Http\Controllers\System;
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
 use App\Helpers\Theme;
-use App\Http\Requests\DepartmentForm;
-use App\Model\System\Department;
+use App\Http\Requests;
+use App\Http\Requests\OrgForm;
+use App\Http\Controllers\Controller;
+use App\Model\System\HrmOrg;
 use Illuminate\Http\Request;
 
-class DepartmentController extends Controller {
+class OrgController extends Controller {
 
+	public function __construct()
+	{
+		//$this->middleware('auth');
+	}
+	
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -17,10 +22,10 @@ class DepartmentController extends Controller {
 	public function index()
 	{
 		$theme = new Theme;
-		$theme->addScript(url('public/js/controller/department-controller.js'));
+		$theme->addScript(url('public/js/controller/org-controller.js'));
 		$viewModel['scripts'] = $theme->getScripts();
-		$viewModel['page_title'] = "Department";
-		return view('system.department',$viewModel);
+		$viewModel['page_title'] = "System Inforamtion";
+		return view('system.org',$viewModel);
 	}
 
 	/**
@@ -33,49 +38,40 @@ class DepartmentController extends Controller {
 		//
 	}
 
-
 	/**
-	 * Get all department as json
-	 * @return Json;
+	 * Get Org Json data
+	 * 
 	 */
-	public function getAll()
+	public function getOrg()
 	{
-		return Department::with('ChildDepartment','ChildDepartment.ChildDepartment','ChildDepartment.ChildDepartment.ChildDepartment')->where('parent_department',0)->get()->toJson();
+		$org = HrmOrg::orderBy('id','desc')->first();
+		
+		return (count($org))? $org->toJson() : (new HrmOrg())->toJson();
 	}
-	
-	
+
 	/**
 	 * Store a newly created resource in storage.
 	 *
 	 * @return Response
 	 */
-	public function store(DepartmentForm $req)
+	public function store(OrgForm $req)
 	{
 		if(!count($req->messages()))
 		{
-			$parentDepartment = $req->get('parent_department');
-			if(!empty($parentDepartment))
-			{
-				foreach($parentDepartment as $pd)
-				{
-					$department = Department::firstOrNew(array(
-						'name'=>$req->get('name'),
-						
-						));
-					$department->parent_department = $pd;
-					$department->save();
-				}
-				
-			}else{
-				$department = Department::firstOrNew(array('name'=>$req->get('name')));
-				$department->parent_department = 0;
-				$department->save();
-			}
 			
+			$hrmOrg = HrmOrg::firstOrNew(array('title'=>$req->get('title')));
+			$hrmOrg->phone = $req->get('phone');
+			$hrmOrg->fax = $req->get('fax');
+			$hrmOrg->email = $req->get('email');
+			$hrmOrg->address = $req->get('address');
+			$hrmOrg->country = $req->get('country');
+			$hrmOrg->city = $req->get('city');
+			$hrmOrg->state = $req->get('state');
+			$hrmOrg->postcode = $req->get('postcode');
+			$hrmOrg->save();
 			return json_encode(array('message'=>array('Organization Information updated successfully')));
-		}
-		else
-		{
+			
+		}else{
 			return $req->messages();
 		}
 	}

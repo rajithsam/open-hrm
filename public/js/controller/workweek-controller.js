@@ -44,7 +44,7 @@ controller('workweekCtrl',['$scope','webservice',function($scope,webservice){
     {
         $scope.successes = [];
         $scope.errors = [];
-        var response = webservice.post(BASE+'workweek/store',$scope.form);
+        var response = webservice.post(BASE+'workweek/create',$scope.form);
         response.success(function(res){
             loadOrgInfo();
             $scope.successes = res.message;

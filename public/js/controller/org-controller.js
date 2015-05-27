@@ -41,7 +41,7 @@ controller('orgCtrl',['$scope','webservice',function($scope,webservice){
     $scope.updateOrg = function(){
         $scope.successes = [];
         $scope.errors = [];
-        var response = webservice.post(BASE+'department/store',$scope.org);
+        var response = webservice.post(BASE+'org/create',$scope.org);
         response.success(function(res){
             
             $scope.successes = res.message;

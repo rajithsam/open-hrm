@@ -2,7 +2,7 @@ var RoleApp = angular.module('RoleApp',[]).
 
 controller('RoleController',['$scope','$http',function($scope,$http){
     
-    $http.get('/roles.json').success(function(data){
+    $http.get('api/roles.json').success(function(data){
         $scope.roles = data;
     })
     
@@ -21,7 +21,7 @@ controller('RoleController',['$scope','$http',function($scope,$http){
         $scope.errors = [];
         $scope.successes = [];
         $http({
-            url: BASE + 'role/store',
+            url: BASE + 'role/create',
             method: 'POST',
             data: $scope.form
         }).success(function(res){

@@ -1,8 +1,8 @@
-<?php namespace App\Http\Controllers;
+<?php namespace App\Http\Controllers\User;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Model\Role;
+use App\Role;
 use Illuminate\Http\Request;
 use App\Http\Requests\RoleForm;
 use App\Helpers\Theme;
@@ -29,6 +29,7 @@ class RoleController extends Controller {
 	 *
 	 * @return Response
 	 */
+	 
 	public function create()
 	{
 		//
@@ -98,7 +99,7 @@ class RoleController extends Controller {
 		//
 	}
 	
-	public function all()
+	public function getAll()
 	{
 		return Role::all()->toJson();
 	}

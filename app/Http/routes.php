@@ -13,27 +13,39 @@
 
 Route::get('/', 'HomeController@index');
 
-Route::get('home', 'HomeController@index');
-Route::get('test','TestController@index');
-Route::get('role','RoleController@index');
-
-Route::any('role/store','RoleController@store');
-Route::get('api/roles.json','RoleController@all');
-
 // Org route
-Route::get('system/org','OrgController@index');
-Route::post('org/store','OrgController@store');
-Route::get('api/org.json','OrgController@getOrg');
+Route::get('org','System\OrgController@index');
+Route::post('org/create','System\OrgController@store');
+Route::get('api/org.json','System\OrgController@getOrg');
 
 // Department route
-Route::get('system/department','DepartmentController@index');
-Route::post('department/store','DepartmentController@store');
-Route::get('api/departments.json','DepartmentController@getAll');
+Route::get('department','System\DepartmentController@index');
+Route::post('department/create','System\DepartmentController@store');
+Route::post('department/update','System\DepartmentController@update');
+Route::post('department/remove','System\DepartmentController@remove');
+Route::get('api/departments.json','System\DepartmentController@getAll');
 
 // WorkWeek route
-Route::get('system/workweek','WorkweekController@index');
-Route::post('workweek/store','WorkweekController@store');
-Route::get('api/workweek.json','WorkweekController@getAll');
+Route::get('workweek','System\WorkweekController@index');
+Route::post('workweek/create','System\WorkweekController@store');
+Route::get('api/workweek.json','System\WorkweekController@getAll');
+
+// User route
+Route::get('users','User\UserController@index');
+Route::post('user/create','User\UserController@store');
+Route::post('user/update','User\UserController@update');
+Route::post('user/remove','User\UserController@remove');
+Route::get('api/users.json','User\UserController@getAll');
+
+// Role route
+Route::get('role','User\RoleController@index');
+Route::any('role/create','User\RoleController@store');
+Route::get('api/roles.json','User\RoleController@getAll');
+
+// Permission route
+Route::get('permissions/{id}', 'User\PermissionController@index');
+Route::post('permission/create','User\PermissionController@store');
+Route::get('api/permissions.json','User\PermissionController@getAll');
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',
