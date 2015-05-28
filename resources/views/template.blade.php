@@ -42,14 +42,14 @@
 							
 							
 							<button type="button" class="btn btn-default navbar-btn dropdown-toogle" data-toggle="dropdown">
-								<span class="glyphicon glyphicon-user"></span> Username 
+								<span class="glyphicon glyphicon-user"></span> {{Auth::user()->name}}
 								<span class="caret"></span>
 							</button>
 							<ul class="dropdown-menu top-popup" role="menu">
-							    <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><span class="glyphicon glyphicon-lock"></span> Change Password</a></li>
-							    <li role="presentation"><a role="menuitem" href="#" tabindex="-1"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
+							    <li role="presentation"><a role="menuitem" tabindex="-1" href="{{url('changepass')}}"><span class="glyphicon glyphicon-lock"></span> Change Password</a></li>
+							    <!--<li role="presentation"><a role="menuitem" href="#" tabindex="-1"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>-->
 							    <li role="presentation" class="divider"></li>
-							    <li role="presentation"><a role="menuitem" href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+							    <li role="presentation"><a role="menuitem" href="{{url('auth/logout')}}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
 						    </ul>
 						</div>
 						</div>

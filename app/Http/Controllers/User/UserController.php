@@ -53,9 +53,14 @@ class UserController extends Controller {
 	{
 		if(!count($req->messages()))
 		{
-			//print_r($req->all());die();
-			$user = User::create($req->all());
+		
+			$user = new User();
+			$user->name = $req->get('name');
+			$user->email = $req->get('email');
+			$user->role_id = $req->get('role_id');
+			$user->password = bcrypt($req->get('password'));
 			
+			$user->save();
 			$role = Role::find($req->get('role_id'));
 			
 			$user->roles()->attach($role->id);
@@ -113,7 +118,7 @@ class UserController extends Controller {
 			$password = trim($req->get('password'));
 			if(!empty($password))
 			{
-				die('here');
+				
 				$user->password = bcrypt($password);
 			}
 			

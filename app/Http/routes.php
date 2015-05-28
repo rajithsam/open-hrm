@@ -46,6 +46,7 @@ Route::get('api/roles.json','User\RoleController@getAll');
 Route::get('permissions/{id}', 'User\PermissionController@index');
 Route::post('permission/create','User\PermissionController@store');
 Route::get('api/permissions.json','User\PermissionController@getAll');
+Route::get('api/{id}/permission_role.json','User\PermissionController@getAllPermissionRole');
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',

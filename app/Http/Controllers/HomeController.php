@@ -30,7 +30,8 @@ class HomeController extends Controller {
 	 */
 	public function index()
 	{
-		return view('home');
+		$viewModel['welcome'] = "Welcome To Dashboard";
+		return view('dashboard-general',$viewModel);
 	}
 
 }

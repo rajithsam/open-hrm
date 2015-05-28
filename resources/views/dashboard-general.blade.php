@@ -1,7 +1,7 @@
 @extends('template')
 
 @section('content')
-<section class="col-lg-10 content">
+<section class="col-lg-10 col-lg-offset-2 content">
 	<ol class="breadcrumb">
 	  <li><a href="#">Home</a></li>
 	  <li><a href="#">Library</a></li>

@@ -9,6 +9,12 @@
     <ol class="breadcrumb">
         <li>Home</li>
     </ol>
+    <ul class="alert alert-danger errors" ng-if="errors.length > 0">
+		<li ng-repeat="err in errors">@{{err}}</li>
+	</ul>
+	<ul class="alert alert-success success" ng-if="successes.length > 0">
+		<li ng-repeat="success in successes">@{{success}}</li>
+	</ul>
     <div class="panel panel-default">
 		<div class="panel-heading">
 			Add Permisssions - [Access Level {{$role->display_name}}]
@@ -26,11 +32,11 @@
 			        <tbody>
 			                <tr ng-repeat="route in permissions">
 			                    <td>@{{route.display_name}}</td>
-			                    <td><input type="checkbox" ng-change="setPermission(route.path)" class="form-control" ng-model="permissions"/></td>
+			                    <td><input type="checkbox" ng-model="permission_role[route.path].checked" ng-change="setPermission(route.path)" ng-checked="permission_role[route.path].checked" class="form-control" /></td>
 			                </tr>
 			        </tbody>
 			    </table>
-			    <input type="submit" class="btn btn-success btn-sm" value="Save"/>
+			    <input type="submit"  class="btn btn-success btn-sm" value="Save" scroll-on-click/>
 		    </form>
 	    </div>
     </div>
