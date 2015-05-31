@@ -42,7 +42,7 @@
 							
 							
 							<button type="button" class="btn btn-default navbar-btn dropdown-toogle" data-toggle="dropdown">
-								<span class="glyphicon glyphicon-user"></span> {{Auth::user()->name}}
+								<span class="glyphicon glyphicon-user"></span> 
 								<span class="caret"></span>
 							</button>
 							<ul class="dropdown-menu top-popup" role="menu">
@@ -67,6 +67,7 @@
 						<ul class="nav nav-sub">
 							<li><a href="{{url('org')}}">Organiztion</a></li>
 							<li><a href="{{url('department')}}">Department</a></li>
+							<li><a href="{{url('designation')}}">Designation</a></li>
 							<li><a href="{{url('workweek')}}">WorkWeek</a></li>
 						</ul>
 					</li>

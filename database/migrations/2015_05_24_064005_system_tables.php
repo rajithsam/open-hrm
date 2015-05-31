@@ -39,10 +39,10 @@ class SystemTables extends Migration {
 		Schema::create('designations',function(Blueprint $table){
 			$table->increments('id');
 			$table->integer('department_id')->unsigned();
-			$table->string('job_title',100);
+			$table->string('title',100);
 			$table->text('description');
-			$table->integer('job_order')->unsigned();
-			$table->integer('job_quota')->unsigned();
+			$table->integer('order')->unsigned();
+			$table->integer('quota')->unsigned();
 			$table->timestamps();
 			$table->softDeletes();
 			

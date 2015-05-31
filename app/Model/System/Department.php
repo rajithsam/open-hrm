@@ -18,5 +18,10 @@ class Department extends Model {
 	{
 	    return $this->hasMany('App\Model\System\Department','parent_department');
 	}
+	
+	public function Designation()
+	{
+		return $this->hasMany('App\Model\System\Designation','department_id');
+	}
 
 }

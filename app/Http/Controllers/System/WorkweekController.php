@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers\System;
 
 use App\Helpers\Theme;
+use App\Helpers\Breadcrumb;
 use App\Http\Requests;
 use App\Http\Requests\WorkWeekForm;
 use App\Http\Controllers\Controller;
@@ -16,10 +17,15 @@ class WorkweekController extends Controller {
 	 */
 	public function index()
 	{
+		
+		$breadcrumb = new Breadcrumb;
+	
 		$theme = new Theme;
+		$breadcrumb->add('Dashboard',url('dashboard'))->add('Work Week');
 		$theme->addScript(url('public/js/controller/workweek-controller.js'));
 		$viewModel['scripts'] = $theme->getScripts();
 		$viewModel['page_title'] = "Specify Work Week";
+		$viewModel['breadcrumb'] = $breadcrumb->output();
 	//	$viewModel['days'] = array('Sunday','Monday','Tuesday','Wednessday','Thursday','Friday','Saturday');
 	//	$viewModel['status'] = array('Working day','Not Working Day');
 		return view('system.workweek',$viewModel);

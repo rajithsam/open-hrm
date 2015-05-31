@@ -105,5 +105,11 @@ controller('userCtrl',['$scope','webservice',function($scope,webservice){
        
     }
     
+    $scope.resetAlert = function()
+    {
+        $scope.successes = [];
+        $scope.errors = [];
+    }
+    
     loadInfo();
 }]);

@@ -3,16 +3,9 @@
 @section('content')
 <section class="col-lg-10 col-lg-offset-2 content" ng-app="RoleApp" ng-controller="RoleController" ng-cloak>
 	<ol class="breadcrumb">
-	  <li><a href="#">Home</a></li>
-	  <li><a href="#">Library</a></li>
-	  <li class="active">Data</li>
+	  {!!$breadcrumb!!}
 	</ol>
-	<ul class="alert alert-danger errors" ng-if="errors.length > 0">
-		<li ng-repeat="err in errors">@{{err}}</li>
-	</ul>
-	<ul class="alert alert-success success" ng-if="successes.length > 0">
-		<li ng-repeat="success in successes">@{{success}}</li>
-	</ul>
+	@include('partials.alertmessage')
 	<div class="panel panel-default" ng-if="showForm">
 		<div class="panel-heading">Add New Role</div>
 		<div class="panel-body">

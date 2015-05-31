@@ -48,4 +48,10 @@ controller('RoleController',['$scope','$http',function($scope,$http){
         $scope.showForm = 0;
     }
     
+    $scope.resetAlert = function()
+    {
+        $scope.successes = [];
+        $scope.errors = [];
+    }
+    
 }]);

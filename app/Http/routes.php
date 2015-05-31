@@ -25,6 +25,13 @@ Route::post('department/update','System\DepartmentController@update');
 Route::post('department/remove','System\DepartmentController@remove');
 Route::get('api/departments.json','System\DepartmentController@getAll');
 
+// Designation route
+Route::get('designation','System\DesignationController@index');
+Route::post('designation/create','System\DesignationController@store');
+Route::post('designation/update','System\DesignationController@update');
+Route::post('designation/remove','System\DesignationController@remove');
+Route::get('api/designations.json','System\DesignationController@getAll');
+
 // WorkWeek route
 Route::get('workweek','System\WorkweekController@index');
 Route::post('workweek/create','System\WorkweekController@store');

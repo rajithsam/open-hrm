@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers\System;
 
+use App\Helpers\Breadcrumb;
 use App\Helpers\Theme;
 use App\Http\Requests;
 use App\Http\Requests\OrgForm;
@@ -21,9 +22,12 @@ class OrgController extends Controller {
 	 */
 	public function index()
 	{
+		$breadcrumb = new Breadcrumb;
 		$theme = new Theme;
+		$breadcrumb->add('Dashboard',url('dashboard'))->add('Organization');
 		$theme->addScript(url('public/js/controller/org-controller.js'));
 		$viewModel['scripts'] = $theme->getScripts();
+		$viewModel['breadcrumb'] = $breadcrumb->output();
 		$viewModel['page_title'] = "System Inforamtion";
 		return view('system.org',$viewModel);
 	}

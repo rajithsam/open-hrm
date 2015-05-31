@@ -51,5 +51,13 @@ controller('orgCtrl',['$scope','webservice',function($scope,webservice){
         });
     }
     
+    $scope.resetAlert = function()
+    {
+        $scope.successes = [];
+        $scope.errors = [];
+    }
+    
     loadOrgInfo();
+    
+    
 }]);

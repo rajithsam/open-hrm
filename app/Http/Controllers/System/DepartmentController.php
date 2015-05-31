@@ -2,6 +2,7 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Helpers\Breadcrumb;
 use App\Helpers\Theme;
 use App\Http\Requests\Department\DepartmentForm;
 use App\Http\Requests\Department\DepartmentUpdateForm;
@@ -17,9 +18,13 @@ class DepartmentController extends Controller {
 	 */
 	public function index()
 	{
+		$breadcrumb = new Breadcrumb;
 		$theme = new Theme;
+		
+		$breadcrumb->add('Dashboard',url('dashboard'))->add('Department');
 		$theme->addScript(url('public/js/controller/department-controller.js'));
 		$viewModel['scripts'] = $theme->getScripts();
+		$viewModel['breadcrumb'] = $breadcrumb->output();
 		$viewModel['page_title'] = "Department";
 		return view('system.department',$viewModel);
 	}

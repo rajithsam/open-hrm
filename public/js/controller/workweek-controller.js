@@ -48,10 +48,17 @@ controller('workweekCtrl',['$scope','webservice',function($scope,webservice){
         response.success(function(res){
             loadOrgInfo();
             $scope.successes = res.message;
+            
         }).error(function(res){
             
             $scope.errors = res.name;
         });
+    }
+    
+    $scope.resetAlert = function()
+    {
+        $scope.successes = [];
+        $scope.errors = [];
     }
     
     loadOrgInfo();

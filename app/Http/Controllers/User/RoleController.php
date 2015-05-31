@@ -6,6 +6,7 @@ use App\Role;
 use Illuminate\Http\Request;
 use App\Http\Requests\RoleForm;
 use App\Helpers\Theme;
+use App\Helpers\Breadcrumb;
 
 class RoleController extends Controller {
 
@@ -16,10 +17,13 @@ class RoleController extends Controller {
 	 */
 	public function index()
 	{
-		//
+		$breadcrumb = new Breadcrumb;
 		$theme = new Theme;
+		
+		$breadcrumb->add('Dashboard',url('dashboard'))->add('Role');
 		$theme->addScript(url('public/js/controller/role-controller.js'));
 		$viewModel['scripts'] = $theme->getScripts();
+		$viewModel['breadcrumb'] = $breadcrumb->output();
 		$viewModel['page_title'] = "Manage Roles";
 		return view('role.list',$viewModel);
 	}

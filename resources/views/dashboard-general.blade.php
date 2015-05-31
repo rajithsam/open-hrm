@@ -3,10 +3,9 @@
 @section('content')
 <section class="col-lg-10 col-lg-offset-2 content">
 	<ol class="breadcrumb">
-	  <li><a href="#">Home</a></li>
-	  <li><a href="#">Library</a></li>
-	  <li class="active">Data</li>
+	  {!!$breadcrumb!!}}
 	</ol>
+	@include('partials.alertmessage')
 	<div class="panel panel-default">
       <div class="panel-heading">
       	Panel Header

@@ -23,6 +23,7 @@ html{
 }
 a, a:active, a:focus {
 outline: none;
+cursor:pointer;
 }
 
 body{
@@ -143,7 +144,15 @@ ul.sub-level-1{
 };
 
 ul.errors,ul.success{
+    padding-left:0px;
     li{
         list-style:none !important;
     }
+}
+.alert.alert-success.ng-scope > button,.alert.alert-danger.ng-scope > button{
+    background-color: transparent;
+    float: right;
+    font-size: 25px;
+    font-weight: 500;
+    line-height: 20px;
 }

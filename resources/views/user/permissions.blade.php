@@ -7,14 +7,9 @@
 </script>
 <section class="col-lg-10 col-lg-offset-2 content" ng-app="permission" ng-controller="permissionCtrl" ng-cloak>
     <ol class="breadcrumb">
-        <li>Home</li>
+       {!!$breadcrumb!!}
     </ol>
-    <ul class="alert alert-danger errors" ng-if="errors.length > 0">
-		<li ng-repeat="err in errors">@{{err}}</li>
-	</ul>
-	<ul class="alert alert-success success" ng-if="successes.length > 0">
-		<li ng-repeat="success in successes">@{{success}}</li>
-	</ul>
+    @include('partials.alertmessage')
     <div class="panel panel-default">
 		<div class="panel-heading">
 			Add Permisssions - [Access Level {{$role->display_name}}]

@@ -105,6 +105,12 @@ controller('departmentCtrl',['$scope','webservice',function($scope,webservice){
             $scope.department.parent_department.splice(index,1);
     }
     
+    $scope.resetAlert = function()
+    {
+        $scope.successes = [];
+        $scope.errors = [];
+    }
+    
     loadInfo();
     
 }]);

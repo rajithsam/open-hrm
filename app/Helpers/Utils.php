@@ -19,4 +19,19 @@ class Utils{
         else
             return $last_query;
     }
+    
+    public static function debug($data,$die=true,$msg='',$flag=false)
+    {
+        echo '<pre>';
+        echo "<strong>$msg</strong>";
+        if($flag)
+        {
+            var_dump($data);
+        }else{
+            print_r($data);
+        }
+        echo '</pre>';
+        if($die)
+            die();
+    }
 }

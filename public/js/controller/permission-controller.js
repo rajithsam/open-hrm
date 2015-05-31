@@ -86,7 +86,7 @@ controller('permissionCtrl',['$scope','webservice',function($scope,webservice){
             
              
             var i = $scope.form.indexOf(obj);
-            console.log(i);
+            
             if(i == -1)
             {
                 
@@ -113,6 +113,12 @@ controller('permissionCtrl',['$scope','webservice',function($scope,webservice){
             if(res.error != undefined)
                 $scope.errors = res.error;
         });
+    }
+    
+    $scope.resetAlert = function()
+    {
+        $scope.successes = [];
+        $scope.errors = [];
     }
     
     

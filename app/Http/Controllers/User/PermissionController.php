@@ -6,6 +6,7 @@ use App\Role;
 use App\Permission;
 use App\PermissionRole;
 use App\Helpers\Theme;
+use App\Helpers\Breadcrumb;
 use App\Helpers\Utils;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,9 +26,12 @@ class PermissionController extends Controller {
 		{
 			return redirect('/');
 		}
+		$breadcrumb = new Breadcrumb;
 		$theme = new Theme;
+		$breadcrumb->add('Dashboard',url('dashboard'))->add('Permissions');
 		$theme->addScript(url('public/js/controller/permission-controller.js'));
 		$viewModel['scripts'] = $theme->getScripts();
+		$viewModel['breadcrumb'] = $breadcrumb->output();
 		$viewModel['role'] = $role;
 		
 		$viewModel['page_title'] = 'Permissions';

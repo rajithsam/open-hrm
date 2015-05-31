@@ -3,6 +3,7 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Helpers\Theme;
+use App\Helpers\Breadcrumb;
 use App\Role;
 use App\User;
 use App\Http\Requests\User\UserForm;
@@ -18,9 +19,12 @@ class UserController extends Controller {
 	public function index()
 	{
 		$theme = new Theme;
+		$breadcrumb = new Breadcrumb;
+		$breadcrumb->add('Dashboard',url('dashboard'))->add('User');
 		$theme->addScript(url('public/js/controller/user-controller.js'));
 		$viewModel['scripts'] = $theme->getScripts();
 		$viewModel['page_title'] = 'User Management';
+		$viewModel['breadcrumb'] = $breadcrumb->output();
 		$viewModel['roles'] = Role::all();
 		return view('user.list',$viewModel);
 	}
