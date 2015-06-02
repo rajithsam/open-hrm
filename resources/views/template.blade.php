@@ -69,6 +69,7 @@
 							<li><a href="{{url('department')}}">Department</a></li>
 							<li><a href="{{url('designation')}}">Designation</a></li>
 							<li><a href="{{url('workweek')}}">WorkWeek</a></li>
+							
 						</ul>
 					</li>
 					<li role="presentation" >
@@ -76,6 +77,12 @@
 						<ul class="nav nav-sub">
 							<li><a href="{{url('role')}}">Role</a></li>
 							<li><a href="{{url('users')}}">Users</a></li>
+						</ul>
+					</li>
+					<li role="presentation">
+						<a class="selected hasChild">PIM <span class="pull-right right-caret"></span></a>
+						<ul class="nav nav-sub">
+							<li><a href="{{url('employee')}}">Employee</li>
 						</ul>
 					</li>
 					

@@ -24,13 +24,16 @@ class Utils{
     {
         echo '<pre>';
         echo "<strong>$msg</strong>";
+        
         if($flag)
         {
             var_dump($data);
         }else{
             print_r($data);
         }
+        
         echo '</pre>';
+        
         if($die)
             die();
     }

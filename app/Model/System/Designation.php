@@ -9,7 +9,7 @@ class Designation extends Model {
     
 	protected $table = "designations";
 	
-	protected $fillable = ['title','description','quota'];
+	protected $fillable = ['title','description','quota','order'];
 
     protected $dates = ['deleted_at'];
     
@@ -17,4 +17,9 @@ class Designation extends Model {
     {
         return $this->belongsTo('App\Model\System\Department','department_id');
     }
+    
+    public function ChildDesignation()
+	{
+	    return $this->hasMany('App\Model\System\Designation','order','id');
+	}
 }

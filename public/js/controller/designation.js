@@ -20,8 +20,12 @@ service('webservice',function($http){
 }).
 controller('designationCtrl',['$scope','webservice',function($scope,webservice){
     
+    $scope.designations = [];
+    $scope.designationsTree = [];
+    
     $scope.parent_department = [];
-    $scope.form={id:'',title:'',quote:'',description:'',parent_department:[]};
+    $scope.parent_designation = [];
+    $scope.form={id:'',title:'',quote:'',description:'',parent_department:[],parent_designation:[]};
     $scope.showForm = 0;
     var loadDepartments = function()
     {
@@ -41,24 +45,39 @@ controller('designationCtrl',['$scope','webservice',function($scope,webservice){
     {
         var response = webservice.get(BASE+'api/designations.json');
         response.success(function(res){
-            
             $scope.designations = res;
+            
            
         });
+        
+        $scope.parent_designation = [];
+    }
+    
+    var loadDesignationsWithChild = function()
+    {
+        var response = webservice.get(BASE+'api/designations-with-child.json');
+        response.success(function(res){
+            $scope.designationstree = res;
+
+        });
+        
+        $scope.parent_designation = [];
     }
     
     $scope.cancelFrm = function()
     {
-        $scope.form={id:'',title:'',quote:'',description:'',parent_department:[]};
+        $scope.form={id:'',title:'',quote:'',description:'',parent_department:[],parent_designation:[]};
         $scope.showForm = 0;
         $scope.parent_department = [];
+        $scope.parent_designation = [];
     }
     
     $scope.openFrm = function()
     {
-        $scope.form={id:'',title:'',quote:'',description:'',parent_department:[]};
+        $scope.form={id:'',title:'',quote:'',description:'',parent_department:[],parent_designation:[]};
         $scope.showForm = 1;
         $scope.parent_department = [];
+        $scope.parent_designation = [];
     }
     
     $scope.setDepartment = function(department)
@@ -75,6 +94,14 @@ controller('designationCtrl',['$scope','webservice',function($scope,webservice){
         }*/
     }
     
+    $scope.setDesignation = function(designation)
+    {
+        var index = $scope.parent_designation.indexOf(designation.id);
+        $scope.parent_designation = [];
+        $scope.parent_designation.push(designation.id);
+        
+    }
+    
     $scope.saveDesignation = function()
     {
         $scope.successes = [];
@@ -87,8 +114,9 @@ controller('designationCtrl',['$scope','webservice',function($scope,webservice){
             return false;
         }
         
-        $scope.form.parent_department = $scope.parent_department;
         
+        $scope.form.parent_department = $scope.parent_department;
+        $scope.form.parent_designation = $scope.parent_designation;
         
         if($scope.form.id)
             response = webservice.post(BASE+'designation/update',$scope.form);
@@ -98,10 +126,12 @@ controller('designationCtrl',['$scope','webservice',function($scope,webservice){
         response.success(function(res){
             
             $scope.successes = res.message;
-            $scope.form={id:'',title:'',quote:'',description:'',parent_department:[]};
+            $scope.form={id:'',title:'',quote:'',description:'',parent_department:[],parent_designation:[]};
             $scope.parent_department = [];
+            $scope.parent_designation = [];
             $scope.showForm = 0;
             loadDesignations();
+            loadDesignationsWithChild();
             
         }).
         error(function(res){
@@ -115,14 +145,19 @@ controller('designationCtrl',['$scope','webservice',function($scope,webservice){
     
     $scope.editDesignation = function(designation)
     {
-        
+        $scope.parent_designation = [];
+        $scope.parent_department = [];
+        $scope.form.parent_department = [];
+        $scope.form.parent_designation = [];
         $scope.form.id = designation.id;
         $scope.form.title = designation.title;
         
         $scope.form.description = designation.description;
         $scope.form.quota = designation.quota;
         $scope.form.parent_department.push(designation.department_id);
+        $scope.form.parent_designation.push(designation.order);
         $scope.parent_department = $scope.form.parent_department;
+        $scope.parent_designation = $scope.form.parent_designation;
         $scope.showForm = 1;
     }
     
@@ -142,6 +177,7 @@ controller('designationCtrl',['$scope','webservice',function($scope,webservice){
         $scope.errors = [];
     }
     loadDesignations();
+    loadDesignationsWithChild();
     loadDepartments();
     
 }]);

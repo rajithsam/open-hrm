@@ -12,7 +12,7 @@
 	    <div class="panel-body">
 	        <form class="form-horizontal" ng-submit="saveDesignation()">
 	            <div class="col-lg-3">
-	                
+	                <h4>Departments</h4>
 	                <script type="text/ng-template" id="categoryTree">
                         <div class="clearfix">
                             <input class="pull-left list-inline" type="checkbox" ng-checked="parent_department.indexOf(depart.id) > -1"  ng-click="setDepartment(depart)" /> 
@@ -25,6 +25,21 @@
                     </script>
                     <ul class="nav">
                         <li ng-repeat="depart in departments" ng-include="'categoryTree'"></li>
+                    </ul>
+                    <h4>Designation</h4>
+                   
+                    <script type="text/ng-template" id="designationTree">
+                        <div class="clearfix">
+                            <input class="pull-left list-inline" type="checkbox" ng-checked="parent_designation.indexOf(designation.id) > -1"  ng-click="setDesignation(designation)" /> 
+                            <a class="pull-left nopadding" >@{{designation.title}}</a>
+                        </div>
+                        <ul class="nav sub-level-1" ng-if="designation.child_designation">
+                            <li ng-repeat="designation in designation.child_designation" ng-include="'designationTree'">           
+                            </li>
+                        </ul>
+                    </script>
+                    <ul class="nav">
+                        <li ng-repeat="designation in designationstree" ng-include="'designationTree'"></li>
                     </ul>
 	            </div>
 	            <div class="col-lg-9">

@@ -44,6 +44,12 @@ class DesignationController extends Controller {
 	{
 		return	Designation::with('Department')->get()->toJson();
 	}
+	
+	public function getAllWithChild()
+	{
+		return	Designation::with('ChildDesignation','ChildDesignation.ChildDesignation','Department')->where('order',0)->get()->toJson();
+	}
+	
 	/**
 	 * Store a newly created resource in storage.
 	 *
@@ -55,16 +61,18 @@ class DesignationController extends Controller {
 		{
 	       
 	       $departmentID = $req->get('parent_department');
+	       $designationID = $req->get('parent_designation');
 	       $department  = Department::find($departmentID[0]);
 	       $designation = Designation::firstOrNew(array(
 	       		'title' => $req->get('title'),
 	       		'description' => $req->get('description'),
-	       		'quota'  => $req->get('quota')
+	       		'quota'  => $req->get('quota'),
+	       		'order'  => (!empty($designationID))? $designationID[0] : 0
 	       		
 	       	));
 	       	
 			$department->Designation()->save($designation);
-			
+			return json_encode(array('message'=>array('Designation added successfully')));
 		}else{
 		
 			return $req->messages();
@@ -106,7 +114,9 @@ class DesignationController extends Controller {
 		$designation->description = $req->get('description');
 		$designation->quota = $req->get('quota');
 		$departmentID = $req->get('parent_department');
+		$designationID = $req->get('parent_designation');
         $designation->department_id = $departmentID[0];
+        $designation->order = (!empty($designationID))? $designationID[0] : 0;
         $designation->save();
         
         return json_encode(array('message'=>array('Designation Information updated successfully')));

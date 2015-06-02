@@ -31,7 +31,7 @@ Route::post('designation/create','System\DesignationController@store');
 Route::post('designation/update','System\DesignationController@update');
 Route::post('designation/remove','System\DesignationController@remove');
 Route::get('api/designations.json','System\DesignationController@getAll');
-
+Route::get('api/designations-with-child.json','System\DesignationController@getAllWithChild');
 // WorkWeek route
 Route::get('workweek','System\WorkweekController@index');
 Route::post('workweek/create','System\WorkweekController@store');
@@ -54,6 +54,12 @@ Route::get('permissions/{id}', 'User\PermissionController@index');
 Route::post('permission/create','User\PermissionController@store');
 Route::get('api/permissions.json','User\PermissionController@getAll');
 Route::get('api/{id}/permission_role.json','User\PermissionController@getAllPermissionRole');
+
+// Employee route
+Route::get('employee','Employee\EmployeeController@index');
+Route::get('api/available-employees.json','Employee\EmployeeController@getAvailableEmployees');
+Route::get('api/assigned-employees.json','Employee\EmployeeController@getAssignedEmployees');
+Route::post('employee/create','Employee\EmployeeController@store');
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',

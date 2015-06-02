@@ -21,8 +21,8 @@ class EmployeeTables extends Migration {
 			$table->string('phone',11)->nullable();
 			$table->string('email',100)->unique();
 			$table->text('photo')->nullable();
-			$table->enum('employment_source',['NEWS','ONLINE','PERSON','OTHERS']);
-			$table->string('referer_name',100);
+			$table->enum('source',['NEWS','ONLINE','PERSON','OTHERS']);
+			$table->string('source_name',100);
 			$table->boolean('is_employee_working')->default(0);
 			$table->boolean('probationary')->default(0);
 			$table->integer('current_work_shift_id')->unsigned()->nullable();
