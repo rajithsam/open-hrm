@@ -24,6 +24,7 @@ Route::post('department/create','System\DepartmentController@store');
 Route::post('department/update','System\DepartmentController@update');
 Route::post('department/remove','System\DepartmentController@remove');
 Route::get('api/departments.json','System\DepartmentController@getAll');
+Route::get('departments.json','System\DepartmentController@getActiveDepartments');
 
 // Designation route
 Route::get('designation','System\DesignationController@index');
@@ -31,6 +32,7 @@ Route::post('designation/create','System\DesignationController@store');
 Route::post('designation/update','System\DesignationController@update');
 Route::post('designation/remove','System\DesignationController@remove');
 Route::get('api/designations.json','System\DesignationController@getAll');
+Route::get('designations/{department_id}','System\DesignationController@getByDepartment');
 Route::get('api/designations-with-child.json','System\DesignationController@getAllWithChild');
 // WorkWeek route
 Route::get('workweek','System\WorkweekController@index');
@@ -60,6 +62,7 @@ Route::get('employee','Employee\EmployeeController@index');
 Route::get('api/available-employees.json','Employee\EmployeeController@getAvailableEmployees');
 Route::get('api/assigned-employees.json','Employee\EmployeeController@getAssignedEmployees');
 Route::post('employee/create','Employee\EmployeeController@store');
+Route::post('employee/update/{option}','Employee\EmployeeController@update');
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',

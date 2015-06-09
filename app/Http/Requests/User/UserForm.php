@@ -24,7 +24,7 @@ class UserForm extends Request {
 		return [
 			'name'  => 'required',
 			'email' =>'required|unique:users',
-			'password' =>'required'
+			'password' => 'required'
 		];
 	}
 

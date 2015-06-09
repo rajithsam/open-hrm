@@ -11,14 +11,29 @@ class Employee extends Model {
 
     public function JobDetails()
     {
-        return $this->hasMany('JobDetails','employee_id');
+        return $this->hasMany('App\Model\JobDetails','employee_id');
     }
     
     
     
     public function ActiveJobDetails()
     {
-        return $this->hasMany('JobDetails','employee_id')->where('active_job',1);
+        return $this->hasOne('App\Model\JobDetails','employee_id')->where('active_job',1);
+    }
+    
+    public function Education()
+    {
+        return $this->hasMany('App\Model\Employee\EmployeeEducation','employee_id');
+    }
+    
+    public function Skill()
+    {
+        return $this->hasMany('App\Model\Employee\EmployeeSkill','employee_id');
+    }
+    
+    public function WorkExperience()
+    {
+        return $this->hasMany('App\Model\Employee\WorkExperience','employee_id');
     }
     
 }

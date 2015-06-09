@@ -18,7 +18,7 @@ service('webservice',function($http){
        }
    }; 
 }).
-controller('userCtrl',['$scope','webservice',function($scope,webservice){
+controller('userCtrl',['$scope','webservice','$sce',function($scope,webservice,$sce){
     $scope.users = [];
     $scope.userForm = {};
     
@@ -92,15 +92,24 @@ controller('userCtrl',['$scope','webservice',function($scope,webservice){
            
        }
        response.success(function(res){
-           $scope.successes = res.message;
+           for(i in res)
+            {
+                
+                if(i == "error")
+                    $scope.errors.push($sce.trustAsHtml(res[i][0]));
+                else
+                    $scope.successes.push(res[i][0]);
+            }
            loadInfo();
            $scope.userForm = {};
            $scope.showForm = 0;
+           $("html,body").animate({ scrollTop: "0px" });
        }).error(function(res){
-           if(res.name != undefined)
-                $scope.errors = res.name;
-           if(res.email != undefined)
-                $scope.errors = res.email;
+           for(i in res)
+            {
+                $scope.errors.push(res[i][0]);
+            }
+            $("html,body").animate({ scrollTop: "0px" });
        });
        
     }

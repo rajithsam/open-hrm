@@ -49,6 +49,11 @@ class DepartmentController extends Controller {
 		return Department::with('ChildDepartment','ChildDepartment.ChildDepartment','ChildDepartment.ChildDepartment.ChildDepartment')->where('parent_department',0)->get()->toJson();
 	}
 	
+	public function getActiveDepartments()
+	{
+		return Department::all()->toJson();
+	}
+	
 	
 	/**
 	 * Store a newly created resource in storage.

@@ -6,4 +6,6 @@ class WorkExperience extends Model {
 
 	protected $table="work_experiences";
 
+    protected $fillable = ['employee_id','work_title'];
+
 }

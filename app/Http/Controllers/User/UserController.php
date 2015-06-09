@@ -57,6 +57,8 @@ class UserController extends Controller {
 	{
 		if(!count($req->messages()))
 		{
+			if(!$req->get('role_id'))
+				return array('error'=>array('Sorry! ESS role not defined, Go to <a href="'.url('role').'">Role Manager</a> please create ESS role before create employee '));
 		
 			$user = new User();
 			$user->name = $req->get('name');

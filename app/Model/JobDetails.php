@@ -1,4 +1,4 @@
-<?php namespace App;
+<?php namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,12 +10,12 @@ class JobDetails extends Model {
 	
 	public function Department()
 	{
-	    return $this->belongsTo('Department','department_id');
+	    return $this->belongsTo('App\Model\System\Department','department_id');
 	}
 	
 	public function Designation()
 	{
-	    return $this->belongsTo('Designation','designation_id');
+	    return $this->belongsTo('App\Model\System\Designation','designation_id');
 	}
 
 }

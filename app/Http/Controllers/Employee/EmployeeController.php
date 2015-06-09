@@ -8,6 +8,9 @@ use App\Helpers\Utils;
 use App\User;
 use App\Role;
 use App\Model\Employee\Employee;
+use App\Model\Employee\EmployeeEducation;
+use App\Model\Employee\WorkExperience;
+use App\Model\JobDetails;
 use App\Http\Requests\EmployeeForm;
 use Illuminate\Http\Request;
 
@@ -22,7 +25,10 @@ class EmployeeController extends Controller {
 	{
 		$theme = new Theme;
 		$breadcrumb = new Breadcrumb;
-		$theme->addScript(url('public/js/controller/employee-controller.js'));
+		$theme->addScript(url('http://nervgh.github.io/js/es5-shim.min.js'))
+			  ->addScript(url('public/bower_components/angular-file-upload/angular-file-upload.min.js'))
+			  ->addScript(url('public/js/directives/ngThumb.js'))
+			  ->addScript(url('public/js/controller/employee-controller.js'));
 		$breadcrumb->add('Dashboard',url('dashboard'))->add('Employee');
 		$viewModel['scripts'] = $theme->getScripts();
 		$viewModel['breadcrumb'] = $breadcrumb->output();
@@ -42,12 +48,12 @@ class EmployeeController extends Controller {
 	
 	public function getAssignedEmployees()
 	{
-		return Employee::with('JobDetails','JobDetails.Department','JobDetails.Designation')->where('is_employee_working',0)->get()->toJson();
+		return Employee::with('Education','WorkExperience','ActiveJobDetails','ActiveJobDetails.Department','ActiveJobDetails.Designation')->where('is_employee_working','!=',0)->get()->toJson();
 	}
 	
 	public function getAvailableEmployees()
 	{
-		return Employee::where('is_employee_working',0)->get()->toJson();
+		return Employee::with('Education','WorkExperience')->where('is_employee_working',0)->get()->toJson();
 	}
 
 	/**
@@ -81,6 +87,7 @@ class EmployeeController extends Controller {
 					$user->password = bcrypt($user->name);
 					$user->role_id = $role->id;
 					$user->employee_id = $employee->id;
+					
 					$user->save();
 					
 				}else{
@@ -129,9 +136,107 @@ class EmployeeController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update(Request $req,$option)
 	{
-		//
+		
+		$employee = Employee::find($req->get('id'));
+		
+		if(count($employee))
+		{
+			switch($option)
+			{
+				case 'basic':
+				    $employee->employee_id = $req->get('employee_id');
+					$employee->name = $req->get('name');
+					$employee->present_address = $req->get('present_address');
+					$employee->permanent_address = $req->get('permanent_address');
+					$employee->source = $req->get('source');
+					$employee->email = $req->get('email');
+					$employee->source_name = $req->get('source_name');
+					if($req->hasFile('file'))
+					{
+						@unlink('data/'.$employee->photo);
+						
+						$fileObj = $req->file('file');
+						$ext = $fileObj->getClientOriginalExtension();
+						$name = $fileObj->getClientOriginalName();
+						$prefix = time();
+						$path = 'data';
+		                $name = $prefix.'_'.$name;
+		                if(in_array($ext,array('jpg','png','gif'))){
+		                    $fileObj->move($path,$name);
+		                    $employee->photo = $name;
+		                }
+						
+					}	
+					$employee->save();
+					
+					$role = Role::where('display_name','ESS')->first();
+					$user = User::where('employee_id',$employee->id)->where('role_id',$role->id)->first();
+					$user->update(array('email'=>$employee->email));
+					return (!empty($name))? $name : json_encode(array('message'=>array('Information updated')));
+				break;
+				
+				case 'edu':
+					$edus = $req->get('edus');
+					EmployeeEducation::where('employee_id',$employee->id)->delete();
+					if(count($edus))
+					{
+						foreach($edus as $edu)
+						{
+							$employeeEdu =	EmployeeEducation::firstOrNew(array(
+								'employee_id' => $employee->id,
+								'institution_name' => $edu['institution_name']
+								
+							));
+							
+							$employeeEdu->degree_name = $edu['degree_name'];
+							$employeeEdu->pass_year = $edu['pass_year'];
+							$employeeEdu->grade = $edu['grade'];
+							
+							$employeeEdu->save();
+						}
+					}
+					break;
+				
+				case 'exp':
+					$exps = $req->get('exps');
+					WorkExperience::where('employee_id',$employee->id)->delete();
+					if(count($exps))
+					{
+						foreach($exps as $exp)
+						{
+							$employeeExp =	WorkExperience::firstOrNew(array(
+								'employee_id' => $employee->id,
+								'work_title' => $exp['work_title']
+								
+							));
+							
+							$employeeExp->org_name = $exp['org_name'];
+							$employeeExp->year_exp = $exp['year_exp'];
+							$employeeExp->save();
+						}
+					}
+					break;
+					
+				case 'assign':
+					$job_details = $req->get('job_details');
+					$department_id = $job_details['department_id'];
+					$designation_id = $job_details['designation_id'];
+					$jobDetails = JobDetails::firstOrNew(array('employee_id'=>$employee->id,'department_id'=>$department_id,'designation_id'=>$designation_id));
+					$jobDetails->basic_salary = $job_details['basic_salary'];
+					$jobDetails->verifier = (int)$job_details['verifier'];
+					$jobDetails->active_job = 1;
+					$jobDetails->job_start = $job_details['job_start'];
+					$jobDetails->job_end = $job_details['job_end'];
+					$jobDetails->save();
+					$employee->is_employee_working = 1;
+					$employee->save();
+					return array('message'=>array('Information updated'));
+					break;
+			}
+		}
+		
 	}
 
 	/**

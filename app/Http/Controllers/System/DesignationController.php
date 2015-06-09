@@ -50,6 +50,11 @@ class DesignationController extends Controller {
 		return	Designation::with('ChildDesignation','ChildDesignation.ChildDesignation','Department')->where('order',0)->get()->toJson();
 	}
 	
+	public function getByDepartment($department_id)
+	{
+		return Designation::where('department_id',$department_id)->get()->toJson();		
+	}
+	
 	/**
 	 * Store a newly created resource in storage.
 	 *
