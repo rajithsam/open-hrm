@@ -21,6 +21,8 @@ service('webservice',function($http){
 }).
 controller('employeeCtrl',['$scope','webservice','$sce','FileUploader',function($scope,webservice,$sce,FileUploader){
     
+    
+    
     $scope.showForm = 0;
     $scope.sources = ['NEWS','ONLINE','PERSON','OTHERS'];
     $scope.form = {employee_id:'',name:'',present_address:'',
@@ -222,8 +224,10 @@ controller('employeeCtrl',['$scope','webservice','$sce','FileUploader',function(
         
         var response  = webservice.get(BASE+'departments.json');
         response.success(function(res){
-            $scope.departments = res;    
+            $scope.departments = res;   
+            $("input[name='job_start'],input[name='job_end']").datepicker({ dateFormat:'yy-mm-dd'});
         });
+        
     }
     
     $scope.getDesignations = function()
@@ -240,10 +244,24 @@ controller('employeeCtrl',['$scope','webservice','$sce','FileUploader',function(
     
     $scope.saveAssignJob = function()
     {
+        $scope.successes = [];
         var response = webservice.post(BASE+'employee/update/assign',{id:$scope.form.id,job_details:$scope.job_details});
     
         response.success(function(res){
+            $scope.successes = res.message;
+            $scope.tab = {available_employees:0,assigned_employees:1}
+        }).error(function(res){
             
+        });
+    }
+    
+    $scope.releaseResource = function(e)
+    {
+        $scope.successes = [];
+        var response = webservice.post(BASE+'employee/update/release',{id:e.id});
+        response.success(function(res){
+            $scope.successes = res.message;
+            $scope.tab = {available_employees:1,assigned_employees:0}
         }).error(function(res){
             
         });
@@ -254,4 +272,29 @@ controller('employeeCtrl',['$scope','webservice','$sce','FileUploader',function(
         return BASE+'data/'+e.photo;
     }
     
+    /***** sort ******/
+    
+    $scope.sortorder = "name";
+    
+    
+    $scope.toggleSort = function(item)
+    {
+        switch(item)
+        {
+            case 'name':
+                if($scope.sortorder == "name")
+                    $scope.sortorder = "-name";
+                else
+                    $scope.sortorder = "name";
+                break;
+                
+            case 'email':
+                if($scope.sortorder == "email")
+                    $scope.sortorder = "-email";
+                else
+                    $scope.sortorder = "email";
+                break;
+        }
+        
+    }
 }]);

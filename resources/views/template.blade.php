@@ -3,10 +3,12 @@
 	<head>
 		<title>Open Hrm</title>
 		<link rel="stylesheet" href="{{url('public/bower_components/bootstrap/dist/css/bootstrap.min.css')}}" type="text/css" />
+		<link rel="stylesheet" href="{{url('public/bower_components/jquery-ui/themes/redmond/jquery-ui.min.css')}}" type="text/css" />
 		<link rel="stylesheet" href="{{url('public/css/style.css')}}" type="text/css" />
 		<script type="text/javascript" src="{{url('public/bower_components/jquery/dist/jquery.min.js')}}"></script>
 		<script type="text/javascript" src="{{url('public/bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
 		<script type="text/javascript" src="{{url('public/bower_components/angular/angular.min.js')}}"></script>
+		<script type="text/javascript" src="{{url('public/bower_components/jquery-ui/ui/datepicker.js')}}"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
 		@if(isset($styles) && count($styles))
 			@foreach($styles as $style)
@@ -61,9 +63,9 @@
 		
 			<aside class="col-lg-2" id="sidebar"> 
 				<ul class="nav nav-stacked">
-					<li role="presentation" ><a  href="#">Dashboard</a></li>
+					<li role="presentation" ><a href="#"><i class="glyphicon glyphicon-th-large"></i> Dashboard</a></li>
 					<li role="presentation" >
-						<a class="selected hasChild">System <span class="pull-right right-caret"></span></a>
+						<a class="selected hasChild"><i class="glyphicon glyphicon-cog"></i>  System <span class="pull-right right-caret"></span></a>
 						<ul class="nav nav-sub">
 							<li><a href="{{url('org')}}">Organiztion</a></li>
 							<li><a href="{{url('department')}}">Department</a></li>
@@ -73,7 +75,7 @@
 						</ul>
 					</li>
 					<li role="presentation" >
-						<a class="selected hasChild">User Manager <span class="pull-right right-caret"></span></a>
+						<a class="selected hasChild"><i class="glyphicon glyphicon-user"></i> User Manager <span class="pull-right right-caret"></span></a>
 						<ul class="nav nav-sub">
 							<li><a href="{{url('role')}}">Role</a></li>
 							<li><a href="{{url('users')}}">Users</a></li>

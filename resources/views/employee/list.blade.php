@@ -78,7 +78,7 @@
             
             
             <div class="panel-heading">
-                Update Information
+                Update Information - [@{{form.name}}]
                 <button class="btn btn-danger btn-xs pull-right" ng-click="cancelFrm()"><i class="glyphicon glyphicon-remove"></i></button>
             </div>
             
@@ -150,7 +150,7 @@
                             </div>
                         </div>
                         <div class="col-lg-3">
-                            <div ng-show="form.photo && uploader.queue.length==0"><img alt="image"  height="100" src="{{url('data')}}/@{{form.photo}}"/></div>
+                            <div ng-show="form.photo && uploader.queue.length==0"><img alt="image"  height="100" ng-src="{{url('data')}}/@{{form.photo}}"/></div>
                             <div ng-repeat="item in uploader.queue" ng-show="uploader.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
                             <a class="btn btn-warning btn-xs" ng-show="uploader.queue.length > 0" ng-click="clearPhotoQueue()">Cancel</a>
                         </div>
@@ -166,6 +166,7 @@
             </form>
             <!-- Education -->
             <form class="form-horizontal" ng-show="formTab.edu" ng-submit="saveEducation()">
+                
                 <table class="table">
                     <thead>
                         <tr>
@@ -215,7 +216,7 @@
         </div>
         <div class="panel-default" ng-if="form.id && active_job">
             <div class="panel-heading">
-                Assign Job
+                Assign Job - to - [@{{form.name}}]
             </div>
             <div class="panel-body">
                 <form class="form-horizontal" ng-submit="saveAssignJob()">
@@ -255,7 +256,8 @@
                     <div class="form-group">
                         <label class="control-label col-lg-3">Job Start</label>
                         <div class="col-lg-3">
-                            <input type="text" ng-model="job_details.job_start" class="form-control" />
+                            <input type="text" name="job_start" ng-model="job_details.job_start" class="form-control" />
+                            
                         </div>
                     </div>
                     
@@ -279,22 +281,27 @@
         <button class="btn btn-primary btn-xs pull-right" ng-show="!showForm" ng-click="openFrm()"><i class="glyphicon glyphicon-plus"></i> New Employee</button>
         </div>
         <div class="panel-body">
-            <ul class="nav nav-tabs">
+            <ul class="nav nav-tabs push-right push-left">
                 <li role="presentation" ng-class="{active:tab.avaiable_resource}"><a ng-click="selectTab('avaiable_resource')">Available Resources</a></li>
                 <li role="presentation" ng-class="{active:tab.assigned_resource}"><a ng-click="selectTab('assigned_resource')">Assigned Resources</a></li>
             </ul>
-            <div class="panel">
+            <div class="panel panel-default">
+                
+                        <div class="col-lg-3 push-down push-up">
+                        <input type="text" placeholder="Search" class="form-control" ng-model="se" />
+                        </div>
+                
                 <table class="table" ng-show="tab.avaiable_resource">
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>E-mail</th>
+                            <th><a ng-click="toggleSort('name')">Name </a></th>
+                            <th><a ng-click="toggleSort('email')">E-mail</a></th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="e in available_employees">
-                            <td><img width="50" src="{{url('data')}}/@{{e.photo}}"/> @{{e.name}}</td>
+                        <tr ng-repeat="e in available_employees | filter:se | orderBy:sortorder">
+                            <td><img width="50" ng-src="{{url('data')}}/@{{e.photo}}"/> @{{e.name}}</td>
                             <td>@{{e.email}}</td>
                             <td>
                                 <a ng-click="viewEmployee(e)" class="btn btn-info btn-xs"><i class="glyphicon glyphicon-search"></i> View</a>
@@ -320,7 +327,8 @@
                             <td>@{{e.active_job_details.department.name}}</td>
                             <td>@{{e.active_job_details.designation.title}}</td>
                             <td>
-                                
+                                <a ng-click="viewEmployee(e)" class="btn btn-info btn-xs"><i class="glyphicon glyphicon-search"></i> View</a>
+                                <a ng-click="releaseResource(e)" class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-remove"></i> Release</a>
                             </td>
                         </tr>
                     </tbody>

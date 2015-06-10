@@ -14,6 +14,14 @@ header { background-color: #efefef; }
 
 .nopadding { padding: 0px !important; margin: 0px !important; }
 
+.push-up { margin-top: 20px; }
+
+.push-down { margin-bottom: 20px; }
+
+.push-left { margin-left: 20px; }
+
+.push-right { margin-right: 20px; }
+
 .table a { cursor: pointer; }
 
 #sidebar { padding: 0px; background-color: #efefef; height: 100%; position: fixed; }

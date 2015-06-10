@@ -234,6 +234,15 @@ class EmployeeController extends Controller {
 					$employee->save();
 					return array('message'=>array('Information updated'));
 					break;
+				case 'release':
+					$activeJobDetails = $employee->ActiveJobDetails;
+					$activeJobDetails->job_end = date('Y-m-d H:i:s');
+					$activeJobDetails->active_job = 0;
+					$activeJobDetails->save();
+					$employee->is_employee_working = 0;
+					$employee->save();
+					return array('message'=>array('Information updated'));
+					break;
 			}
 		}
 		

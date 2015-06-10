@@ -4,11 +4,11 @@ $("#sidebar ul.nav li a.hasChild").click(function(){
     
     if(child_ul.hasClass('nav-sub'))
     {
-        obj.children().removeClass('right-caret').addClass('caret');
+        obj.children(':last').removeClass('right-caret').addClass('caret');
         
         child_ul.removeClass('nav-sub');
     }else{
-        obj.children().addClass('right-caret').removeClass('caret');
+        obj.children(':last').addClass('right-caret').removeClass('caret');
         child_ul.addClass('nav-sub');
     }
     
