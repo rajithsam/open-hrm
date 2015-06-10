@@ -103,10 +103,13 @@ controller('employeeCtrl',['$scope','webservice','$sce','FileUploader',function(
          uploader.onCompleteAll = function() {
             $scope.successes.push('Information Updated');
             uploader.queue = [];
+             $("html,body").animate({ scrollTop: "0px" });
+             $scope.showForm = 0; 
          };
          
          uploader.onSuccessItem = function(fileItem, response, status, headers) {
             $scope.form.photo   = response; 
+           
         };
         
          if(uploader.queue.length > 0)
@@ -136,10 +139,11 @@ controller('employeeCtrl',['$scope','webservice','$sce','FileUploader',function(
                    
                 $("html,body").animate({ scrollTop: "0px" });
              });
+             $("html,body").animate({ scrollTop: "0px" });
+             $scope.showForm = 0; 
              
          }
-         $("html,body").animate({ scrollTop: "0px" });
-         $scope.showForm = 0; 
+         
     }
     
      
@@ -249,7 +253,9 @@ controller('employeeCtrl',['$scope','webservice','$sce','FileUploader',function(
     
         response.success(function(res){
             $scope.successes = res.message;
-            $scope.tab = {available_employees:0,assigned_employees:1}
+            $scope.tab = {avaiable_resource:0,assigned_resource:1};
+            loadAssignedEmployees();
+            $scope.active_job = 0;
         }).error(function(res){
             
         });
@@ -261,7 +267,8 @@ controller('employeeCtrl',['$scope','webservice','$sce','FileUploader',function(
         var response = webservice.post(BASE+'employee/update/release',{id:e.id});
         response.success(function(res){
             $scope.successes = res.message;
-            $scope.tab = {available_employees:1,assigned_employees:0}
+            $scope.tab = {avaiable_resource:1,assigned_resource:0};
+            loadAvailableEmployees();
         }).error(function(res){
             
         });

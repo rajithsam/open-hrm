@@ -70,6 +70,7 @@
 							<li><a href="{{url('org')}}">Organiztion</a></li>
 							<li><a href="{{url('department')}}">Department</a></li>
 							<li><a href="{{url('designation')}}">Designation</a></li>
+							<li><a href="{{url('holiday')}}">Holiday</a></li>
 							<li><a href="{{url('workweek')}}">WorkWeek</a></li>
 							
 						</ul>

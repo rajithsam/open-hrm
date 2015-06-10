@@ -64,6 +64,13 @@ Route::get('api/assigned-employees.json','Employee\EmployeeController@getAssigne
 Route::post('employee/create','Employee\EmployeeController@store');
 Route::post('employee/update/{option}','Employee\EmployeeController@update');
 
+Route::get('holiday','System\HolidayController@index');
+Route::post('holiday/create','System\HolidayController@store');
+Route::post('holiday/update/{id}/{option}','System\HolidayController@update');
+Route::get('holidays.json','System\HolidayController@getAll');
+Route::get('holidays/{date}','System\HolidayController@getAll');
+Route::post('holiday/delete','System\HolidayController@delete');
+
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',

@@ -148,11 +148,18 @@
                             <div class="well my-drop-zone" nv-file-drop="" nv-file-over="" uploader="uploader">
                                    Drag & Drop Photo
                             </div>
+                            <input type="file" multiple="" uploader="uploader" nv-file-select="">
                         </div>
                         <div class="col-lg-3">
                             <div ng-show="form.photo && uploader.queue.length==0"><img alt="image"  height="100" ng-src="{{url('data')}}/@{{form.photo}}"/></div>
-                            <div ng-repeat="item in uploader.queue" ng-show="uploader.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
-                            <a class="btn btn-warning btn-xs" ng-show="uploader.queue.length > 0" ng-click="clearPhotoQueue()">Cancel</a>
+                            <div ng-repeat="item in uploader.queue" ng-show="uploader.isHTML5">
+                            <div ng-thumb="{ file: item._file, height: 100 }"></div>
+                                <div style="margin-bottom: 0;" class="progress">
+                                    <div ng-style="{ 'width': item.progress + '%' }" role="progressbar" class="progress-bar" style="width: 0%;"></div>
+                                </div>
+                                <a class="btn btn-warning btn-xs" ng-click="item.cancel()">Cancel</a>
+                            </div>
+                            
                         </div>
                     </div>
                     
@@ -301,7 +308,11 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="e in available_employees | filter:se | orderBy:sortorder">
-                            <td><img width="50" ng-src="{{url('data')}}/@{{e.photo}}"/> @{{e.name}}</td>
+                            <td>
+                                <img width="50" ng-if="e.photo != null" ng-src="{{url('data')}}/@{{e.photo}}"/>
+                                <img width="50" ng-if="e.photo == null" ng-src="{{url('data/thumbnail/thumbnail.png')}}"/>
+                                @{{e.name}}
+                            </td>
                             <td>@{{e.email}}</td>
                             <td>
                                 <a ng-click="viewEmployee(e)" class="btn btn-info btn-xs"><i class="glyphicon glyphicon-search"></i> View</a>
@@ -322,7 +333,11 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="e in assigned_employees">
-                            <td><img width="50" ng-src="{{url('data')}}/@{{e.photo}}"/> @{{e.name}}</td>
+                            <td>
+                                <img width="50" ng-if="e.photo != null" ng-src="{{url('data')}}/@{{e.photo}}"/> 
+                                <img width="50" ng-if="e.photo == null" ng-src="{{url('data/thumbnail/thumbnail.png')}}"/>     
+                                @{{e.name}}
+                            </td>
                             <td>@{{e.email}}</td>
                             <td>@{{e.active_job_details.department.name}}</td>
                             <td>@{{e.active_job_details.designation.title}}</td>
