@@ -76,5 +76,5 @@
         </div>
     </div>
 </section>
-{!!$scripts}}
+
 @stop

@@ -71,6 +71,10 @@ Route::get('holidays.json','System\HolidayController@getAll');
 Route::get('holidays/{date}','System\HolidayController@getAll');
 Route::post('holiday/delete','System\HolidayController@delete');
 
+Route::get('workshift','System\WorkshiftController@index');
+Route::post('workshift/create','System\WorkshiftController@store');
+Route::get('workshifts.json','System\WorkshiftController@getAll');
+
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',

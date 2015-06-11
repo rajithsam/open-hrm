@@ -71,7 +71,8 @@
 							<li><a href="{{url('department')}}">Department</a></li>
 							<li><a href="{{url('designation')}}">Designation</a></li>
 							<li><a href="{{url('holiday')}}">Holiday</a></li>
-							<li><a href="{{url('workweek')}}">WorkWeek</a></li>
+							<li><a href="{{url('workweek')}}">Work Week</a></li>
+							<li><a href="{{url('workshift')}}">Work Shift</a></li>
 							
 						</ul>
 					</li>
