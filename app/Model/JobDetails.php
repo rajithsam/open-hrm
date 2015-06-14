@@ -17,5 +17,10 @@ class JobDetails extends Model {
 	{
 	    return $this->belongsTo('App\Model\System\Designation','designation_id');
 	}
+	
+	public function Employee()
+	{
+		return $this->belongsTo('App\Model\Employee\Employee','employee_id');
+	}
 
 }

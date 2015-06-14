@@ -9,6 +9,7 @@
 		<script type="text/javascript" src="{{url('public/bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
 		<script type="text/javascript" src="{{url('public/bower_components/angular/angular.min.js')}}"></script>
 		<script type="text/javascript" src="{{url('public/bower_components/jquery-ui/ui/datepicker.js')}}"></script>
+		<script type="text/javascript" src="{{url('public/js/plugins/bootbox.min.js')}}"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
 		@if(isset($styles) && count($styles))
 			@foreach($styles as $style)
@@ -86,7 +87,8 @@
 					<li role="presentation">
 						<a class="selected hasChild">PIM <span class="pull-right right-caret"></span></a>
 						<ul class="nav nav-sub">
-							<li><a href="{{url('employee')}}">Employee</li>
+							<li><a href="{{url('employee')}}">Employee</a></li>
+							<li><a href="{{url('roster')}}">Schedule Roster</a></li>
 						</ul>
 					</li>
 					

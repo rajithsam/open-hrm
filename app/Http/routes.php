@@ -63,6 +63,8 @@ Route::get('api/available-employees.json','Employee\EmployeeController@getAvaila
 Route::get('api/assigned-employees.json','Employee\EmployeeController@getAssignedEmployees');
 Route::post('employee/create','Employee\EmployeeController@store');
 Route::post('employee/update/{option}','Employee\EmployeeController@update');
+Route::get('employee/department/{id}','Employee\EmployeeController@getEmployeeByDepartment');
+Route::post('employee/assign-work-shift','Employee\EmployeeController@assignWorkShift');
 
 Route::get('holiday','System\HolidayController@index');
 Route::post('holiday/create','System\HolidayController@store');
@@ -74,6 +76,8 @@ Route::post('holiday/delete','System\HolidayController@delete');
 Route::get('workshift','System\WorkshiftController@index');
 Route::post('workshift/create','System\WorkshiftController@store');
 Route::get('workshifts.json','System\WorkshiftController@getAll');
+Route::get('roster','Employee\RosterController@index');
+Route::get('get-template/{option}','Employee\RosterController@getTemplate');
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',

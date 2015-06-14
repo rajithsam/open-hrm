@@ -87,6 +87,7 @@ class EmployeeTables extends Migration {
 		Schema::create('employee_workshifts',function(Blueprint $table){
 			$table->integer('employee_id')->unsigned();
 			$table->integer('work_shift_id')->unsigned();
+			$table->string('shift_date',10);
 			$table->timestamps();
 			
 			$table->foreign('employee_id')->references('id')->on('employees')

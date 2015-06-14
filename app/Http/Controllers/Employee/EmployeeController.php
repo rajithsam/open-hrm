@@ -10,6 +10,7 @@ use App\Role;
 use App\Model\Employee\Employee;
 use App\Model\Employee\EmployeeEducation;
 use App\Model\Employee\WorkExperience;
+use App\Model\Employee\EmployeeWorkshift;
 use App\Model\JobDetails;
 use App\Http\Requests\EmployeeForm;
 use Illuminate\Http\Request;
@@ -54,6 +55,26 @@ class EmployeeController extends Controller {
 	public function getAvailableEmployees()
 	{
 		return Employee::with('Education','WorkExperience')->where('is_employee_working',0)->get()->toJson();
+	}
+
+	public function getEmployeeByDepartment($id)
+	{
+		return JobDetails::with('Employee')->where('department_id',$id)->where('active_job',1)->get()->toJson();
+	}
+	
+	public function assignWorkShift(Request $req)
+	{ 	$employees = $req->get('employee');
+		if(count($employees)){
+			foreach($employees as $emp){
+				$employeeWorkShift = EmployeeWorkshift::firstOrNew(array(
+					'employee_id'   => $emp,
+					'work_shift_id' => $req->get('shift'),
+					'shift_date'    => $req->get('shift_date')
+				));
+				$employeeWorkShift->save();
+			}
+		}
+		return array('message'=>array('Roster Schedule updated'));
 	}
 
 	/**
