@@ -66,7 +66,7 @@
 				<ul class="nav nav-stacked">
 					<li role="presentation" ><a href="#"><i class="glyphicon glyphicon-th-large"></i> Dashboard</a></li>
 					<li role="presentation" >
-						<a class="selected hasChild"><i class="glyphicon glyphicon-cog"></i>  System <span class="pull-right right-caret"></span></a>
+						<a class="hasChild"><i class="glyphicon glyphicon-cog"></i>  System <span class="pull-right right-caret"></span></a>
 						<ul class="nav nav-sub">
 							<li><a href="{{url('org')}}">Organiztion</a></li>
 							<li><a href="{{url('department')}}">Department</a></li>
@@ -78,17 +78,24 @@
 						</ul>
 					</li>
 					<li role="presentation" >
-						<a class="selected hasChild"><i class="glyphicon glyphicon-user"></i> User Manager <span class="pull-right right-caret"></span></a>
+						<a class="hasChild"><i class="glyphicon glyphicon-user"></i> User Manager <span class="pull-right right-caret"></span></a>
 						<ul class="nav nav-sub">
 							<li><a href="{{url('role')}}">Role</a></li>
 							<li><a href="{{url('users')}}">Users</a></li>
 						</ul>
 					</li>
 					<li role="presentation">
-						<a class="selected hasChild">PIM <span class="pull-right right-caret"></span></a>
+						<a class="hasChild">PIM <span class="pull-right right-caret"></span></a>
 						<ul class="nav nav-sub">
 							<li><a href="{{url('employee')}}">Employee</a></li>
 							<li><a href="{{url('roster')}}">Schedule Roster</a></li>
+						</ul>
+					</li>
+					<li role="presentation">
+						<a class="hasChild">Recruitment <span class="pull-right right-caret"></span></a>
+						<ul class="nav nav-sub">
+							<li><a href="{{url('candidate')}}">Candidate</a></li>
+							<li><a href="{{url('vacancy')}}">Vacancy</a></li>
 						</ul>
 					</li>
 					

@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
-
+use App\Helpers\Breadcrumb;
+use App\Helpers\Theme;
 class HomeController extends Controller {
 
 	/*
@@ -30,7 +31,13 @@ class HomeController extends Controller {
 	 */
 	public function index()
 	{
+		$breadcrumb = new Breadcrumb;
+		$theme = new Theme;
+		$breadcrumb->add('Dashboard');
+		$theme->addScript(url('public/js/controller/dashboard-controller.js'));
 		$viewModel['welcome'] = "Welcome To Dashboard";
+		$viewModel['breadcrumb'] = $breadcrumb->output();
+		$viewModel['scripts'] = $theme->getScripts();
 		return view('dashboard-general',$viewModel);
 	}
 

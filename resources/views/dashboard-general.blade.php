@@ -1,9 +1,9 @@
 @extends('template')
 
 @section('content')
-<section class="col-lg-10 col-lg-offset-2 content">
+<section class="col-lg-10 col-lg-offset-2 content" ng-app="dashboard" ng-controller="dashboardCtrl" ng-cloak>
 	<ol class="breadcrumb">
-	  {!!$breadcrumb!!}}
+	  {!!$breadcrumb!!}
 	</ol>
 	@include('partials.alertmessage')
 	<div class="panel panel-default">
@@ -16,4 +16,5 @@
 	  <div class="panel-footer">Panel footer</div>
 	</div>
 </section>
+
 @stop

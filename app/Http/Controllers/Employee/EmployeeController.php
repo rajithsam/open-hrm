@@ -76,6 +76,22 @@ class EmployeeController extends Controller {
 		}
 		return array('message'=>array('Roster Schedule updated'));
 	}
+	
+	public function getWorkShifts($month,$year)
+	{
+		$month = (strlen($month)==1) ? '0'.$month :$month;
+		$searchDuration = (!empty($month) && !(empty($year)))? $year.'-'.$month : date('Y-m');
+		$results = EmployeeWorkshift::with('Employee')->where('shift_date','like',$searchDuration.'%')->get();
+		$shifts = [];
+		if(count($results))
+		{
+			foreach($results as $result)
+			{
+				$shifts[$result->shift_date][$result->work_shift_id]['employees'][] =  $result->employee;
+			}
+		}
+		return $shifts;
+	}
 
 	/**
 	 * Store a newly created resource in storage.
@@ -278,6 +294,13 @@ class EmployeeController extends Controller {
 	public function destroy($id)
 	{
 		//
+	}
+	
+	public function removeWorkShift(Request $req)
+	{
+		EmployeeWorkshift::where('employee_id',$req->get('emp_id'))
+			->where('work_shift_id',$req->get('shift_id'))
+			->where('shift_date',$req->get('full_date'))->delete();
 	}
 
 }
