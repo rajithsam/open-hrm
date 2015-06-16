@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCandidatesTable extends Migration {
+class CreateCandidateVacanciesTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,26 +12,20 @@ class CreateCandidatesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('candidates', function(Blueprint $table)
+		Schema::create('candidate_vacancies', function(Blueprint $table)
 		{
-			$table->increments('id');
-			$table->string('name',100);
-			$table->string('email',255)->unique();
-			$table->string('phone',11)->nullable();
-			$table->text('description')->nullable();
-			$table->string('keyword',300)->nullable();
-			$table->enum('application_source',['NEWS','ONLINE','PERSON','OTHERS']);
-			$table->string('referer_name',255)->nullable();
+			$table->integer('candidate_id')->unsigned();
 			$table->integer('vacancy_id')->unsigned();
-			$table->date('appication_dt');
 			$table->enum('status',['Applied','Shortlist','Schedule Interview','Mark Passed','Mark Failed','Hired','Rejected']);
 			$table->timestamps();
-			$table->softDeletes();
 			
+			$table->foreign('candidate_id')->references('id')->on('candidates')
+				->onUpdate('cascade')->onDelete('cascade');
+				
 			$table->foreign('vacancy_id')->references('id')->on('vacancies')
 				->onUpdate('cascade')->onDelete('cascade');
 				
-			$table->index('vacancy_id');
+			$table->index(['candidate_id','vacancy_id']);
 		});
 	}
 
@@ -42,7 +36,7 @@ class CreateCandidatesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('candidates');
+		Schema::drop('candidate_vacancies');
 	}
 
 }

@@ -23,17 +23,17 @@ service('webservice',function($http){
 controller('vacancyCtrl',['$scope','webservice',function($scope,webservice){
     
     $scope.showFrm = 0;
-    $scope.form = {department:'',designation:'',title:'',hiring_manager:'',position:'',description:'',publish:''};
+    $scope.form = {id:'',department:'',designation:'',title:'',hiring_manager:'',position:'',description:'',publish:''};
     $scope.openFrm = function()
     {
         $scope.showFrm = 1;
-         $scope.form = {department:'',designation:'',title:'',hiring_manager:'',position:'',description:'',publish:''};
+         $scope.form = {id:'',department:'',designation:'',title:'',hiring_manager:'',position:'',description:'',publish:''};
     }
     
     $scope.closeFrm = function()
     {
         $scope.showFrm = 0;
-         $scope.form = {department:'',designation:'',title:'',hiring_manager:'',position:'',description:'',publish:''};
+        $scope.form = {id:'',department:'',designation:'',title:'',hiring_manager:'',position:'',description:'',publish:''};
     }
     
     
@@ -75,12 +75,52 @@ controller('vacancyCtrl',['$scope','webservice',function($scope,webservice){
     $scope.saveVacancy = function()
     {
         $scope.successes = $scope.errors = [];
-        var response = webservice.post(BASE+'vacancy/save-vacancy',$scope.form);
+        if($scope.form.id)
+            var response = webservice.post(BASE+'vacancy/update',$scope.form);
+        else
+            var response = webservice.post(BASE+'vacancy/save-vacancy',$scope.form);
         response.success(function(res){
             $scope.successes = res.message;
+            loadVacncies();
+            $scope.closeFrm();
+            
         });
     }
     
-    loadDepartments();
+    $scope.editVacancy = function(vacancy)
+    {
+        $scope.form.id = vacancy.id;
+        $scope.form.department = vacancy.department_id;
+        $scope.form.designation = vacancy.designation_id;
+        $scope.form.title = vacancy.vacancy_name;
+        $scope.form.description = vacancy.vacancy_description;
+        $scope.form.hiring_manager = vacancy.hiring_manager_id;
+        $scope.form.publish = (vacancy.publish_feed_web==1) ? true : false;
+        $scope.form.position = vacancy.number_of_post;
+        $scope.showFrm = 1;
+        $scope.getDesignations();
+    }
     
+    $scope.removeVacancy = function(vacancy)
+    {
+        bootbox.confirm('Are you sure to delete this item?',function(response){
+           if(response)
+           {
+               var response = webservice.post('vacancy/remove',vacancy);
+               response.success(function(res){
+                   
+                  loadVacncies();
+               });
+           }
+        });
+    }
+    
+    $scope.resetAlert = function()
+    {
+        $scope.successes = [];
+        $scope.errors = [];
+    }
+    
+    loadDepartments();
+    loadVacncies();
 }]);

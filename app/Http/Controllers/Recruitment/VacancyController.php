@@ -37,6 +37,11 @@ class VacancyController extends Controller {
 	{
 		//
 	}
+	
+	public function getAll()
+	{
+		return Vacancy::with('Department','Designation','HiringManager')->get()->toJson();
+	}
 
 	public function getHiringManager($department)
 	{
@@ -49,15 +54,20 @@ class VacancyController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store(Requsest $req)
+	public function store(Request $req)
 	{
 		$vacancy = Vacancy::firstOrNew(array(
-			'job_id'=>$req->get('designation_id'),
+			'department_id' => $req->get('department'),
+			'designation_id'=>$req->get('designation'),
 			'hiring_manager_id'=>$req->get('hiring_manager'),
 			'vacancy_name' => $req->get('title')
 		));
-		
+		$vacancy->number_of_post = $req->get('position');
+		$vacancy->vacancy_description = $req->get('description');
+		$vacancy->publish_feed_web = (int)$req->get('publish');
 		$vacancy->save();
+		
+		return array('message'=>array('Vacancy successfully saved'));
 	}
 
 	/**
@@ -88,9 +98,19 @@ class VacancyController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update(Request $req)
 	{
-		//
+		$vacancy = Vacancy::find($req->get('id'));
+		$vacancy->vacancy_name = $req->get('title');
+		$vacancy->department_id = $req->get('department');
+		$vacancy->designation_id = $req->get('designation');
+		$vacancy->hiring_manager_id = $req->get('hiring_manager');
+		$vacancy->number_of_post = $req->get('position');
+		$vacancy->vacancy_description = $req->get('description');
+		$vacancy->publish_feed_web   = (int)$req->get('publish');
+		$vacancy->save();
+		
+		return array('message'=>array('Vacancy information updated'));
 	}
 
 	/**
@@ -102,6 +122,13 @@ class VacancyController extends Controller {
 	public function destroy($id)
 	{
 		//
+	}
+	
+	public function remove(Request $req)
+	{
+		$vacancy = Vacancy::find($req->get('id'));
+		$vacancy->delete();
+		return array('message'=>array('Vacancy deleted'));
 	}
 
 }

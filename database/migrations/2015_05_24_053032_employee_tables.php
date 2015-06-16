@@ -15,6 +15,7 @@ class EmployeeTables extends Migration {
 		Schema::create('employees', function(Blueprint $table)
 		{
 			$table->increments('id');
+			$table->string('employee_id',10);
 			$table->string('name',100);
 			$table->text('present_address')->nullable();
 			$table->text('permanent_address')->nullable();

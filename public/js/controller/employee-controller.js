@@ -118,8 +118,11 @@ controller('employeeCtrl',['$scope','webservice','$sce','FileUploader',function(
             
          }else{
              
-             var response = webservice.post(BASE+'employee/update/basic',$scope.form);
-             
+             if($scope.form.id)
+                var response = webservice.post(BASE+'employee/update/basic',$scope.form);
+             else
+                var response = webservice.post(BASE+'employee/create',$scope.form);
+                
              response.success(function(res){
                  
                  for(i in res)

@@ -84,7 +84,15 @@ Route::get('get-template/{option}','Employee\RosterController@getTemplate');
 Route::get('vacancy','Recruitment\VacancyController@index');
 Route::post('vacancy/save-vacancy','Recruitment\VacancyController@store');
 Route::get('api/get-hiring-manager/{department}','Recruitment\VacancyController@getHiringManager');
+Route::get('vacanicies.json','Recruitment\VacancyController@getAll');
+Route::post('vacancy/remove','Recruitment\VacancyController@remove');
+Route::post('vacancy/update','Recruitment\VacancyController@update');
 
+Route::get('candidate','Recruitment\CandidateController@index');
+Route::post('candidate/save-candidate','Recruitment\CandidateController@store');
+Route::get('candidates.json','Recruitment\CandidateController@getAll');
+Route::post('candidate/remove','Recruitment\CandidateController@remove');
+Route::post('candidate/update','Recruitment\CandidateController@update');
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',

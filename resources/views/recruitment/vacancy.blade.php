@@ -82,18 +82,27 @@
                         <th>Designation</th>
                         <th>Hiring Manager</th>
                         <th>Status</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat="vacancy in vacancies">
                         <td>@{{vacancy.vacancy_name}}</td>
                         <td>@{{vacancy.designation.title}}</td>
-                        <td>@{{vacance.hiring_manager.name}}</td>
-                        <td>@{{vacance.status}}</td>
+                        <td>@{{vacancy.hiring_manager.name}}</td>
+                        <td>@{{(vacancy.vacancy_status==1)? 'Active' : 'Inactive'}}</td>
+                        <td>
+                            <a class="btn btn-info btn-xs" ng-click="editVacancy(vacancy)"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
+                            <a class="btn btn-danger btn-xs" ng-click="removeVacancy(vacancy)"><i class="glyphicon glyphicon-remove"></i> Delete</a>
+                        </td>
                     </tr>
                 </tbody>
             </table>
+            
+            
         </div>
     </div>
+    
+   
 </section>
 @stop
