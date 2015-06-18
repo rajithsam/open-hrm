@@ -93,6 +93,8 @@ Route::post('candidate/save-candidate','Recruitment\CandidateController@store');
 Route::get('candidates.json','Recruitment\CandidateController@getAll');
 Route::post('candidate/remove','Recruitment\CandidateController@remove');
 Route::post('candidate/update','Recruitment\CandidateController@update');
+Route::get('candidate/histories/{id}','Recruitment\CandidateController@getHistories');
+Route::post('candidate/remove','Recruitment\CandidateController@remove');
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',

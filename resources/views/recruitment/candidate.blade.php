@@ -58,6 +58,15 @@
                         </select>
                     </div>
                 </div>
+                <div class="form-group" ng-show="form.id">
+                    <label class="control-label col-lg-3">Status</label>
+                    <div class="col-lg-3">
+                        <span>@{{form.status}}</span>
+                        <select class="form-control" ng-model="form.status">
+                            <option ng-repeat="s in status" value="@{{s}}">@{{s}}</option>
+                        </select>
+                    </div>
+                </div>
                 <div class="form-group">
                     <label class="control-label col-lg-3">Referer Name</label>
                     <div class="col-lg-3">
@@ -70,6 +79,26 @@
                     </div>
                 </div>
             </form>
+            
+            <div class="panel panel-default" ng-show="histories.length>0">
+                <div class="panel-heading">
+                    Candidate status history
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Status</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="h in histories">
+                            <td>@{{h.status}}</td>
+                            <td>@{{h.created_at}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
     
@@ -91,12 +120,15 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="candidate in candidates">
-                        <td>Vacancy</td>
-                        <td>Candidate Name</td>
-                        <td>Hiring Manager</td>
-                        <td>Application Date</td>
-                        <td>Status</td>
-                        <td>Action</td>
+                        <td>@{{candidate.vacancy.vacancy_name}}</td>
+                        <td>@{{candidate.name}}</td>
+                        <td>@{{candidate.vacancy.hiring_manager.name}}</td>
+                        <td>@{{candidate.application_dt}}</td>
+                        <td>@{{candidate.status}}</td>
+                        <td>
+                            <a ng-click="editCandidate(candidate)" class="btn btn-info btn-xs"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
+                            <a ng-click="deleteCandidate(candidate)" class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-remove"></i> Delete</a>
+                        </td>
                     </tr>
                 </tbody>
             </table>

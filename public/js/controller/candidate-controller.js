@@ -22,8 +22,10 @@ service('webservice',function($http){
 }).
 controller('candidateCtrl',['$scope','webservice',function($scope,webservice){
     $scope.showFrm = 0;
-    $scope.form = {id:'',name:'',email:'',phone:'',vacancy:'',keyword:'',description:'',source:'',referer:''};
+    $scope.form = {id:'',name:'',email:'',phone:'',vacancy:'',keyword:'',description:'',source:'',referer:'',status:''};
     $scope.sources = ['NEWS','ONLINE','PERSON','OTHERS'];
+    $scope.status = ['Applied','Shortlist','Scheduled Interview','Mark Passed','Mark Failed','Hired','Rejected'];
+    $scope.histories = [];
     
     var loadVacncies = function()
     {
@@ -45,19 +47,26 @@ controller('candidateCtrl',['$scope','webservice',function($scope,webservice){
     {
         loadVacncies();
         $scope.showFrm = 1;
-        $scope.form = {id:'',name:'',email:'',phone:'',vacancy:'',keyword:'',description:'',source:'',referer:''};
+        $scope.form = {id:'',name:'',email:'',phone:'',vacancy:'',keyword:'',description:'',source:'',referer:'',status:''};
+    
+        $scope.histories = [];
     }
     
     $scope.closeFrm = function()
     {
         $scope.showFrm = 0;
-        $scope.form = {id:'',name:'',email:'',phone:'',vacancy:'',keyword:'',description:'',source:'',referer:''};
+        $scope.form = {id:'',name:'',email:'',phone:'',vacancy:'',keyword:'',description:'',source:'',referer:'',status:''};
+    
+         $scope.histories = [];
     }
     
     $scope.saveCandidate = function()
     {
         $scope.successes = $scope.errors = [];
-        var response = webservice.post(BASE+'candidate/save-candidate',$scope.form); 
+        if($scope.form.id)
+            var response = webservice.post(BASE+'candidate/update',$scope.form);
+        else
+            var response = webservice.post(BASE+'candidate/save-candidate',$scope.form); 
         response.success(function(res){
             $scope.successes = res.message;
             loadCandidates();
@@ -66,8 +75,67 @@ controller('candidateCtrl',['$scope','webservice',function($scope,webservice){
         });
     }
     
+    $scope.editCandidate = function(candidate)
+    {
+        
+        $scope.form.id    = candidate.id;
+        $scope.form.name  = candidate.name;
+        $scope.form.email = candidate.email;
+        $scope.form.phone = candidate.phone;
+        $scope.form.vacancy = candidate.vacancy_id;
+        $scope.form.keyword = candidate.keyword;
+        $scope.form.description = candidate.description;
+        $scope.form.source = candidate.application_source;
+        $scope.form.referer = candidate.referer_name
+        $scope.form.status = candidate.status;
+        console.log(candidate.status)
+      
+        if(candidate.status == 'Applied')
+        {
+           
+            $scope.status = ['Shortlist','Rejected'];
+            
+        }else if(candidate.status == 'Shortlist')
+        {
+            $scope.status = ['Scheduled Interview','Rejected'];
+            
+        }else if(candidate.status == 'Scheduled Interview')
+        {
+            $scope.status = ['Shortlist','Mark Passed','Mark Failed'];
+            
+        }else if(candidate.status == 'Mark Passed')
+        {
+            $scope.status = ['Hired','Shortlist'];
+            
+        }else if(candidate.status == 'Mark Failed')
+        {
+            $scope.status = ['Rejected','Shortlist'];
+        }
+        
+        var response = webservice.get(BASE+'candidate/histories/'+candidate.id);
+        response.success(function(res){
+           $scope.histories = res; 
+        });
+        $scope.showFrm = 1;
+    }
+    
+    $scope.deleteCandidate = function(candidate)
+    {
+        bootbox.confirm('Are you sure to delete this item?',function(response){
+           if(response)
+           {
+                var response = webservice.post(BASE+'candidate/remove',{id:candidate.id});
+                response.success(function(res){
+                    loadCandidates();
+                });
+           }
+        });
+    }
+    
     $scope.resetAlert = function()
     {
         $scope.successes = $scope.errors = [];
     }
+    
+    loadCandidates();
 }]);

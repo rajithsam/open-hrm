@@ -6,6 +6,7 @@ use App\Helpers\Breadcrumb;
 use App\Helpers\Theme;
 use App\Helpers\Utils;
 use App\Model\Recruitment\Candidate;
+use App\Model\Recruitment\CandidateVacancy;
 use Illuminate\Http\Request;
 
 class CandidateController extends Controller {
@@ -39,7 +40,12 @@ class CandidateController extends Controller {
 
 	public function getAll()
 	{
-		return Candidate::with('Vacancy')->get()->toJson();
+		return Candidate::with('Vacancy','Vacancy.HiringManager')->get()->toJson();
+	}
+	
+	public function getHistories($id)
+	{
+		return Candidate::find($id)->Histories;
 	}
 	
 	/**
@@ -50,16 +56,27 @@ class CandidateController extends Controller {
 	public function store(Request $req)
 	{
 		$candidate = Candidate::firstOrNew(array('email'=>$req->get('email'),'vacancy_id'=>$req->get('vacancy')));
-		
-		$candidate->name =$req->get('name');
-		$candiate->phone = $req->get('phone');
+	
+		$candidate->name = $req->get('name');
+		$candidate->phone = $req->get('phone');
 		$candidate->keyword = $req->get('keyword');
 		$candidate->description = $req->get('description');
+		$candidate->vacancy_id = $req->get('vacancy');
 		$candidate->application_source	 = $req->get('source');
 		$candidate->referer_name = $req->get('referer');
 		$candidate->application_dt = date("Y-m-d");
 		$candidate->status = 'Applied';
+		
 		$candidate->save();
+		$candidateVacancy = CandidateVacancy::firstOrNew(array(
+			'candidate_id' => $candidate->id,
+			'vacancy_id'   => $candidate->vacancy_id,
+			'status'       => $candidate->status
+		));
+		
+		$candidateVacancy->save();
+		
+		return array('message'=>array('Candidate saved successfully'));
 	}
 
 	/**
@@ -90,9 +107,30 @@ class CandidateController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update(Request $req)
 	{
-		//
+		$candidate = Candidate::find($req->get('id'));
+		
+		$candidate->name = $req->get('name');
+		$candidate->phone = $req->get('phone');
+		$candidate->keyword = $req->get('keyword');
+		$candidate->description = $req->get('description');
+		$candidate->vacancy_id = $req->get('vacancy');
+		$candidate->application_source	 = $req->get('source');
+		$candidate->referer_name = $req->get('referer');
+		
+		$candidate->status = $req->get('status');
+		$candidate->save();
+		
+		$candidateVacancy = CandidateVacancy::firstOrNew(array(
+			'candidate_id' => $candidate->id,
+			'vacancy_id'   => $candidate->vacancy_id,
+			'status'       => $candidate->status
+		));
+		
+		$candidateVacancy->save();
+		
+		return array('message'=>array('Candidate updated successfully'));
 	}
 
 	/**
@@ -104,6 +142,15 @@ class CandidateController extends Controller {
 	public function destroy($id)
 	{
 		//
+	}
+	
+	public function remove(Request $req)
+	{
+		$candidate = Candidate::find($req->get('id'));
+		if(count($candidate))
+			$candidate->delete();
+			
+		return array('message'=>array('Candidate removed'));
 	}
 
 }

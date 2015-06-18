@@ -23,7 +23,7 @@ class CreateCandidatesTable extends Migration {
 			$table->enum('application_source',['NEWS','ONLINE','PERSON','OTHERS']);
 			$table->string('referer_name',255)->nullable();
 			$table->integer('vacancy_id')->unsigned();
-			$table->date('appication_dt');
+			$table->date('application_dt');
 			$table->enum('status',['Applied','Shortlist','Schedule Interview','Mark Passed','Mark Failed','Hired','Rejected']);
 			$table->timestamps();
 			$table->softDeletes();

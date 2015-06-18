@@ -8,8 +8,19 @@ class Candidate extends Model {
     
 	protected $table = "candidates";
 	
-	protected $fillable = ['name','email','vacancy_id','description','keyword','application_source'];
+	protected $fillable = ['name','email','phone','vacancy_id','description','keyword','application_source','referer_name','application_dt','status'];
 	
 	protected $dates = ['deleted_at'];
+	
+	public function Vacancy()
+	{
+		return $this->belongsTo('App\Model\Recruitment\Vacancy','vacancy_id');
+	}
+	
+	
+	public function Histories()
+	{
+		return $this->hasMany('App\Model\Recruitment\CandidateVacancy','candidate_id')->where('vacancy_id',$this->vacancy_id)->orderBy('created_at','desc');
+	}
 
 }
