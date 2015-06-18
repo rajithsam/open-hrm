@@ -70,6 +70,7 @@ controller('candidateCtrl',['$scope','webservice',function($scope,webservice){
         response.success(function(res){
             $scope.successes = res.message;
             loadCandidates();
+            $scope.showFrm = 0;
         }).error(function(res){
             
         });

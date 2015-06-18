@@ -96,6 +96,16 @@ Route::post('candidate/update','Recruitment\CandidateController@update');
 Route::get('candidate/histories/{id}','Recruitment\CandidateController@getHistories');
 Route::post('candidate/remove','Recruitment\CandidateController@remove');
 
+Route::get('head','Payment\HeadController@index');
+Route::get('head/save-head','Payment\HeadController@store');
+Route::get('head/update','Payment\HeadController@update');
+Route::get('heads.json','Payment\HeadController@getAll');
+
+Route::get('group','Payment\GroupController@index');
+Route::get('group/save-group','Payment\GroupController@store');
+Route::get('group/update','Payment\GroupController@update');
+Route::get('groups.json','Payment\GroupController@getAll');
+
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',

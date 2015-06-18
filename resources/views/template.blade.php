@@ -101,8 +101,8 @@
 					<li role="presentation">
 						<a class="hasChild">Payment <span class="pull-right right-caret"></span></a>
 						<ul class="nav nav-sub">
-							<li><a href="{{url('head')}}">Candidate</a></li>
-							<li><a href="{{url('group')}}">Vacancy</a></li>
+							<li><a href="{{url('head')}}">Head</a></li>
+							<li><a href="{{url('group')}}">Group</a></li>
 						</ul>
 					</li>
 					
