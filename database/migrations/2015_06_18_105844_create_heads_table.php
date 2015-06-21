@@ -16,7 +16,7 @@ class CreateHeadsTable extends Migration {
 		{
 			$table->increments('id');
 			$table->string('head_name',40);
-			$table->string('parent_head',40);
+			$table->integer('parent_head')->unsigned();
 			$table->enum('job_type',['Full Time','Part Time','Intern','Contactual']);
 			$table->enum('head_type',['Income','Expense']);
 			$table->timestamps();

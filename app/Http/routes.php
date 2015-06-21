@@ -97,14 +97,18 @@ Route::get('candidate/histories/{id}','Recruitment\CandidateController@getHistor
 Route::post('candidate/remove','Recruitment\CandidateController@remove');
 
 Route::get('head','Payment\HeadController@index');
-Route::get('head/save-head','Payment\HeadController@store');
-Route::get('head/update','Payment\HeadController@update');
+Route::get('head/{job_type?}','Payment\HeadController@getHeadByJobType');
+Route::post('head/save-head','Payment\HeadController@store');
+Route::post('head/update','Payment\HeadController@update');
+Route::post('head/remove','Payment\HeadController@remove');
 Route::get('heads.json','Payment\HeadController@getAll');
+Route::get('parent-heads.json','Payment\HeadController@getAllParentHeads');
 
 Route::get('group','Payment\GroupController@index');
-Route::get('group/save-group','Payment\GroupController@store');
-Route::get('group/update','Payment\GroupController@update');
+Route::post('group/save-group','Payment\GroupController@store');
+Route::post('group/update','Payment\GroupController@update');
 Route::get('groups.json','Payment\GroupController@getAll');
+Route::post('group/remove','Payment\GroupController@remove');
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',
