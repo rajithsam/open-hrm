@@ -12,6 +12,11 @@ use App\Model\Payment\Group;
 
 class GroupController extends Controller {
 
+	public function __construct()
+	{
+		$this->middleware('auth');
+	}
+	
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -42,6 +47,11 @@ class GroupController extends Controller {
 	public function getAll()
 	{
 		return Group::all()->toJson();
+	}
+
+	public function getPaymentGroup($job_type)
+	{
+		return Group::where('job_type',$job_type)->get();
 	}
 
 	/**
@@ -103,9 +113,27 @@ class GroupController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update(Request $req)
 	{
-		//
+		$id = $req->get('id');
+		$heads = $req->get('head');
+		$amount = $req->get('template');
+		
+		$group = Group::find($id);
+		$group->title = $req->get('title');
+		$template = [];
+		if(count($heads) == count($amount))
+		{
+			foreach($heads as $head)
+			{
+				$template[$head['id']]['id'] = $head['id'];
+				$template[$head['id']]['head_name'] = $head['head_name'];
+				$template[$head['id']]['head_type'] = $head['head_type'];
+				$template[$head['id']]['amount']    = (!empty($amount[$head['id']]))? $amount[$head['id']] : '';
+			}
+			$group->template = json_encode($template);
+			$group->save();
+		}
 	}
 
 	/**

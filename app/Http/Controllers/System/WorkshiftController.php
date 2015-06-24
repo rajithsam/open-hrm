@@ -7,9 +7,16 @@ use App\Helpers\Theme;
 use App\Helpers\Utils;
 use App\Model\System\WorkShift;
 use Illuminate\Http\Request;
+use App\Http\Requests\WorkShiftFrm;
 
 class WorkshiftController extends Controller {
 
+
+	public function __construct()
+	{
+		$this->middleware('auth');
+	}
+	
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -52,14 +59,17 @@ class WorkshiftController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store(Request $req)
+	public function store(WorkShiftFrm $req)
 	{
-		
-		$workShift = WorkShift::firstOrNew(array('shift_name'=>$req->get('shift_name')));
-		$workShift->start_time = $req->get('start_time');
-		$workShift->end_time = $req->get('end_time');
-		$workShift->save();
-		return array('message'=>array('Work Shift saved successfully'));
+		if(!count($req->messages())){
+			$workShift = WorkShift::firstOrNew(array('shift_name'=>$req->get('shift_name')));
+			$workShift->start_time = $req->get('start_time');
+			$workShift->end_time = $req->get('end_time');
+			$workShift->save();
+			return array('message'=>array('Work Shift saved successfully'));
+		}else{
+			return $req->messages();
+		}
 	}
 
 	/**
@@ -104,6 +114,13 @@ class WorkshiftController extends Controller {
 	public function destroy($id)
 	{
 		//
+	}
+	
+	public function remove(Request $req)
+	{
+		$workShift = WorkShift::find($req->get('id'));
+		if(count($workShift))
+			$workShift->delete();
 	}
 
 }

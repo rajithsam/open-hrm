@@ -35,7 +35,7 @@ controller('groupCtrl',['$scope','webservice',function($scope,webservice){
     $scope.openFrm = function()
     {
         $scope.showFrm = 1;
-        $scope.form = {title:'',job_type:'',template:'',head:''};
+        $scope.form = {id:'',title:'',job_type:'',template:'',head:''};
     }
     
     $scope.closeFrm = function()
@@ -54,7 +54,11 @@ controller('groupCtrl',['$scope','webservice',function($scope,webservice){
     
     $scope.saveGroup = function()
     {
-        var response = webservice.post(BASE+'group/save-group',$scope.form);
+       if($scope.form.id)
+            var response = webservice.post(BASE+'group/update',$scope.form);
+       else
+            var response = webservice.post(BASE+'group/save-group',$scope.form);
+            
         response.success(function(res){
            loadGroups();
            $scope.showFrm = 0;
@@ -64,16 +68,39 @@ controller('groupCtrl',['$scope','webservice',function($scope,webservice){
     $scope.editGroup = function(group)
     {
         $scope.form.template={};
+        $scope.form.id = group.id;
         $scope.form.title  = group.title;
         $scope.form.job_type = group.job_type;
+        
         $scope.heads =(angular.fromJson(group.template));
         for(var h in $scope.heads)
         {
             $scope.form.template[h] =($scope.heads[h].amount);
             
         }
-        console.log($scope.form.template)
-        $scope.showFrm = 1;
+        
+        var response = webservice.get(BASE+'head/'+$scope.form.job_type);
+        response.success(function(res){
+            $scope.heads = res;
+            $scope.showFrm = 1;
+        });
+        
+        
+    }
+    
+    $scope.deleteHead = function(i)
+    {
+        
+        if($scope.heads[i] != undefined)
+        {
+            
+            var h = $scope.heads[i];
+            $scope.heads.splice(i,1);
+            delete $scope.form.head[h.id];
+            delete $scope.form.template[h.id];
+            
+           
+        }
     }
     
     $scope.deleteGroup = function(group)

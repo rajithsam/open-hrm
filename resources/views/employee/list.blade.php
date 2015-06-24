@@ -7,10 +7,10 @@
 	  {!!$breadcrumb!!}
 	</ol>
     @include('partials.alertmessage')
-    <div class="panel panel-default" ng-show="showForm">
+    <div ng-show="showForm">
         
         <!-- Create Form -->
-        <div ng-show="!form.id && !active_job">
+        <div class="panel panel-default" ng-show="!form.id && !active_job">
             <div class="panel-heading">Create Employee</div>
             <div class="panel-body">
             <form class="form-horizontal" ng-submit="saveEmployee()">
@@ -67,6 +67,7 @@
                 <div class="form-group">
                     <div class="col-lg-3 col-lg-offset-3">
                         <input type="submit" class="btn btn-success btn-sm" value="Save"/>
+                        <input ng-click="cancelFrm()" type="button" class="btn btn-warning btn-sm" value="Cancel"/>
                     </div>
                 </div>
             </form>
@@ -74,7 +75,7 @@
         </div>
         
         <!--- Update Form -->
-        <div class="panel-default" ng-show="form.id && !active_job">
+        <div class="panel panel-default" ng-show="form.id && !active_job">
             
             
             <div class="panel-heading">
@@ -221,7 +222,7 @@
             </div>
         
         </div>
-        <div class="panel-default" ng-if="form.id && active_job">
+        <div class="panel panel-default" ng-if="form.id && active_job">
             <div class="panel-heading">
                 Assign Job - to - [@{{form.name}}]
             </div>
@@ -252,7 +253,22 @@
                             <input type="checkbox" class="form-control" ng-model="job_details.verifier"/>
                         </div>
                     </div>
-                    
+                    <div class="form-group">
+                        <label class="control-label col-lg-3">Job Type</label>
+                        <div class="col-lg-3">
+                            <select class="form-control" ng-model="job_details.job_type" ng-change="getPaymentGroup()">
+                                <option ng-repeat="j in job_type" value="@{{j}}">@{{j}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="groups">
+                        <label class="control-label col-lg-3">Select Payment Group</label>
+                        <div class="col-lg-3">
+                            <div ng-repeat="g in groups">
+                                <input type="radio" class="form-control" name="group" ng-model="job_details.payment_group" ng-value="g" ng-change="calculateBasicSalary(g)" style="display:inline;width:20px;vertical-align:middle;" /> <span style="vertical-align:middle;">@{{g.title}}</span>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label class="control-label col-lg-3">Basic Salary</label>
                         <div class="col-lg-3">

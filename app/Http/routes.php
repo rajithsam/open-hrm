@@ -67,6 +67,7 @@ Route::get('employee/department/{id}','Employee\EmployeeController@getEmployeeBy
 Route::post('employee/assign-work-shift','Employee\EmployeeController@assignWorkShift');
 Route::get('employee-workshifts/{month}/{year}','Employee\EmployeeController@getWorkShifts');
 Route::post('employee/remove-work-shift','Employee\EmployeeController@removeWorkShift');
+Route::get('employee/workshift/{employee_id}','Employee\EmployeeController@getWorkShiftByEmployee');
 
 Route::get('holiday','System\HolidayController@index');
 Route::post('holiday/create','System\HolidayController@store');
@@ -77,6 +78,7 @@ Route::post('holiday/delete','System\HolidayController@delete');
 
 Route::get('workshift','System\WorkshiftController@index');
 Route::post('workshift/create','System\WorkshiftController@store');
+Route::post('workshift/remove','System\WorkshiftController@remove');
 Route::get('workshifts.json','System\WorkshiftController@getAll');
 Route::get('roster','Employee\RosterController@index');
 Route::get('get-template/{option}','Employee\RosterController@getTemplate');
@@ -109,6 +111,12 @@ Route::post('group/save-group','Payment\GroupController@store');
 Route::post('group/update','Payment\GroupController@update');
 Route::get('groups.json','Payment\GroupController@getAll');
 Route::post('group/remove','Payment\GroupController@remove');
+Route::get('get-payment-group/{job_type}','Payment\GroupController@getPaymentGroup');
+
+Route::get('attendance','Leave\AttendanceController@index');
+Route::post('attendance/save-attendance','Leave\AttendanceController@store');
+Route::post('attendance/update','Leave\AttendanceController@update');
+Route::get('attendances.json','Leave\AttendanceController@getAll');
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',

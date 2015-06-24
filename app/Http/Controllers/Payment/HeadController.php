@@ -12,6 +12,11 @@ use App\Model\Payment\Group;
 
 class HeadController extends Controller {
 
+	public function __construct()
+	{
+		$this->middleware('auth');
+	}
+	
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -52,7 +57,7 @@ class HeadController extends Controller {
 	
 	public function getHeadByJobType($job_type)
 	{
-		return Head::where('job_type',$job_type)->get()->toJson();
+		return Head::where('job_type',$job_type)->orderBy('head_name','ASC')->get()->toJson();
 	}
 	
 	/**

@@ -17,6 +17,10 @@ use Illuminate\Http\Request;
 
 class EmployeeController extends Controller {
 
+	public function __construct()
+	{
+		$this->middleware('auth');
+	}
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -92,6 +96,19 @@ class EmployeeController extends Controller {
 		}
 		return $shifts;
 	}
+	
+	public function getWorkShift($employee,$month,$year)
+	{
+		$month = (strlen($month) == 1) ? '0'.$month : $month;
+		$searchDuration = (!empty($month) && !(empty($year)))? $year.'-'.$month : date('Y-m');
+		$results = EmployeeWorkshift::with('WorkShift')->where('employee_id',$employee)->where('shift_date','like',$searchDuration.'%')->get();
+	}
+	
+	public function getWorkShiftByEmployee($employee_id)
+	{
+		$searchDuration = date('Y-m-d');
+		return EmployeeWorkshift::with('WorkShift')->where('employee_id',$employee_id)->where('shift_date',$searchDuration)->first();
+	}
 
 	/**
 	 * Store a newly created resource in storage.
@@ -121,11 +138,14 @@ class EmployeeController extends Controller {
 					$employee->save();
 			
 					$user->name = $req->get('name');
-					$user->password = bcrypt($user->name);
+					$user->email = $employee->email;
+					$user->password = bcrypt($employee->email);
 					$user->role_id = $role->id;
 					$user->employee_id = $employee->id;
 					
 					$user->save();
+					
+					$user->roles()->attach($role->id);
 					
 				}else{
 					return array('error'=>array('Sorry! ESS role not defined, Go to <a href="'.url('role').'">Role Manager</a> please create ESS role before create employee '));
@@ -258,9 +278,13 @@ class EmployeeController extends Controller {
 					
 				case 'assign':
 					$job_details = $req->get('job_details');
+					
 					$department_id = $job_details['department_id'];
 					$designation_id = $job_details['designation_id'];
 					$jobDetails = JobDetails::firstOrNew(array('employee_id'=>$employee->id,'department_id'=>$department_id,'designation_id'=>$designation_id));
+					$jobDetails->job_type = $job_details['job_type'];
+					$paymentGroup = ($job_details['payment_group']);
+					$jobDetails->payment_group = $paymentGroup['id'];
 					$jobDetails->basic_salary = $job_details['basic_salary'];
 					$jobDetails->verifier = (int)$job_details['verifier'];
 					$jobDetails->active_job = 1;
@@ -268,6 +292,7 @@ class EmployeeController extends Controller {
 					$jobDetails->job_end = $job_details['job_end'];
 					$jobDetails->save();
 					$employee->is_employee_working = 1;
+					
 					$employee->save();
 					return array('message'=>array('Information updated'));
 					break;

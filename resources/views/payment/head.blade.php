@@ -22,7 +22,7 @@
                     <label class="control-label col-lg-3">Parent Head</label>
                     <div class="col-lg-3">
                         <select class="form-control" ng-model="form.parent_head">@{{form.parent_head}}
-                            <option ng-repeat="h in parent_head" ng-selected="form.parent_head != null && h.id == form.parent_head" value="@{{h.id}}">@{{h.head_name}}</option>
+                            <option ng-repeat="h in parent_head" ng-selected="form.parent_head != null && h.id == form.parent_head" value="@{{h.id}}">@{{h.head_name}}-@{{h.job_type}}</option>
                         </select>
                     </div>
                 </div>
@@ -56,18 +56,21 @@
             <a ng-click="openFrm()" class="btn btn-primary btn-xs pull-right"><i class="glyphicon glyphicon-plus"></i> Add New Product</a>
         </div>
         <div class="panel-body">
+            <div class="col-lg-3">
+                <input type="text" placeholder="Search Here" class="form-control" ng-model="se"/>
+            </div>
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Head Name</th>
+                        <th><a ng-click="toggleSort('head_name')">Head Name</a></th>
                         <th>Parent Head</th>
                         <th>Head Type</th>
-                        <th>Job Type</th>
+                        <th><a ng-click="toggleSort('job_type')">Job Type</a></th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="head in heads">
+                    <tr ng-repeat="head in heads | filter:se | orderBy:sortorder">
                         <td>@{{head.head_name}}</td>
                         <td>@{{(head.parent_head.head_name != undefined)? head.parent_head.head_name : 'Parent'}}</td>
                         <td>@{{head.head_type}}</td>

@@ -18,7 +18,7 @@ service('webservice',function($http){
        }
    }; 
 }).
-controller('workshiftCtrl',['$scope','webservice','$sce',function($scope,webservice,$sce){
+controller('workshiftCtrl',['$scope','webservice',function($scope,webservice){
     
     $scope.showFrm = 0;
     $scope.startTime = new Date();
@@ -59,11 +59,16 @@ controller('workshiftCtrl',['$scope','webservice','$sce',function($scope,webserv
         $scope.successes = $scope.errors = [];
         $scope.form.start_time = $scope.startTime.getTime();
         $scope.form.end_time = $scope.endTime.getTime();
+        
         var response = webservice.post(BASE+'workshift/create',$scope.form);
     
         response.success(function(res){
            $scope.successes = res.message;
+           $scope.closeFrm();
            loadWorkshifts();
+           
+        }).error(function(res){
+            $scope.errors = res.shift_name;
         });
     }
     
@@ -76,6 +81,19 @@ controller('workshiftCtrl',['$scope','webservice','$sce',function($scope,webserv
         var eD = new Date();
         eD.setTime(s.end_time);
         $scope.endTime = eD;
+    }
+    
+    $scope.deleteShift = function(s)
+    {
+        bootbox.confirm('Are you sure to delete this item?',function(r){
+            if(r)
+            {
+                var response = webservice.post(BASE+'workshift/remove',{id:s.id});
+                response.success(function(res){
+                     loadWorkshifts();
+                });
+            }
+        });
     }
     
     $scope.resetAlert = function()

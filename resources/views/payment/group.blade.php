@@ -32,6 +32,7 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    
                     <div class="col-lg-12">
                         <table class="table">
                             <thead>
@@ -39,20 +40,22 @@
                                     <th>Head</th>
                                     <th>Type</th>
                                     <th>Amount</th>
+                                    <th>&nbsp;</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr ng-repeat="h in heads">
                                     <td ng-init="form.head[h.id]=h">@{{h.head_name}}</td>
-                                    <td>@{{h.head_type}}@{{h.id}}</td>
+                                    <td>@{{h.head_type}}</td>
                                     <td><input type="text" class="form-control" ng-model="form.template[h.id]"/></td>
+                                    <td><a ng-click="deleteHead($index)" class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-trash"></i> Delete</a></td>
                                 </tr>
                             </tbody>
                         </table>
                         
                     </div>
                 </div>
-                <div class="form-group" ng-show="heads.length > 0">
+                <div class="form-group" ng-show="(heads.length > 0) || (form.template != '')">
                     <div class="col-lg-3 col-lg-offset-3">
                         <input type="submit" class="btn btn-success btn-sm" value="Save Group"/>
                     </div>

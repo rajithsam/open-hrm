@@ -65,6 +65,8 @@ class SystemTables extends Migration {
 			$table->integer('employee_id')->unsigned();
 			$table->integer('department_id')->unsigned();
 			$table->integer('designation_id')->unsigned();
+			$table->string('job_type',20);
+			$table->integer('payment_group')->unsigned();
 			$table->string('basic_salary')->nullable();
 			$table->date('job_start');
 			$table->date('job_end');
@@ -81,7 +83,10 @@ class SystemTables extends Migration {
 			$table->foreign('designation_id')->references('id')->on('designations')
 				->onUpdate('cascade')->onDelete('cascade');
 				
-			$table->index(['employee_id','department_id','designation_id']);
+			$table->foreign('payment_group')->references('id')->on('payment_groups')	
+				->onUpdate('cascade')->onDelete('cascade');
+				
+			$table->index(['employee_id','department_id','designation_id','payment_group']);
 		});
 	}
 

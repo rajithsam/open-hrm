@@ -1,14 +1,11 @@
-<?php namespace App\Http\Controllers\User;
+<?php namespace App\Http\Controllers\Leave;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Role;
-use Illuminate\Http\Request;
-use App\Http\Requests\RoleForm;
-use App\Helpers\Theme;
-use App\Helpers\Breadcrumb;
 
-class RoleController extends Controller {
+use Illuminate\Http\Request;
+
+class LeaveController extends Controller {
 
 	public function __construct()
 	{
@@ -22,15 +19,7 @@ class RoleController extends Controller {
 	 */
 	public function index()
 	{
-		$breadcrumb = new Breadcrumb;
-		$theme = new Theme;
-		
-		$breadcrumb->add('Dashboard',url('dashboard'))->add('Role');
-		$theme->addScript(url('public/js/controller/role-controller.js'));
-		$viewModel['scripts'] = $theme->getScripts();
-		$viewModel['breadcrumb'] = $breadcrumb->output();
-		$viewModel['page_title'] = "Manage Roles";
-		return view('role.list',$viewModel);
+		//
 	}
 
 	/**
@@ -38,7 +27,6 @@ class RoleController extends Controller {
 	 *
 	 * @return Response
 	 */
-	 
 	public function create()
 	{
 		//
@@ -49,19 +37,9 @@ class RoleController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store(RoleForm $req)
+	public function store()
 	{
-		if(!count($req->messages()))
-		{
-			$role = new Role;
-			$role->name = strtolower(str_replace(" ", "-",$req->get('name')));
-			$role->display_name = $req->get('name');
-			$role->description = $req->get('description');
-			$role->save();
-			return json_encode(array('message'=>array('New role '.$role->name.' successfully Added')));
-		}else{
-			return $req->messages();
-		}
+		//
 	}
 
 	/**
@@ -106,11 +84,6 @@ class RoleController extends Controller {
 	public function destroy($id)
 	{
 		//
-	}
-	
-	public function getAll()
-	{
-		return Role::all()->toJson();
 	}
 
 }

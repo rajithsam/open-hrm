@@ -45,6 +45,7 @@
 							
 							
 							<button type="button" class="btn btn-default navbar-btn dropdown-toogle" data-toggle="dropdown">
+								<span><?php echo (count(Auth::user()))? Auth::user()->name : ''; ?></span>
 								<span class="glyphicon glyphicon-user"></span> 
 								<span class="caret"></span>
 							</button>
@@ -78,19 +79,26 @@
 						</ul>
 					</li>
 					<li role="presentation" >
-						<a class="hasChild"><i class="glyphicon glyphicon-user"></i> User Manager <span class="pull-right right-caret"></span></a>
+						<a class="hasChild"><i class="glyphicon glyphicon-user"></i> User Management <span class="pull-right right-caret"></span></a>
 						<ul class="nav nav-sub">
 							<li><a href="{{url('role')}}">Role</a></li>
 							<li><a href="{{url('users')}}">Users</a></li>
 						</ul>
 					</li>
 					<li role="presentation">
-						<a class="hasChild">PIM <span class="pull-right right-caret"></span></a>
+						<a class="hasChild">Employee Management <span class="pull-right right-caret"></span></a>
 						<ul class="nav nav-sub">
 							<li><a href="{{url('employee')}}">Employee</a></li>
 							<li><a href="{{url('roster')}}">Schedule Roster</a></li>
 						</ul>
 					</li>
+					<li role="presentation">
+						<a class="hasChild">Leave <span class="pull-right right-caret"></span></a>
+						<ul class="nav nav-sub"> 
+							<li><a href="{{url('attendance')}}">Attendance</a></li>
+							<li><a href="{{url('leave')}}">Leave</a></li>
+						</ul>
+					</li> 
 					<li role="presentation">
 						<a class="hasChild">Recruitment <span class="pull-right right-caret"></span></a>
 						<ul class="nav nav-sub">

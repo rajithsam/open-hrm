@@ -55,6 +55,7 @@ controller('headCtrl',['$scope','webservice',function($scope,webservice){
         var response = webservice.post(BASE+'head/save-head',$scope.form);
         response.success(function(res){
             loadHeads();
+            $scope.closeFrm();
         });
     }
     
@@ -95,5 +96,33 @@ controller('headCtrl',['$scope','webservice',function($scope,webservice){
     }
     
     loadHeads();
+    
+    
+    
+    
+    /***** Sort ******/
+    
+    $scope.sortorder = "head_name";
+    
+    $scope.toggleSort = function(item)
+    {
+        switch(item)
+        {
+            case 'head_name':
+                if($scope.sortorder == "head_name")
+                    $scope.sortorder = "-head_name";
+                else
+                    $scope.sortorder = "head_name";
+                break;
+                
+            case 'job_type':
+                if($scope.sortorder == "job_type")
+                    $scope.sortorder = "-job_type";
+                else
+                    $scope.sortorder = "job_type";
+                break;
+        }
+        
+    }
     
 }]);

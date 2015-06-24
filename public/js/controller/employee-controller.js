@@ -30,18 +30,21 @@ controller('employeeCtrl',['$scope','webservice','$sce','FileUploader',function(
     $scope.tab = {avaiable_resource:1,assigned_resource:0};
     $scope.formTab = {basic:1,edu:0,work_exp:0};
     
+    
     $scope.cancelFrm = function()
     {
         $scope.active_job = 0;
         $scope.showForm = 0;
-        
+        $scope.form = {employee_id:'',name:'',present_address:'',
+                permanent_address:'',email:'',phone:'',source:'',source_name:''};
     }
     
     $scope.openFrm = function()
     {
         
         $scope.showForm = 1;
-   
+        $scope.form = {employee_id:'',name:'',present_address:'',
+                permanent_address:'',email:'',phone:'',source:'',source_name:''};
     }
     
     var uploader = $scope.uploader = new FileUploader({
@@ -104,7 +107,8 @@ controller('employeeCtrl',['$scope','webservice','$sce','FileUploader',function(
             $scope.successes.push('Information Updated');
             uploader.queue = [];
              $("html,body").animate({ scrollTop: "0px" });
-             $scope.showForm = 0; 
+             $scope.cancelFrm(); 
+             
          };
          
          uploader.onSuccessItem = function(fileItem, response, status, headers) {
@@ -134,7 +138,7 @@ controller('employeeCtrl',['$scope','webservice','$sce','FileUploader',function(
                         $scope.successes.push(res[i][0]);
                 }
                
-                $scope.showForm = 0; 
+                $scope.cancelFrm();
                 loadAvailableEmployees();
              }).error(function(res){
                  for(i in res)
@@ -220,9 +224,9 @@ controller('employeeCtrl',['$scope','webservice','$sce','FileUploader',function(
     }
     
     /**** active jobs ****/
-    
+    $scope.job_type=['Full Time','Part Time','Intern','Contactual'];
     $scope.active_job = 0;
-    $scope.job_details = {department_id:'',designation_id:'',basic_salary:'',job_start:'',job_end:'',verifier:''};
+    $scope.job_details = {department_id:'',designation_id:'',job_type:'',payment_group:'',basic_salary:'',job_start:'',job_end:'',verifier:''};
     $scope.assignResource = function(employee)
     {
         $scope.form = employee;
@@ -258,6 +262,7 @@ controller('employeeCtrl',['$scope','webservice','$sce','FileUploader',function(
             $scope.successes = res.message;
             $scope.tab = {avaiable_resource:0,assigned_resource:1};
             loadAssignedEmployees();
+            loadAvailableEmployees();
             $scope.active_job = 0;
         }).error(function(res){
             
@@ -280,6 +285,25 @@ controller('employeeCtrl',['$scope','webservice','$sce','FileUploader',function(
     $scope.getPhoto =function(e)
     {
         return BASE+'data/'+e.photo;
+    }
+    
+    $scope.getPaymentGroup = function()
+    {
+        var response = webservice.get(BASE+'get-payment-group/'+$scope.job_details.job_type);
+        response.success(function(res){
+           $scope.groups = res; 
+        });
+    }
+    
+    $scope.calculateBasicSalary = function(g)
+    {
+        var template = angular.fromJson(g.template);
+        var basic = 0;
+        for(var t in template)
+        {
+            basic += eval(template[t].amount);
+        }
+        $scope.job_details.basic_salary = basic;
     }
     
     /***** sort ******/
