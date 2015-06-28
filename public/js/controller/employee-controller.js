@@ -21,8 +21,7 @@ service('webservice',function($http){
 }).
 controller('employeeCtrl',['$scope','webservice','$sce','FileUploader',function($scope,webservice,$sce,FileUploader){
     
-    
-    
+
     $scope.showForm = 0;
     $scope.sources = ['NEWS','ONLINE','PERSON','OTHERS'];
     $scope.form = {employee_id:'',name:'',present_address:'',
@@ -226,7 +225,8 @@ controller('employeeCtrl',['$scope','webservice','$sce','FileUploader',function(
     /**** active jobs ****/
     $scope.job_type=['Full Time','Part Time','Intern','Contactual'];
     $scope.active_job = 0;
-    $scope.job_details = {department_id:'',designation_id:'',job_type:'',payment_group:'',basic_salary:'',job_start:'',job_end:'',verifier:''};
+    $scope.job_details = {department_id:'',designation_id:'',job_type:'',leave_count:'',payment_group:'',basic_salary:'',job_start:'',job_end:'',verifier:''};
+    
     $scope.assignResource = function(employee)
     {
         $scope.form = employee;

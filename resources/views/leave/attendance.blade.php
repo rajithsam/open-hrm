@@ -24,6 +24,12 @@
                             </select>
                         </div>
                     </div>
+                    <div class="form-group" ng-show="form.shift">
+                        <label class="control-label col-lg-3">Workshift & Time</label>
+                        <div class="col-lg-3">
+                            @{{getTime(form.shift.work_shift.start_time) | date:'shortTime'}}-@{{getTime(form.shift.work_shift.end_time) | date:'shortTime'}}
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label class="control-label col-lg-3">Start Time</label>
                         <div class="col-lg-3">
@@ -64,6 +70,8 @@
                         <th>Work Shift</th>
                         <th>Start Time</th>
                         <th>End Time</th>
+                        <th>Working Time</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -73,6 +81,11 @@
                         <td>@{{attendance.work_shift.shift_name}}</td>
                         <td>@{{attendance.start_time | date:'shortTime'}}</td>
                         <td>@{{attendance.end_time | date:'shortTime'}}</td>
+                        <td>@{{attendance.working_time}}</td>
+                        <td>
+                            <a ng-click="editAttendance(attendance)" class="btn btn-info btn-xs" ><i class="glyphicon glyphicon-pencil"></i> Edit</a>
+                        </td>
+                        
                     </tr>
                 </tbody>
             </table>

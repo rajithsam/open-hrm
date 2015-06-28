@@ -118,6 +118,11 @@ Route::post('attendance/save-attendance','Leave\AttendanceController@store');
 Route::post('attendance/update','Leave\AttendanceController@update');
 Route::get('attendances.json','Leave\AttendanceController@getAll');
 
+Route::get('leave','Leave\LeaveController@index');
+Route::post('leave/save-leave','Leave\LeaveController@store');
+Route::post('leave/update','Leave\LeaveController@update');
+Route::get('leaves.json','Leave\LeaveController@getAll');
+
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',

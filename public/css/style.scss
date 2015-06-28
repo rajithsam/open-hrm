@@ -162,6 +162,28 @@ table.schedule-roster{
             }
         }
     }
+    
+    .card{
+        min-height:140px;color:#fff;font-weight:600;margin-right:45px;width:240px;
+    
+        &-red{
+            background:#f44336;
+        }
+        &-blue{
+            background:#03a9f4;
+        }
+        &-green{
+            background:#4caf50;
+        }
+        &-yellow{
+            background:#ffc107;
+        }
+    }
+    
+    
+    .card:last-child{
+        margin-right:0px;
+    }
 
 /***** override css *****/
 

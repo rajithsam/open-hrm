@@ -28,7 +28,7 @@ class AttendanceController extends Controller {
 		$theme->addScript(url('public/js/controller/attendance-controller.js'))
 		      ->addScript(url('public/bower_components/angular-bootstrap/ui-bootstrap.min.js'))
 			  ->addScript(url('public/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js'));
-		$breadcrumb->add('Dashboard',url('dashboard'))->add('Payment');
+		$breadcrumb->add('Dashboard',url('dashboard'))->add('Attendance');
 		$viewModel['breadcrumb'] = $breadcrumb->output();
 		$viewModel['scripts'] = $theme->getScripts();
 		$viewModel['page_title'] = 'Attendance';
@@ -57,12 +57,26 @@ class AttendanceController extends Controller {
 	 */
 	public function store(Request $req)
 	{
+		
 		 $employee_id = $req->get('employee_id');
-		 $attendance = Attendance::firstOrNew(array('employee_id'=>$employee_id));
+		 $attendance = Attendance::firstOrNew(array('employee_id'=>$employee_id,'date'=>$req->get('date')));
 		 $shift = $req->get('shift');
+		 
+		 $shift_st = $shift['work_shift']['start_time'];
+		 $shift_et = $shift['work_shift']['end_time'];
+		 
+		 $st = $req->get('start_time');
+		 $et = $req->get('end_time');
+		 $st_diff = date('H:i:s',(($st - $shift_st)/1000));
+		 $et_diff = date('H:i:s',(($et - $shift_et)/1000));
+		 $work_time = date('H:i:s',($et-$st)/1000);
+		 
 		 $attendance->work_shift_id = $shift['work_shift_id'];
-		 $attendance->start_time = $req->get('start_time');
-		 $attendance->end_time = $req->get('end_time');
+		 $attendance->start_time = $st;
+		 $attendance->end_time = $et;
+		 $attendance->start_after = $st_diff;
+		 $attendance->end_before = $et_diff;
+		 $attendance->working_time = $work_time;
 		 $attendance->date = $req->get('date');
 		 $attendance->leave_id = null;
 		 $attendance->save();

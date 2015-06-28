@@ -44,7 +44,7 @@ angular.module('attendance',['ui.bootstrap'])
     $scope.closeFrm = function()
     {
         $scope.showFrm = 0;
-        $scope.form = {employee_id:'',start_time:'',end_time:'',date:'',shift:''};
+        $scope.form = {employee_id:'',start_time:new Date(),end_time:new Date(),date:'',shift:''};
         
     }
     
@@ -67,27 +67,53 @@ angular.module('attendance',['ui.bootstrap'])
     $scope.saveAttendance = function()
     {
         
+        $scope.form.start_time = $scope.form.start_time.getTime();
+        $scope.form.end_time = $scope.form.end_time.getTime();
         $scope.successes = $scope.errors = [];
-        var response = webservice.post(BASE+'attendance/save-attendance',$scope.form);
-        response.success(function(res){
-            $scope.successes = res.message;
-            $scope.closeFrm();
-        }).error(function(res){
-            
-        });
+        if($scope.form.shift == "")
+        {
+            $scope.errors = ['Work Shift not available today.'];
+        }else{
+            var response = webservice.post(BASE+'attendance/save-attendance',$scope.form);
+            response.success(function(res){
+                $scope.successes = res.message;
+                $scope.closeFrm();
+            }).error(function(res){
+                
+            });
+        }
     }
     
     $scope.editAttendance = function(a)
     {
         $scope.form.employee_id = a.employee_id;
+        var response = webservice.get(BASE+'employee/workshift/'+$scope.form.employee_id);
+        
+        response.success(function(res){
+           $scope.form.shift = res; 
+        });
+        
         var sD = new Date();
         sD.setTime(a.start_time);
         $scope.form.start_time = sD;
-        $scope.form.end_time = a.end_time;
-        $scope.date = a.date;
+        var eD = new Date();
+        eD.setTime(a.end_time);
+        $scope.form.end_time = eD;
+        $scope.form.date = a.date;
+        $scope.showFrm = 1;
     }
     
+    $scope.getTime = function(t)
+    {
+        var d = new Date();
+        d.setTime(t);
+        return d;
+    }
     
+    $scope.resetAlert = function()
+    {
+        $scope.successes = $scope.errors = [];
+    }
     
     loadAttendances();
     

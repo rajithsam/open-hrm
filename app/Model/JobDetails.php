@@ -6,7 +6,7 @@ class JobDetails extends Model {
 
 	protected $table = "job_details";
 	
-	protected $fillable = ['employee_id','department_id','designation_id','basic_salary','job_start','job_end','verifier','active_job'];
+	protected $fillable = ['employee_id','department_id','designation_id','basic_salary','job_start','job_end','verifier','leave_count','active_job'];
 	
 	public function Department()
 	{

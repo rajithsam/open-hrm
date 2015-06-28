@@ -2,7 +2,10 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
+use App\Helpers\Breadcrumb;
+use App\Helpers\Theme;
+use App\Helpers\Utils;
+use App\Model\Leave\Leave;
 use Illuminate\Http\Request;
 
 class LeaveController extends Controller {
@@ -19,7 +22,16 @@ class LeaveController extends Controller {
 	 */
 	public function index()
 	{
-		//
+		$breadcrumb = new Breadcrumb;
+		$theme = new Theme;
+		$theme->addScript(url('public/js/controller/leave-controller.js'))
+		      ->addScript(url('public/bower_components/angular-bootstrap/ui-bootstrap.min.js'))
+			  ->addScript(url('public/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js'));
+		$breadcrumb->add('Dashboard',url('dashboard'))->add('Leave');
+		$viewModel['breadcrumb'] = $breadcrumb->output();
+		$viewModel['scripts'] = $theme->getScripts();
+		$viewModel['page_title'] = 'Leave';
+		return view('leave.leave',$viewModel);
 	}
 
 	/**
@@ -31,15 +43,40 @@ class LeaveController extends Controller {
 	{
 		//
 	}
+	
+	public function getAll()
+	{
+		return Leave::with('Employee','LeaveVerifier','Department')->get()->toJson();
+	}
 
 	/**
 	 * Store a newly created resource in storage.
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store(Request $req)
 	{
-		//
+		$leave = Leave::firstOrNew(array(
+					'employee_id'=>$req->get('employee_id'),
+					'department_id'=>$req->get('department'),
+					'start_dt' => $req->get('start_dt'),
+					'end_dt' => $req->get('end_dt')
+					));
+		$leave->leave_verifier_id = $req->get('leave_verifier_id');
+		$leave->leave_type = $req->get('leave_type');
+		$leave->leave_reason = $req->get('leave_reason');
+		if(!$leave->exists)
+			 $leave->leave_status = Leave::$PENDING;
+		$startDt = date_create($req->get('start_dt'));
+		$endDt = date_create($req->get('end_dt'));
+		$diff=date_diff($startDt,$endDt);
+		
+		$leave->leave_count = $diff->d;
+		
+		$leave->extra_leave = 0;
+		$leave->save();
+		
+		return array('message'=>array('Leave request send successfully'));
 	}
 
 	/**

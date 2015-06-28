@@ -6,7 +6,22 @@
 	  {!!$breadcrumb!!}
 	</ol>
 	@include('partials.alertmessage')
-	<div class="panel panel-default">
+	<div>
+		<div class="col-lg-3 card card-red">
+			<h1><i class="glyphicon glyphicon-envelop"></i> Leave</h1>
+		</div>
+		<div class="col-lg-3 card card-blue">
+			&nbsp;
+		</div>
+		<div class="col-lg-3 card card-green">
+			&nbsp;
+		</div>
+		<div class="col-lg-3 card card-yellow">
+			&nbsp;
+		</div>
+	</div>
+	<br style="clear:left;"/>
+	<div class=" panel panel-default" style="margin-top:20px">
       <div class="panel-heading">
       	Panel Header
       </div>

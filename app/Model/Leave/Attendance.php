@@ -6,7 +6,7 @@ class Attendance extends Model {
 
 	protected $table = "attendance";
 
-    protected $fillable = ['employee_id','work_shift_id','start_time','end_time','date','leave_id'];
+    protected $fillable = ['employee_id','work_shift_id','start_time','end_time','start_after','end_before','working_time','date','leave_id'];
     
     public function WorkShift()
     {

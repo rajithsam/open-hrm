@@ -253,6 +253,7 @@
                             <input type="checkbox" class="form-control" ng-model="job_details.verifier"/>
                         </div>
                     </div>
+                    
                     <div class="form-group">
                         <label class="control-label col-lg-3">Job Type</label>
                         <div class="col-lg-3">
@@ -261,6 +262,7 @@
                             </select>
                         </div>
                     </div>
+                    
                     <div class="form-group" ng-show="groups">
                         <label class="control-label col-lg-3">Select Payment Group</label>
                         <div class="col-lg-3">
@@ -285,11 +287,19 @@
                     </div>
                     
                     <div class="form-group">
+                        <label class="control-label col-lg-3">Leave Count</label>
+                        <div class="col-lg-1">
+                            <input type="text" ng-model="job_details.leave_count" class="form-control"/>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
                         <label class="control-label col-lg-3">Job end</label>
                         <div class="col-lg-3">
                             <input type="text" ng-model="job_details.job_end" class="form-control" />
                         </div>
                     </div>
+                    
                     <div class="form-group">
                         <div class="col-lg-3 col-lg-offset-3">
                             <input type="submit" class="btn btn-success btn-sm" value="Update" />

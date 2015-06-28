@@ -18,6 +18,9 @@ class CreateAttendancesTable extends Migration {
 			$table->integer('work_shift_id')->unsigned();
 			$table->string('start_time',100);
 			$table->string('end_time',100);
+			$table->string('start_after',100)->nullable();
+			$table->string('end_before',100)->nullable();
+			$table->string('working_time',100)->nullable();
 			$table->date('date');
 			$table->integer('leave_id')->unsigned();
 			$table->timestamps();

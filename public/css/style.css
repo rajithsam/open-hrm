@@ -47,6 +47,14 @@ table.schedule-roster tbody > tr > td span { min-height: 21px; display: block; t
 table.schedule-roster tbody > tr > td ul { margin: 0px; padding: 0px; border-top: 1px solid #ccc; }
 table.schedule-roster tbody > tr > td ul li { list-style: none; border-bottom: 1px solid #ccc; }
 
+.card { min-height: 140px; color: #fff; font-weight: 600; margin-right: 45px; width: 240px; }
+.card-red { background: #f44336; }
+.card-blue { background: #03a9f4; }
+.card-green { background: #4caf50; }
+.card-yellow { background: #ffc107; }
+
+.card:last-child { margin-right: 0px; }
+
 /***** override css *****/
 .navbar-default { background: #fcfff4; /* Old browsers */ background: -moz-linear-gradient(top, #fcfff4 0%, #d6cdbe 100%); /* FF3.6+ */ background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fcfff4), color-stop(100%, #d6cdbe)); /* Chrome,Safari4+ */ background: -webkit-linear-gradient(top, #fcfff4 0%, #d6cdbe 100%); /* Chrome10+,Safari5.1+ */ background: -o-linear-gradient(top, #fcfff4 0%, #d6cdbe 100%); /* Opera 11.10+ */ background: -ms-linear-gradient(top, #fcfff4 0%, #d6cdbe 100%); /* IE10+ */ background: linear-gradient(to bottom, #fcfff4 0%, #d6cdbe 100%); /* W3C */ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfff4', endColorstr='#d6cdbe',GradientType=0 ); /* IE6-9 */ }
 

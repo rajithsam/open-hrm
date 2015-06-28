@@ -287,6 +287,7 @@ class EmployeeController extends Controller {
 					$jobDetails->payment_group = $paymentGroup['id'];
 					$jobDetails->basic_salary = $job_details['basic_salary'];
 					$jobDetails->verifier = (int)$job_details['verifier'];
+					$jobDetails->leave_count = $job_details['leave_count'];
 					$jobDetails->active_job = 1;
 					$jobDetails->job_start = $job_details['job_start'];
 					$jobDetails->job_end = $job_details['job_end'];
