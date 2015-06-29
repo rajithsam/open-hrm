@@ -34,6 +34,7 @@ Route::post('designation/remove','System\DesignationController@remove');
 Route::get('api/designations.json','System\DesignationController@getAll');
 Route::get('designations/{department_id}','System\DesignationController@getByDepartment');
 Route::get('api/designations-with-child.json','System\DesignationController@getAllWithChild');
+
 // WorkWeek route
 Route::get('workweek','System\WorkweekController@index');
 Route::post('workweek/create','System\WorkweekController@store');
@@ -68,6 +69,11 @@ Route::post('employee/assign-work-shift','Employee\EmployeeController@assignWork
 Route::get('employee-workshifts/{month}/{year}','Employee\EmployeeController@getWorkShifts');
 Route::post('employee/remove-work-shift','Employee\EmployeeController@removeWorkShift');
 Route::get('employee/workshift/{employee_id}','Employee\EmployeeController@getWorkShiftByEmployee');
+Route::get('leave-requests','Employee\EmployeeController@leaveRequests');
+Route::get('api/get-leave-requests','Employee\EmployeeController@getLeaveRequests');
+Route::post('approve-leave-request','Employee\EmployeeController@approveLeaveRequest');
+Route::post('reject-leave-request','Employee\EmployeeController@rejectLeaveRequest');
+Route::get('leave-request/me','Employee\EmployeeController@myLeaveRequest');
 
 Route::get('holiday','System\HolidayController@index');
 Route::post('holiday/create','System\HolidayController@store');

@@ -6,7 +6,7 @@ class Leave extends Model {
 
 	protected $table = "leaves";
 	
-	protected $fillable = ['department_id','employee_id','leave_verifier_id','leave_type','leave_reason','start_dt','end_dt','leave_count','extra_leave'];
+	protected $fillable = ['department_id','employee_id','leave_verifier_id','leave_type','leave_reason','start_dt','end_dt','leave_count','extra_leave','created_by'];
 
     public static $PENDING = 'Pending';
     public static $APPROVED = 'Approved';

@@ -66,7 +66,7 @@
                     <div class="col-lg-3">
                         <input type="text" name="end_dt" ng-model="form.end_dt" class="form-control"/>
                     </div>
-                </div>\
+                </div>
                 <div class="form-group" ng-show="form.leave_status == 'Pending'">
                     <label class="control-label col-lg-3">Leave Status</label>
                     <div class="col-lg-3">
@@ -110,7 +110,7 @@
                         <td>@{{leave.leave_verifier.name}}</td>
                         <td>@{{leave.start_dt}}</td>
                         <td>@{{leave.end_dt}}</td>
-                        <td>@{{leave.leave_count}}</td>
+                        <td>@{{leave.leave_count | plural:'day'}}</td>
                         <td>@{{leave.leave_status}}</td>
                         <td>
                             <a ng-click="editLeave(leave)" class="btn btn-info btn-xs"><i class="glyphicon glyphicon-pencil"></i> Edit</a>

@@ -63,9 +63,9 @@
 		</header>
 		
 		
-			<aside class="col-lg-2" id="sidebar"> 
+			<!--<aside class="col-lg-2" id="sidebar"> 
 				<ul class="nav nav-stacked">
-					<li role="presentation" ><a href="#"><i class="glyphicon glyphicon-th-large"></i> Dashboard</a></li>
+					<li role="presentation" ><a href="{{url('/')}}"><i class="glyphicon glyphicon-th-large"></i> Dashboard</a></li>
 					<li role="presentation" >
 						<a class="hasChild"><i class="glyphicon glyphicon-cog"></i>  System <span class="pull-right right-caret"></span></a>
 						<ul class="nav nav-sub">
@@ -116,14 +116,19 @@
 					
 		
 				</ul>
-			</aside>
+			</aside>-->
+			@if(count(Auth::user()) && Auth::user()->role->name == 'admin')
+				@include('partials.menu-admin')
+			@else
+				@include('partials.menu-ess')
+			@endif
+			
 			@yield('content')
-		
-			@if(isset($scripts) && count($scripts))
-				@foreach($scripts as $script)
+			
+			
+			<script type="text/javascript" src="{{url('public/js/common.js')}}"></script>
+			@foreach($scripts as $script)
 					<script type="text/javascript" src="{{$script}}"></script>
 				@endforeach
-			@endif
-			<script type="text/javascript" src="{{url('public/js/common.js')}}"></script>
 	</body>
 </html>

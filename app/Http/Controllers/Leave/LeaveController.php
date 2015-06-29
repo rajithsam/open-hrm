@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers\Leave;
 
+use Auth;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Helpers\Breadcrumb;
@@ -13,6 +14,7 @@ class LeaveController extends Controller {
 	public function __construct()
 	{
 		$this->middleware('auth');
+		
 	}
 	
 	/**
@@ -27,7 +29,7 @@ class LeaveController extends Controller {
 		$theme->addScript(url('public/js/controller/leave-controller.js'))
 		      ->addScript(url('public/bower_components/angular-bootstrap/ui-bootstrap.min.js'))
 			  ->addScript(url('public/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js'));
-		$breadcrumb->add('Dashboard',url('dashboard'))->add('Leave');
+		$breadcrumb->add('Dashboard',url('/'))->add('Leave');
 		$viewModel['breadcrumb'] = $breadcrumb->output();
 		$viewModel['scripts'] = $theme->getScripts();
 		$viewModel['page_title'] = 'Leave';
@@ -46,7 +48,8 @@ class LeaveController extends Controller {
 	
 	public function getAll()
 	{
-		return Leave::with('Employee','LeaveVerifier','Department')->get()->toJson();
+		$userId = Auth::user()->id;
+		return Leave::with('Employee','LeaveVerifier','Department')->where('created_by',$userId)->get()->toJson();
 	}
 
 	/**
@@ -56,6 +59,7 @@ class LeaveController extends Controller {
 	 */
 	public function store(Request $req)
 	{
+		$userId = Auth::user()->id;
 		$leave = Leave::firstOrNew(array(
 					'employee_id'=>$req->get('employee_id'),
 					'department_id'=>$req->get('department'),
@@ -74,6 +78,7 @@ class LeaveController extends Controller {
 		$leave->leave_count = $diff->d;
 		
 		$leave->extra_leave = 0;
+		$leave->created_by = $userId;
 		$leave->save();
 		
 		return array('message'=>array('Leave request send successfully'));

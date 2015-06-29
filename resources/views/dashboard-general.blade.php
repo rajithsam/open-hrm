@@ -8,7 +8,13 @@
 	@include('partials.alertmessage')
 	<div>
 		<div class="col-lg-3 card card-red">
-			<h1><i class="glyphicon glyphicon-envelop"></i> Leave</h1>
+			<a href="{{url('leave-requests')}}">
+			<h1 class="pull-left">
+				Leave
+				<span>Application</span>
+			</h1>
+			<span class="counter pull-right">{{$leave_request}}</span>
+			</a>
 		</div>
 		<div class="col-lg-3 card card-blue">
 			&nbsp;

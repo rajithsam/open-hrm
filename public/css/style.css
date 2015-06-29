@@ -47,7 +47,11 @@ table.schedule-roster tbody > tr > td span { min-height: 21px; display: block; t
 table.schedule-roster tbody > tr > td ul { margin: 0px; padding: 0px; border-top: 1px solid #ccc; }
 table.schedule-roster tbody > tr > td ul li { list-style: none; border-bottom: 1px solid #ccc; }
 
-.card { min-height: 140px; color: #fff; font-weight: 600; margin-right: 45px; width: 240px; }
+.card { min-height: 110px; color: #fff; margin-right: 45px; width: 240px; }
+.card a { color: #fff; }
+.card h1 { font-weight: 600; width: 120px; }
+.card h1 span { font-weight: normal; font-size: 20px; display: block; }
+.card span.counter { margin-top: 20px; width: 65px; display: inline; font-size: 50px; }
 .card-red { background: #f44336; }
 .card-blue { background: #03a9f4; }
 .card-green { background: #4caf50; }

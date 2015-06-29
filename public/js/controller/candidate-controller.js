@@ -1,4 +1,4 @@
-angular.module('candidate',[]).
+angular.module('candidate',['ui.bootstrap']).
 service('webservice',function($http){
     
    return{

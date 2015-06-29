@@ -1,5 +1,6 @@
-angular.module('leave',[])
+angular.module('lrequest',[])
 .service('webservice',function($http){
+    
     return{
        get:function(url,data){
            return $http({
@@ -17,28 +18,22 @@ angular.module('leave',[])
            });
        }
    }; 
-})
-.filter('plural',function(){
+    
+}).filter('plural',function(){
     return function(input,noun){
       return (input >= 2) ? input + ' '+noun+'s' : input + ' '+noun;
     };
-}).
-controller('leaveCtrl',['$scope','webservice',function($scope,webservice){
+}).controller('lrequestCtrl',['$scope','webservice',function($scope,webservice){
+    $scope.leave_requests = [];
+    $scope.form = {id:'',leave_type:'',employee:'',leave_verifier_id:'',leave_reason:'',start_dt:'',end_dt:'',leave_status:'',leave_count:''}; 
     
-    $scope.leaves = [];
-    $scope.showFrm = 0;
-    $scope.form = {id:'',leave_type:'',employee_id:'',leave_verifier_id:'',leave_reason:'',start_dt:'',end_dt:'',leave_status:'',leave_count:''}; 
-    $scope.leave_types = ['General','Sick'];
-    $scope.statuses = ['Approved','Rejected'];
-    
-    var loadLeaves = function()
+    var loadLeaveRequests = function()
     {
-        var response = webservice.get(BASE + 'leaves.json');
+        var response = webservice.get(BASE+'api/get-leave-requests');
         response.success(function(res){
-            $scope.leaves = res;
+            $scope.leave_requests = res;
         });
     }
-    
     
     var loadDepartments = function()
     {
@@ -61,53 +56,44 @@ controller('leaveCtrl',['$scope','webservice',function($scope,webservice){
         });
     }
     
-    $scope.openFrm = function()
-    {
-        
-        $scope.form = {id:'',leave_type:'',employee_id:'',leave_verifier_id:'',leave_reason:'',start_dt:'',end_dt:'',leave_status:'',leave_count:''}; 
-        loadDepartments();
-        
-    }
-    
-    $scope.closeFrm = function()
-    {
-        $scope.showFrm = 0;
-        $scope.form = {id:'',leave_type:'',employee_id:'',leave_verifier_id:'',leave_reason:'',start_dt:'',end_dt:'',leave_status:'',leave_count:''}; 
-    }
-    
-    $scope.saveLeaveRequest = function()
-    {
-        $scope.successes = $scope.errors = [];
-        var response = webservice.post(BASE+'leave/save-leave',$scope.form);
-        response.success(function(res){
-            $scope.closeFrm();
-            $scope.successes = res.message;
-            loadLeaves();
-        });
-    }
-    
     $scope.editLeave = function(l)
     {
         loadDepartments();
         $scope.form.id = l.id;
-        $scope.form.department = l.department_id;
+        $scope.form.department = l.department;
         $scope.form.leave_type = l.leave_type;
         $scope.getAssignedEmployees();
-        $scope.form.employee_id = l.employee_id;
+        $scope.form.employee = l.employee;
         $scope.form.leave_verifier_id = l.leave_verifier_id;
         $scope.form.leave_reason = l.leave_reason;
         $scope.form.leave_status = l.leave_status;
+        $scope.form.leave_count = l.leave_count;
         $scope.form.start_dt = l.start_dt;
         $scope.form.end_dt = l.end_dt;
         
     }
     
-    $scope.resetAlert = function()
+    $scope.approve = function()
     {
-        $scope.successes = $scope.errors = [];
+        $scope.successes = [];
+        var response = webservice.post(BASE+'approve-leave-request',$scope.form);
+        response.success(function(res){
+            $scope.successes = res.message;
+            loadLeaveRequests();
+            $scope.showFrm = 0;
+        });
     }
     
-    $('input[name="start_dt"],input[name="end_dt"]').datepicker({dateFormat:'yy-mm-dd'});
+    $scope.reject = function()
+    {
+        $scope.successes = [];
+        var response = webservice.post(BASE+'reject-leave-request',$scope.form); 
+        response.success(function(res){
+            $scope.successes = res.message;
+            loadLeaveRequests();
+            $scope.showFrm = 0;
+        });
+    }
     
-    loadLeaves();
+    loadLeaveRequests();
 }]);

@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers\Employee;
 
+use Auth;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Helpers\Theme;
@@ -12,6 +13,7 @@ use App\Model\Employee\EmployeeEducation;
 use App\Model\Employee\WorkExperience;
 use App\Model\Employee\EmployeeWorkshift;
 use App\Model\JobDetails;
+use App\Model\Leave\Leave;
 use App\Http\Requests\EmployeeForm;
 use Illuminate\Http\Request;
 
@@ -320,6 +322,66 @@ class EmployeeController extends Controller {
 	public function destroy($id)
 	{
 		//
+	}
+	
+	public function getLeaveRequests()
+	{
+		return Leave::with('Department','Employee')->where('leave_status','Pending')->where('leave_verifier_id',Auth::user()->employee_id)->get()->toJson();
+	}
+	
+	public function approveLeaveRequest(Request $req)
+	{
+		$all = $req->all();
+		$leave = Leave::find($all['id']);
+		$leave->leave_status = Leave::$APPROVED;
+		$leave->save();
+		return array('message'=>array('Leave Request Approved'));
+	}
+	
+	public function rejectLeaveRequest(Request $req)
+	{
+		$all = $req->all();
+		$leave = Leave::find($all['id']);
+		$leave->leave_status = Leave::$REJECTED;
+		$leave->save();
+		return array('message'=>array('Leave Request Rejected'));
+	}
+	
+	public function leaveRequests()
+	{
+		$theme = new Theme;
+		$theme->addScript(url('public/js/controller/leaverequest-controller.js'))
+			->addScript(url('public/js/common.js'));
+		
+		$breadcrumb = new Breadcrumb;
+		$breadcrumb->add('Dashboard',url('/'));
+		
+		$viewModel['scripts'] = $theme->getScripts();
+		$viewModel['breadcrumb'] = $breadcrumb->output();
+		$viewModel['page_title'] = 'Leave Requests';
+		
+	
+		return view('employee.leave-request',$viewModel);
+	}
+	
+	public function myLeaveRequest()
+	{
+		$theme = new Theme;
+		$theme->addScript(url('public/js/common.js'));
+		
+		$breadcrumb = new Breadcrumb;
+		$breadcrumb->add('Dashboard',url('/'));
+		
+		$viewModel['scripts'] = $theme->getScripts();
+		$viewModel['breadcrumb'] = $breadcrumb->output();
+		$viewModel['page_title'] = 'Leave Requests';
+		$leaveRequests = Leave::with('Department','Employee','LeaveVerifier')
+				->where('employee_id',Auth::user()->employee_id)
+				->orderBy('id','desc')
+				->get();
+		
+		$viewModel['leave_requests'] = $leaveRequests;
+		return view('employee.my-request',$viewModel);
 	}
 	
 	public function removeWorkShift(Request $req)

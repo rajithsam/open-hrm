@@ -1,6 +1,9 @@
 <?php namespace App\Http\Controllers;
 use App\Helpers\Breadcrumb;
 use App\Helpers\Theme;
+use App\Model\Leave\Leave;
+use App\Helpers\Utils;
+use Auth;
 class HomeController extends Controller {
 
 	/*
@@ -22,6 +25,7 @@ class HomeController extends Controller {
 	public function __construct()
 	{
 		$this->middleware('auth');
+
 	}
 
 	/**
@@ -38,6 +42,8 @@ class HomeController extends Controller {
 		$viewModel['welcome'] = "Welcome To Dashboard";
 		$viewModel['breadcrumb'] = $breadcrumb->output();
 		$viewModel['scripts'] = $theme->getScripts();
+	
+    	$viewModel['leave_request'] = Leave::where('leave_status',Leave::$PENDING)->where('leave_verifier_id',Auth::user()->employee_id)->count();
 		return view('dashboard-general',$viewModel);
 	}
 

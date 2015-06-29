@@ -25,9 +25,10 @@ class CreateLeavesTable extends Migration {
 			$table->enum('leave_status',['Pending','Approved','Rejected']);
 			$table->integer('leave_count')->unsigned();
 			$table->boolean('extra_leave',0);
+			$table->integer('created_by');
 			$table->timestamps();
 			
-			$table->index(['department_id','employee_id','leave_verifier_id']);
+			$table->index(['department_id','employee_id','leave_verifier_id','created_by']);
 			
 		});
 	}
