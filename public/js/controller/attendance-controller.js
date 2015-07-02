@@ -21,7 +21,7 @@ angular.module('attendance',['ui.bootstrap'])
 .controller('attendanceCtrl',['$scope','webservice',function($scope,webservice){
     $scope.hstep = 1;
     $scope.mstep = 15;
-    $scope.form = {employee_id:'',start_time:'',end_time:'',date:'',shift:''};
+     $scope.form = {employee_id:'',start_time:'',end_time:'',date:'',shift:''};
     $scope.shift = '';
     $scope.showFrm = 0;
     $scope.attendances = [];
@@ -38,7 +38,11 @@ angular.module('attendance',['ui.bootstrap'])
     {
         $scope.showFrm = 1;
         $('input[name="date"]').datepicker({dateFormat:'yy-mm-dd'});
-        $scope.form = {employee_id:'',start_time:'',end_time:'',date:'',shift:''};
+        var today = new Date();
+        var m = (today.getMonth()+1 < 10)? '0'+(today.getMonth()+1) : today.getMonth()+1;
+        var d = (today.getDate() <10)? '0'+today.getDate() : today.getDate();
+        var t = today.getFullYear()+'-'+m+'-'+d;
+        $scope.form = {employee_id:'',start_time:'',end_time:'',date:t,shift:''};
     }
     
     $scope.closeFrm = function()
@@ -50,10 +54,16 @@ angular.module('attendance',['ui.bootstrap'])
     
     $scope.getTodayShift = function()
     {
-        var response = webservice.get(BASE+'employee/workshift/'+$scope.form.employee_id);
+        
+        var response = webservice.get(BASE+'employee/workshift/'+$scope.form.employee_id+'/'+$scope.form.date);
         response.success(function(res){
            $scope.form.shift = res; 
         });
+    }
+    
+    $scope.dateChange = function()
+    {
+        loadAssignedEmployees();
     }
     
     var loadAssignedEmployees = function()
@@ -118,4 +128,5 @@ angular.module('attendance',['ui.bootstrap'])
     loadAttendances();
     
     loadAssignedEmployees();
+    
 }]);

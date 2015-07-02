@@ -8,7 +8,7 @@ use App\Helpers\Utils;
 use App\Model\Recruitment\Candidate;
 use App\Model\Recruitment\CandidateVacancy;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Validator;
 class CandidateController extends Controller {
 
 	/**
@@ -55,6 +55,12 @@ class CandidateController extends Controller {
 	 */
 	public function store(Request $req)
 	{
+		$validator = Validator::make($req->all(), [
+			'vacancy'=>'required']);
+			
+		if($validator->fails())
+			return $validator->messages();
+			
 		$candidate = Candidate::firstOrNew(array('email'=>$req->get('email'),'vacancy_id'=>$req->get('vacancy')));
 	
 		$candidate->name = $req->get('name');

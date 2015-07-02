@@ -1,4 +1,4 @@
-angular.module('candidate',['ui.bootstrap']).
+angular.module('candidate',[]).
 service('webservice',function($http){
     
    return{
@@ -71,8 +71,10 @@ controller('candidateCtrl',['$scope','webservice',function($scope,webservice){
             $scope.successes = res.message;
             loadCandidates();
             $scope.showFrm = 0;
+            $scope.errors = res.vacancy;
         }).error(function(res){
             
+            $scope.errors = res.vacancy;
         });
     }
     

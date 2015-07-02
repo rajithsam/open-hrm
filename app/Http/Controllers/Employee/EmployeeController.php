@@ -55,7 +55,12 @@ class EmployeeController extends Controller {
 	
 	public function getAssignedEmployees()
 	{
-		return Employee::with('Education','WorkExperience','ActiveJobDetails','ActiveJobDetails.Department','ActiveJobDetails.Designation')->where('is_employee_working','!=',0)->get()->toJson();
+		$user = Auth::user();
+		
+		if(count($user) && ($user->role->name=="ess"))
+			return Employee::with('Education','WorkExperience','ActiveJobDetails','ActiveJobDetails.Department','ActiveJobDetails.Designation')->where('id',$user->employee_id)->where('is_employee_working','!=',0)->get()->toJson();
+		else
+			return Employee::with('Education','WorkExperience','ActiveJobDetails','ActiveJobDetails.Department','ActiveJobDetails.Designation')->where('is_employee_working','!=',0)->get()->toJson();
 	}
 	
 	public function getAvailableEmployees()
@@ -106,9 +111,10 @@ class EmployeeController extends Controller {
 		$results = EmployeeWorkshift::with('WorkShift')->where('employee_id',$employee)->where('shift_date','like',$searchDuration.'%')->get();
 	}
 	
-	public function getWorkShiftByEmployee($employee_id)
+	public function getWorkShiftByEmployee($employee_id,$date)
 	{
-		$searchDuration = date('Y-m-d');
+		
+		$searchDuration = ($date != "")? $date : date('Y-m-d');
 		return EmployeeWorkshift::with('WorkShift')->where('employee_id',$employee_id)->where('shift_date',$searchDuration)->first();
 	}
 
@@ -362,6 +368,21 @@ class EmployeeController extends Controller {
 		
 	
 		return view('employee.leave-request',$viewModel);
+	}
+	
+	public function myAttendance()
+	{
+		$theme = new Theme;
+		$theme->addScript(url('public/js/controller/my-attendance-controller.js'))
+			  ->addScript(url('public/js/directives/calander.js'));
+			  
+		$breadcrumb = new Breadcrumb;
+		$breadcrumb->add('Dashboard',url('/'));
+		
+		$viewModel['scripts'] = $theme->getScripts();
+		$viewModel['breadcrumb'] = $breadcrumb->output();
+		$viewModel['page_title'] = 'My Attendance';
+		return view('employee.my-attendance',$viewModel);
 	}
 	
 	public function myLeaveRequest()

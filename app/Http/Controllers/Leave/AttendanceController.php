@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers\Leave;
 
+use Auth;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Helpers\Breadcrumb;
@@ -135,6 +136,21 @@ class AttendanceController extends Controller {
 	public function destroy($id)
 	{
 		//
+	}
+	
+	public function getMyAttendance($month='',$year='')
+	{
+		$user = Auth::user();
+		$date = (!empty($year) && !empty($month)) ? $year.'-'.$month : date('Y-m');
+		$result = Attendance::with('WorkShift')->where('employee_id',$user->employee_id)->where('date','like',$date.'%')->get();
+		$attendance = [];
+		foreach($result as $r)
+		{
+			$attendance[$r->date][$r->WorkShift->shift_name]['in'] = (($r->start_time)/1000);
+			$attendance[$r->date][$r->WorkShift->shift_name]['out'] = (($r->end_time)/1000);
+		}
+		return $attendance;
+		Utils::LastQuery();
 	}
 
 }

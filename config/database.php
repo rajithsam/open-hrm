@@ -62,7 +62,7 @@ return [
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
 			'strict'    => false,
-			 'unix_socket' => '/home/ubuntu/lib/mysql/socket/mysql.sock'
+			'unix_socket' => '/home/ubuntu/lib/mysql/socket/mysql.sock'
 		],
 
 		'pgsql' => [

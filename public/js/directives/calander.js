@@ -1,14 +1,14 @@
-angular.module('schedule',[])
-.directive('scheduleRoster',function(){
+angular.module('calander',[])
+.directive('calander',function(){
     return{
         restrict:"EA",
         scope:{
             title:'=',
-            
+            attendance:'=attendance'
         },
         
         replace:true,
-        templateUrl: BASE+'get-template/schedule',
+        templateUrl: BASE+'get-template/calander',
         
         controller:function($scope,$http,$sce){
             var current_date_obj = new Date();
@@ -24,14 +24,14 @@ angular.module('schedule',[])
             $scope.shifts = [];
             $scope.showFrm = 0;
             $scope.form = {employee:'',shift:'',shift_date:''};
-            
+           
             var getBlankField = function()
             {
                 return blankCount = $scope.firstDateObj.getDay();
 
             }
             
-            var drawRosterGrid = function()
+            var drawCalanderGrid = function()
             {   
                     
                     var trHtml = '';
@@ -58,8 +58,6 @@ angular.module('schedule',[])
                 for(var idate = $scope.firstDateObj.getDate(); idate<=$scope.lastDateObj.getDate();idate++)
                 {
                     
-                    
-                     
                     if(cur_date%7 == 0)
                     {   
                        if(blankCount)
@@ -83,20 +81,31 @@ angular.module('schedule',[])
                     var month = (m.toString().length == 1)? '0'+m:m;
                     idate = (idate.toString().length == 1)? '0'+idate:idate;
                     var fullDate = $scope.firstDateObj.getFullYear()+'-'+month+'-'+idate;
+                    var date = ($scope.attendance[fullDate] != undefined)? $scope.attendance[fullDate]: '';
                     for(var shift in $scope.shifts)
                     {
                         var shfit_name = $scope.shifts[shift].shift_name;
                         var shift_id = $scope.shifts[shift].id;
-                        var workshifts = $scope.employee_workshifts[fullDate];//($scope.employee_workshifts[fullDate] != undefined) ? $scope.employee_workshifts[fullDate].employee : [];
-                        
-                        var shift_data  = (workshifts!=undefined)? workshifts[shift_id] : ''
-                        var employees   = (shift_data != undefined)? shift_data.employees : [];
+                        var attendance = (date[shfit_name] != undefined)? date[shfit_name] : '';
                         trHtml +='<li>';
-                        var trHtmlEmp = '&nbsp;';
-                        for(var emp in employees){
-                            trHtmlEmp = ((employees[emp] != "")? '<a class="removeSchedule" emp_id="'+employees[emp].id+'" shift_id="'+shift_id+'" full_date="'+fullDate+'">'+employees[emp].name+'</a>' : '---');
+                        var int = out = trHtmlEmp = '';
+                        if(attendance.in != undefined && attendance.out !=undefined)
+                        {
+                            var intime = new Date(attendance.in*1000);
+                            var outtime = new Date(attendance.out*1000);
+                            var ih = (intime.getHours() <10)? '0'+intime.getHours() : intime.getHours();
+                            var im = (intime.getMinutes() <10)? '0'+intime.getMinutes() : intime.getMinutes();
+                            
+                            var oh = (outtime.getHours() <10)? '0'+outtime.getHours() : outtime.getHours();
+                            var om = (outtime.getMinutes() <10)? '0'+outtime.getMinutes() : outtime.getMinutes();
+                            
+                            var int = ih + ':' + im;
+                            var out = oh + ':' + om;
+                            var trHtmlEmp = 'In: '+int+' Out: '+out;
+                        }else
+                            trHtmlEmp = '&nbsp;';
+                        
                     
-                        }  
                         trHtml += trHtmlEmp;
                         trHtml +='</li>';
                     }
@@ -114,17 +123,12 @@ angular.module('schedule',[])
             }).success(function(res){
                 
                $scope.shifts=res;
-               var month = ($scope.lastDateObj.getMonth()+1);
-                $http({
-                    url: BASE+'employee-workshifts/'+month+'/'+$scope.lastDateObj.getFullYear(),
-                    
-                }).success(function(res){
-                    $scope.employee_workshifts = res;
-                    drawRosterGrid();
-                });
+               drawCalanderGrid();
                 
                 
             });
+            
+            
             
             $scope.prevMonth = function()
             {
@@ -132,7 +136,7 @@ angular.module('schedule',[])
                 thisMonth = $scope.firstDateObj.getMonth()-1;
                 thisYear = $scope.firstDateObj.getFullYear();
                 $scope.firstDateObj = new Date(thisYear,thisMonth,1);
-                drawRosterGrid();
+                drawCalanderGrid();
                 
             }
             
@@ -142,72 +146,11 @@ angular.module('schedule',[])
                 thisMonth = $scope.firstDateObj.getMonth()+1;
                 thisYear = $scope.firstDateObj.getFullYear();
                 $scope.firstDateObj = new Date(thisYear,thisMonth,1);
-                drawRosterGrid();
+                drawCalanderGrid();
                 
             }
             
-            $scope.assignShift = function()
-            {
-                $http({
-                   url: BASE+'departments.json' 
-                }).success(function(res){
-                    
-                    $scope.departments = res;
-                    $scope.showFrm = 1;
-                    
-                    angular.element('.datepicker').datepicker({dateFormat:'yy-mm-dd'});
-                        
-                });
-                
-                
-                $('html,body').animate({scorllTop:'0px'});   
-            }
-            
-            $scope.getEmployeeByDepartment = function()
-            {
-                $http({
-                    url:BASE+'employee/department/'+$scope.form.department
-                }).success(function(res){
-                    $scope.employees = res;
-                });
-            }
-            
-            $scope.saveAssignWorkShift = function()
-            {
-                $scope.successes = [];
-                $http({
-                   url : BASE+'employee/assign-work-shift',
-                   data: $scope.form,
-                   method:'post'
-                }).success(function(res){
-                    $scope.successes = res.message;
-                    $scope.showFrm = 0;
-                    window.location.reload();
-                });
-            }
-             $(document).on('click','a.removeSchedule',function(){
-              var obj = $(this); 
-              bootbox.confirm('Are you sure to delete this?',function(response){
-                  if(response)
-                  {  $http({
-                        url:BASE+'employee/remove-work-shift',
-                        data:{emp_id:obj.attr("emp_id"),shift_id:obj.attr("shift_id"),full_date:obj.attr('full_date')},
-                        method:"POST" 
-                      }).success(function(res){
-                          window.location.reload();
-                      });
-                  }
-              });
-            });
-            
-           
-            $scope.closeFrm = function()
-            {
-                $scope.showFrm = 0;
-                $scope.form = {employee:'',shift:'',shift_date:''};
-            }
-            
-            
+
             
         }
     }

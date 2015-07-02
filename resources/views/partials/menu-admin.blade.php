@@ -48,7 +48,13 @@
 				<li><a href="{{url('group')}}">Group</a></li>
 			</ul>
 		</li>
-		
+		<li role="presentation">
+			<a class="hasChild">Performance <span class="pull-right right-caret"></span></a>
+			<ul class="nav nav-sub">
+				<li><a href="{{url('kpi')}}">KPI</a></li>
+				<li><a href="{{url('kpi-template')}}">Template</a></li>
+			</ul>
+		</li>
 
 	</ul>
 </aside>

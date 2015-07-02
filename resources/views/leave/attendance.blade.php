@@ -15,11 +15,17 @@
             <div class="panel-body">
                 <form class="form-horizontal" ng-submit="saveAttendance()">
                     <div class="form-group">
+                        <label class="control-label col-lg-3">Date</label>
+                        <div class="col-lg-3">
+                            <input type="text" name="date" ng-model="form.date" ng-change="dateChange()" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="control-label col-lg-3">Employee</label>
                         <div class="col-lg-3">
                             
                             <select ng-model="form.employee_id" ng-change="getTodayShift()" class="form-control">
-                               
+                                <option value="">--SELECT--</option>
                                 <option ng-repeat="e in employees" value="@{{e.id}}">@{{e.name}}</option>
                             </select>
                         </div>
@@ -42,12 +48,7 @@
                             <timepicker ng-model="form.end_time" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="control-label col-lg-3">Date</label>
-                        <div class="col-lg-3">
-                            <input type="text" name="date" ng-model="form.date" class="form-control" />
-                        </div>
-                    </div>
+                    
                     <div class="form-group">
                         <div class="col-lg-3 col-lg-offset-3">
                             <input type="submit" class="btn btn-success btn-sm" value="Save Attendance"/>

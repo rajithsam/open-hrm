@@ -77,7 +77,20 @@ class LeaveController extends Controller {
 		
 		$leave->leave_count = $diff->d;
 		
-		$leave->extra_leave = 0;
+		$jobDetails = JobDetails::where('employee_id',$req->get('employee_id'))->where('active_job',1)->first();
+		$approvedLeaves = Leave::where('employee_id',$req->get('employee_id'))->where('created_at','like',date('Y').'%')->where('leave_status',Leave::$APPROVED)->get();
+		
+		$approvedLeaveCount = 0;
+		
+		if(count($approvedLeaves))
+		{
+			foreach($approvedLeaves as $al)
+			{
+				$approvedLeaveCount += ($al->leave_count);
+			}
+		}
+		
+		$leave->extra_leave = ($approvedLeaveCount > $jobDetails->leave_count)? 1 : 0;
 		$leave->created_by = $userId;
 		$leave->save();
 		

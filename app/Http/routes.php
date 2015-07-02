@@ -68,12 +68,13 @@ Route::get('employee/department/{id}','Employee\EmployeeController@getEmployeeBy
 Route::post('employee/assign-work-shift','Employee\EmployeeController@assignWorkShift');
 Route::get('employee-workshifts/{month}/{year}','Employee\EmployeeController@getWorkShifts');
 Route::post('employee/remove-work-shift','Employee\EmployeeController@removeWorkShift');
-Route::get('employee/workshift/{employee_id}','Employee\EmployeeController@getWorkShiftByEmployee');
+Route::get('employee/workshift/{employee_id}/{date?}','Employee\EmployeeController@getWorkShiftByEmployee');
 Route::get('leave-requests','Employee\EmployeeController@leaveRequests');
 Route::get('api/get-leave-requests','Employee\EmployeeController@getLeaveRequests');
 Route::post('approve-leave-request','Employee\EmployeeController@approveLeaveRequest');
 Route::post('reject-leave-request','Employee\EmployeeController@rejectLeaveRequest');
 Route::get('leave-request/me','Employee\EmployeeController@myLeaveRequest');
+Route::get('attendance/me','Employee\EmployeeController@myAttendance');
 
 Route::get('holiday','System\HolidayController@index');
 Route::post('holiday/create','System\HolidayController@store');
@@ -123,11 +124,15 @@ Route::get('attendance','Leave\AttendanceController@index');
 Route::post('attendance/save-attendance','Leave\AttendanceController@store');
 Route::post('attendance/update','Leave\AttendanceController@update');
 Route::get('attendances.json','Leave\AttendanceController@getAll');
+Route::get('get-my-attendance','Leave\AttendanceController@getMyAttendance');
 
 Route::get('leave','Leave\LeaveController@index');
 Route::post('leave/save-leave','Leave\LeaveController@store');
 Route::post('leave/update','Leave\LeaveController@update');
 Route::get('leaves.json','Leave\LeaveController@getAll');
+
+Route::get('kpi','PerformanceController@index');
+Route::get('kpi.json','PerformanceController@getAll');
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',
