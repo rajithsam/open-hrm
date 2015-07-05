@@ -28,7 +28,7 @@ class DesignationController extends Controller {
 	{
 		$theme = new Theme;
 		$breadcrumb = new Breadcrumb;
-		$breadcrumb->add('Dashboard',url('dashboard'))->add('Designation');
+		$breadcrumb->add('Dashboard',url('/'))->add('Designation');
 		$viewModel['breadcrumb'] = $breadcrumb->output();
 		$theme->addScript(url('public/js/controller/designation.js'));
 		$viewModel['scripts'] = $theme->getScripts();

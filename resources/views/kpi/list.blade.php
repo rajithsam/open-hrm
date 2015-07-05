@@ -12,16 +12,17 @@
         
         <div class="panel-heading">Create KPI</div>
         <div class="panel-body">
-            <form class="form-horizontal">
+            <form class="form-horizontal" ng-submit="saveQuestion()">
                 <div class="form-group">
                     <label class="control-label col-lg-3">Write Question</label>
                     <div class="col-lg-6">
-                        <textarea class="form-control" ></textarea>
+                        <textarea class="form-control" ng-model="form.question"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-lg-3 col-lg-offset-3">
                         <input type="submit" class="btn btn-success btn-sm" value="Save Key"/>
+                        <input type="button" ng-click="cancel()" class="btn btn-warning btn-sm" value="Cancel"/>
                     </div>
                 </div>
             </form>
@@ -40,8 +41,8 @@
                 <tr ng-repeat="k in kpi">
                     <td>@{{k.question}}</td>
                     <td>
-                        <a class="btn btn-info btn-xs"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
-                        <a class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-remove"></i> Delete</a>
+                        <a ng-click="editQuestion(k)" class="btn btn-info btn-xs"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
+                        <a ng-click="deleteQuestion(k)" class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-remove"></i> Delete</a>
                     </td>
                 </tr>
             </tbody>

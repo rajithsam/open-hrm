@@ -25,7 +25,7 @@ class GroupController extends Controller {
 	public function index()
 	{
 		$breadcrumb = new Breadcrumb;
-		$breadcrumb->add('Dashboard',url('dashboard'))->add('Payment Group');
+		$breadcrumb->add('Dashboard',url('/'))->add('Payment Group');
 		$theme = new Theme;
 		$theme->addScript(url('public/js/controller/payment-group-controller.js'));
 		$viewModel['breadcrumb'] = $breadcrumb->output();

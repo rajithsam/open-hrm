@@ -29,7 +29,7 @@ class AttendanceController extends Controller {
 		$theme->addScript(url('public/js/controller/attendance-controller.js'))
 		      ->addScript(url('public/bower_components/angular-bootstrap/ui-bootstrap.min.js'))
 			  ->addScript(url('public/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js'));
-		$breadcrumb->add('Dashboard',url('dashboard'))->add('Attendance');
+		$breadcrumb->add('Dashboard',url('/'))->add('Attendance');
 		$viewModel['breadcrumb'] = $breadcrumb->output();
 		$viewModel['scripts'] = $theme->getScripts();
 		$viewModel['page_title'] = 'Attendance';

@@ -1,5 +1,5 @@
 <?php
-namespace App\Model\KPI\Kpi;
+namespace App\Model\Kpi;
 
 use Illuminate\Database\Eloquent\Model;
 

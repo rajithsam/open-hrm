@@ -26,7 +26,7 @@ class DepartmentController extends Controller {
 		$breadcrumb = new Breadcrumb;
 		$theme = new Theme;
 		
-		$breadcrumb->add('Dashboard',url('dashboard'))->add('Department');
+		$breadcrumb->add('Dashboard',url('/'))->add('Department');
 		$theme->addScript(url('public/js/controller/department-controller.js'));
 		$viewModel['scripts'] = $theme->getScripts();
 		$viewModel['breadcrumb'] = $breadcrumb->output();

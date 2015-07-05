@@ -36,7 +36,7 @@ class EmployeeController extends Controller {
 			  ->addScript(url('public/bower_components/angular-file-upload/angular-file-upload.min.js'))
 			  ->addScript(url('public/js/directives/ngThumb.js'))
 			  ->addScript(url('public/js/controller/employee-controller.js'));
-		$breadcrumb->add('Dashboard',url('dashboard'))->add('Employee');
+		$breadcrumb->add('Dashboard',url('/'))->add('Employee');
 		$viewModel['scripts'] = $theme->getScripts();
 		$viewModel['breadcrumb'] = $breadcrumb->output();
 		$viewModel['page_title'] = 'Employee Management';

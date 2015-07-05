@@ -25,7 +25,7 @@ class HeadController extends Controller {
 	public function index()
 	{   
 		$breadcrumb = new Breadcrumb;
-		$breadcrumb->add('Dashboard',url('dashboard'))->add('Payment Head');
+		$breadcrumb->add('Dashboard',url('/'))->add('Payment Head');
 		$theme = new Theme;
 		$theme->addScript(url('public/js/controller/payment-head-controller.js'));
 		$viewModel['breadcrumb'] = $breadcrumb->output();

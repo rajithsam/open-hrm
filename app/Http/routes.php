@@ -132,7 +132,18 @@ Route::post('leave/update','Leave\LeaveController@update');
 Route::get('leaves.json','Leave\LeaveController@getAll');
 
 Route::get('kpi','PerformanceController@index');
+Route::get('kpi-template','PerformanceController@kpiTemplate');
 Route::get('kpi.json','PerformanceController@getAll');
+Route::get('kpi-templates.json','PerformanceController@getAllTemplates');
+Route::get('kpi-template/{id}','PerformanceController@getTemplate');
+Route::post('kpi/save','PerformanceController@saveQuestion');
+Route::post('kpi/save-template','PerformanceController@saveTemplate');
+Route::post('kpi/update-template','PerformanceController@updateTemplate');
+Route::post('kpi/update','PerformanceController@kpiUpdate');
+Route::post('kpi/remove','PerformanceController@removeKpi');
+
+Route::get('evaluation','PerformanceController@evaluation');
+Route::get('evaluations.json','PerformanceController@getAllEvaluations');
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',

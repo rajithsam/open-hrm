@@ -24,7 +24,7 @@ class OrgController extends Controller {
 	{
 		$breadcrumb = new Breadcrumb;
 		$theme = new Theme;
-		$breadcrumb->add('Dashboard',url('dashboard'))->add('Organization');
+		$breadcrumb->add('Dashboard',url('/'))->add('Organization');
 		$theme->addScript(url('public/js/controller/org-controller.js'));
 		$viewModel['scripts'] = $theme->getScripts();
 		$viewModel['breadcrumb'] = $breadcrumb->output();

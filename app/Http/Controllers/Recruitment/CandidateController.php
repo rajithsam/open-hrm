@@ -21,7 +21,7 @@ class CandidateController extends Controller {
 		$breadcrumb = new Breadcrumb;
 		$theme = new Theme;
 		$theme->addScript(url('public/js/controller/candidate-controller.js'));
-		$breadcrumb->add('Dashboard',url('dashboard'))->add('Candidate');
+		$breadcrumb->add('Dashboard',url('/'))->add('Candidate');
 		$viewModel['breadcrumb'] = $breadcrumb->output();
 		$viewModel['scripts'] = $theme->getScripts();
 		$viewModel['page_title'] = 'Candidate management';

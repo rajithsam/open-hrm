@@ -33,7 +33,7 @@ class PermissionController extends Controller {
 		}
 		$breadcrumb = new Breadcrumb;
 		$theme = new Theme;
-		$breadcrumb->add('Dashboard',url('dashboard'))->add('Permissions');
+		$breadcrumb->add('Dashboard',url('/'))->add('Permissions');
 		$theme->addScript(url('public/js/controller/permission-controller.js'));
 		$viewModel['scripts'] = $theme->getScripts();
 		$viewModel['breadcrumb'] = $breadcrumb->output();

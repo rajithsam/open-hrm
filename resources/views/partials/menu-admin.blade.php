@@ -53,6 +53,7 @@
 			<ul class="nav nav-sub">
 				<li><a href="{{url('kpi')}}">KPI</a></li>
 				<li><a href="{{url('kpi-template')}}">Template</a></li>
+				<li><a href="{{url('evaluation')}}">Evaluation</a></li>
 			</ul>
 		</li>
 

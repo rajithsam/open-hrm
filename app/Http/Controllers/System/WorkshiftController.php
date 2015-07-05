@@ -29,7 +29,7 @@ class WorkshiftController extends Controller {
 		$theme->addScript(url('public/js/controller/workshift-controller.js'))
 			  ->addScript(url('public/bower_components/angular-bootstrap/ui-bootstrap.min.js'))
 			  ->addScript(url('public/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js'));
-		$breadcrumb->add('Dashboard',url('dashboard'))->add('Work Shift');
+		$breadcrumb->add('Dashboard',url('/'))->add('Work Shift');
 		$viewModel['breadcrumb'] = $breadcrumb->output();
 		$viewModel['scripts'] = $theme->getScripts();
 		$viewModel['page_title']='Work Shift';

@@ -25,7 +25,7 @@ class HolidayController extends Controller {
 	{
 		$theme = new Theme;
 		$breadcrumb = new Breadcrumb;
-		$breadcrumb->add('Dashboard',url('dashboard'))
+		$breadcrumb->add('Dashboard',url('/'))
 					->add('Holiday');
 		$theme->addScript(url('public/js/controller/holiday-controller.js'));
 		$viewModel['scripts'] = $theme->getScripts();

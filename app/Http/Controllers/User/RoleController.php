@@ -25,7 +25,7 @@ class RoleController extends Controller {
 		$breadcrumb = new Breadcrumb;
 		$theme = new Theme;
 		
-		$breadcrumb->add('Dashboard',url('dashboard'))->add('Role');
+		$breadcrumb->add('Dashboard',url('/'))->add('Role');
 		$theme->addScript(url('public/js/controller/role-controller.js'));
 		$viewModel['scripts'] = $theme->getScripts();
 		$viewModel['breadcrumb'] = $breadcrumb->output();

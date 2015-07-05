@@ -21,7 +21,7 @@ class RosterController extends Controller {
 	public function index()
 	{
 		$breadcrumb = new Breadcrumb;
-		$breadcrumb->add('Dashboard',url('dashboard'))->add('Schedule Roster');
+		$breadcrumb->add('Dashboard',url('/'))->add('Schedule Roster');
 		$theme = new Theme;
 		$theme->addScript(url('public/js/controller/roster-controller.js'))
 			->addScript(url('public/js/directives/schedule.js'));

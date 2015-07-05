@@ -25,7 +25,7 @@ class UserController extends Controller {
 	{
 		$theme = new Theme;
 		$breadcrumb = new Breadcrumb;
-		$breadcrumb->add('Dashboard',url('dashboard'))->add('User');
+		$breadcrumb->add('Dashboard',url('/'))->add('User');
 		$theme->addScript(url('public/js/controller/user-controller.js'));
 		$viewModel['scripts'] = $theme->getScripts();
 		$viewModel['page_title'] = 'User Management';

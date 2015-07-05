@@ -21,7 +21,7 @@ class VacancyController extends Controller {
 		$breadcrumb = new Breadcrumb;
 		$theme = new Theme;
 		$theme->addScript(url('public/js/controller/vacancy-controller.js'));
-		$breadcrumb->add('Dashboard',url('dashboard'))->add('Vacancy');
+		$breadcrumb->add('Dashboard',url('/'))->add('Vacancy');
 		$viewModel['breadcrumb'] = $breadcrumb->output();
 		$viewModel['scripts'] = $theme->getScripts();
 		$viewModel['page_title'] = 'Vacancy management';
