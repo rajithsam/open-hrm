@@ -184,6 +184,53 @@ class PerformanceController extends Controller {
 	
 	public function getAllEvaluations()
 	{
-		return	EmployeePerformance::all();
+		return	EmployeePerformance::with('Employee','Department','FeedbackBy')->get()->toJson();
+	}
+	
+	public function saveRequest(Request $req)
+	{
+		$feedbackby = $req->get('feedback_by');
+		$department_id = $req->get('department_id');
+		$employee_id = $req->get('employee_id');
+		$template = $req->get('template');
+		if(count($feedbackby))
+		{
+			foreach($feedbackby as $f){
+				$empPerformance = 	EmployeePerformance::firstOrNew(array(
+										'employee_id' => $employee_id,
+										'department_id' => $department_id,
+										'feedback_by' => $f,
+										'template'	  => $template
+									));
+				$empPerformance->save();
+					
+			}
+		}
+	}
+	
+	public function getQuestions($id)
+	{
+		$kpiTemplate = KpiTemplate::find($id);
+		$questions = json_decode($kpiTemplate->kpi_template);
+	
+		return	Kpi::whereIn('id',$questions)->get()->toJson();
+	}
+	
+	public function saveReview(Request $req)
+	{
+		$empPerformance = EmployeePerformance::where('employee_id',$req->get('employee_id'))
+							->where('feedback_by',$req->get('feedback_by'))
+							->where('department_id',$req->get('department_id'))
+							->where('status',EmployeePerformance::$PENDING)->first();
+							
+	
+		$remark = 0;
+		foreach($req->get('remark') as $r)
+		{
+			$remark += $r;
+		}
+		$empPerformance->rating = $remark;
+		$empPerformance->status = EmployeePerformance::$REVIEWED;
+		$empPerformance->save();
 	}
 }

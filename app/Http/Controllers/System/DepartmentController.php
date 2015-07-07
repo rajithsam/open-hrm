@@ -182,5 +182,10 @@ class DepartmentController extends Controller {
 	  		return redirect('/');
 	  	}
 	}
+	
+	public function trash()
+	{
+		return	Department::onlyTrashed()->get()->toJson();
+	}
 
 }

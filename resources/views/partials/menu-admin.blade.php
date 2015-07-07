@@ -56,6 +56,13 @@
 				<li><a href="{{url('evaluation')}}">Evaluation</a></li>
 			</ul>
 		</li>
+		<li role="presentation">
+			<a class="hasChild">Report <span class="pull-right right-caret"></span></a>
+			<ul class="nav nav-sub">
+				<li><a href="{{url('attendance')}}">Attendance</a></li>
+				<li><a href="{{url('payment')}}"></a></li>
+			</ul>
+		</li>
 
 	</ul>
 </aside>

@@ -17,7 +17,13 @@
 			</a>
 		</div>
 		<div class="col-lg-3 card card-blue">
-			&nbsp;
+			<a href="{{url('evaluation-requests/me')}}">
+			<h1 class="pull-left">
+				Performance
+				<span>Evaluation</span>
+			</h1>
+			<span class="counter pull-right">{{$evaluation_request}}</span>
+			</a>
 		</div>
 		<div class="col-lg-3 card card-green">
 			&nbsp;

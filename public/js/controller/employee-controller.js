@@ -332,3 +332,4 @@ controller('employeeCtrl',['$scope','webservice','$sce','FileUploader',function(
         
     }
 }]);
+

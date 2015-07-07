@@ -25,9 +25,10 @@ Route::post('department/update','System\DepartmentController@update');
 Route::post('department/remove','System\DepartmentController@remove');
 Route::get('api/departments.json','System\DepartmentController@getAll');
 Route::get('departments.json','System\DepartmentController@getActiveDepartments');
-
+Route::get('department/trash','System\DepartmentController@trash');
 // Designation route
 Route::get('designation','System\DesignationController@index');
+
 Route::post('designation/create','System\DesignationController@store');
 Route::post('designation/update','System\DesignationController@update');
 Route::post('designation/remove','System\DesignationController@remove');
@@ -75,6 +76,9 @@ Route::post('approve-leave-request','Employee\EmployeeController@approveLeaveReq
 Route::post('reject-leave-request','Employee\EmployeeController@rejectLeaveRequest');
 Route::get('leave-request/me','Employee\EmployeeController@myLeaveRequest');
 Route::get('attendance/me','Employee\EmployeeController@myAttendance');
+Route::get('evaluation-requests/me','Employee\EmployeeController@evaluationRequest');
+Route::get('get-evaluation-requests','Employee\EmployeeController@getEvaluationRequests');
+
 
 Route::get('holiday','System\HolidayController@index');
 Route::post('holiday/create','System\HolidayController@store');
@@ -144,6 +148,9 @@ Route::post('kpi/remove','PerformanceController@removeKpi');
 
 Route::get('evaluation','PerformanceController@evaluation');
 Route::get('evaluations.json','PerformanceController@getAllEvaluations');
+Route::post('send-evaluation-request','PerformanceController@saveRequest');
+Route::get('get-questions/{id}','PerformanceController@getQuestions');
+Route::post('performance/save-review','PerformanceController@saveReview');
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',

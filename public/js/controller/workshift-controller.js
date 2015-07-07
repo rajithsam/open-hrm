@@ -81,6 +81,7 @@ controller('workshiftCtrl',['$scope','webservice',function($scope,webservice){
         var eD = new Date();
         eD.setTime(s.end_time);
         $scope.endTime = eD;
+        $scope.showFrm = 1;
     }
     
     $scope.deleteShift = function(s)

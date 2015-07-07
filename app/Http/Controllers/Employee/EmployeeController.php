@@ -14,6 +14,7 @@ use App\Model\Employee\WorkExperience;
 use App\Model\Employee\EmployeeWorkshift;
 use App\Model\JobDetails;
 use App\Model\Leave\Leave;
+use App\Model\Employee\EmployeePerformance;
 use App\Http\Requests\EmployeeForm;
 use Illuminate\Http\Request;
 
@@ -411,5 +412,30 @@ class EmployeeController extends Controller {
 			->where('work_shift_id',$req->get('shift_id'))
 			->where('shift_date',$req->get('full_date'))->delete();
 	}
+	
+	public function evaluationRequest()
+	{
+		$theme = new Theme;
+		$theme->addScript(url('public/js/controller/evaluation-request.js'));
+		
+		$breadcrumb = new Breadcrumb;
+		$breadcrumb->add('Dashboard',url('/'));
+		
+		$viewModel['scripts'] = $theme->getScripts();
+		$viewModel['breadcrumb'] = $breadcrumb->output();
+		$viewModel['page_title'] = 'Evaluation Requests';
+		
+		return view('employee.evaluation-request',$viewModel);
+	}
+	
+	public function getEvaluationRequests()
+	{
+		return EmployeePerformance::with('Employee','FeedbackBy','Department','Template')
+							->where('feedback_by', Auth::user()->employee_id)
+							->get()
+							->toJson();
+	}
+	
+
 
 }

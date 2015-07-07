@@ -149,5 +149,7 @@ class DesignationController extends Controller {
 		$designation = Designation::find($req->get('id'));
 		$designation->delete();
 	}
+	
+	
 
 }

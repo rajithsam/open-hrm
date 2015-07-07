@@ -2,6 +2,7 @@
 use App\Helpers\Breadcrumb;
 use App\Helpers\Theme;
 use App\Model\Leave\Leave;
+use App\Model\Employee\EmployeePerformance;
 use App\Helpers\Utils;
 use Auth;
 class HomeController extends Controller {
@@ -44,6 +45,7 @@ class HomeController extends Controller {
 		$viewModel['scripts'] = $theme->getScripts();
 	
     	$viewModel['leave_request'] = Leave::where('leave_status',Leave::$PENDING)->where('leave_verifier_id',Auth::user()->employee_id)->count();
+		$viewModel['evaluation_request'] = EmployeePerformance::where('status',EmployeePerformance::$PENDING)->where('feedback_by',Auth::user()->employee_id)->count();
 		return view('dashboard-general',$viewModel);
 	}
 

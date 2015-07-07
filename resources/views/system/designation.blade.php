@@ -73,7 +73,8 @@
 	</div>
 	<div class="panel panel-default">
         <div class="panel-heading">{{$page_title}}
-            <button class="btn btn-primary btn-xs pull-right" ng-show="!showForm" ng-click="openFrm()"><i class="glyphicon glyphicon-plus"></i> New Designation</button>
+            <button class="btn btn-primary btn-xs pull-right" ng-show="!showForm" ng-click="openFrm()"><i class="glyphicon glyphicon-plus"></i> New Designation</button> 
+            
         </div>
         <div class="panel-body">
             <table class="table">

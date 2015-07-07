@@ -9,4 +9,6 @@ class KpiTemplate extends Model{
     
     protected $fillable = ['title','kpi_template'];
     
+    
+    
 }
