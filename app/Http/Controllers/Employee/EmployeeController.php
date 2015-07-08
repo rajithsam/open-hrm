@@ -43,6 +43,27 @@ class EmployeeController extends Controller {
 		$viewModel['page_title'] = 'Employee Management';
 		return view('employee.list',$viewModel);
 	}
+	
+	public function profile()
+	{
+		$theme = new Theme;
+		$breadcrumb = new Breadcrumb;
+		$theme->addScript(url('http://nervgh.github.io/js/es5-shim.min.js'))
+			  ->addScript(url('public/bower_components/angular-file-upload/angular-file-upload.min.js'))
+			  ->addScript(url('public/js/directives/ngThumb.js'))
+			  ->addScript(url('public/js/controller/employee-controller.js'));
+		$breadcrumb->add('Dashboard',url('/'))->add('Employee');
+		$viewModel['scripts'] = $theme->getScripts();
+		$viewModel['breadcrumb'] = $breadcrumb->output();
+		$viewModel['page_title'] = 'Employee Management';
+		return view('employee.profile',$viewModel);
+		
+	}
+
+	public function getProfile()
+	{
+		return Employee::with('Education','WorkExperience')->where('id',Auth::user()->employee_id)->first()->toJson();
+	}
 
 	/**
 	 * Show the form for creating a new resource.

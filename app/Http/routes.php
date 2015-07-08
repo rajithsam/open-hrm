@@ -23,9 +23,12 @@ Route::get('department','System\DepartmentController@index');
 Route::post('department/create','System\DepartmentController@store');
 Route::post('department/update','System\DepartmentController@update');
 Route::post('department/remove','System\DepartmentController@remove');
+Route::post('department/undo','System\DepartmentController@undo');
+Route::post('department/delete-permanent','System\DepartmentController@deletePermanent');
 Route::get('api/departments.json','System\DepartmentController@getAll');
 Route::get('departments.json','System\DepartmentController@getActiveDepartments');
 Route::get('department/trash','System\DepartmentController@trash');
+Route::get('department-trash.json','System\DepartmentController@getTrashItems');
 // Designation route
 Route::get('designation','System\DesignationController@index');
 
@@ -61,6 +64,8 @@ Route::get('api/{id}/permission_role.json','User\PermissionController@getAllPerm
 
 // Employee route
 Route::get('employee','Employee\EmployeeController@index');
+Route::get('profile','Employee\EmployeeController@profile');
+Route::get('get-profile','Employee\EmployeeController@getProfile');
 Route::get('api/available-employees.json','Employee\EmployeeController@getAvailableEmployees');
 Route::get('api/assigned-employees.json','Employee\EmployeeController@getAssignedEmployees');
 Route::post('employee/create','Employee\EmployeeController@store');

@@ -331,5 +331,166 @@ controller('employeeCtrl',['$scope','webservice','$sce','FileUploader',function(
         }
         
     }
+}]).controller('profileCtrl',['$scope','webservice','$sce','FileUploader',function($scope,webservice,$sce,FileUploader){
+    
+    $scope.showForm = 1;
+    $scope.form = {id:'',name:'',present_address:'',
+                permanent_address:'',email:'',phone:'',source:'',source_name:''};
+    $scope.edus = [{institution_name:'',pass_year:'',degree_name:'',grade:''}];
+    $scope.exps = [{work_title:'',org_name:'',year_exp:''}];
+    
+    $scope.formTab = {basic:0,edu:0,work_exp:0};
+    var loadMyProfile = function()
+    {
+        var response = webservice.get(BASE+'get-profile');
+        response.success(function(res){
+            $scope.form = res;
+            $scope.formTab['basic'] = 1;
+            $scope.edus = res.education;
+            $scope.exps = res.work_experience
+        });
+    }
+    
+    $scope.selectFormTab = function(item)
+    {
+        $scope.formTab = {basic:0,edu:0,work_exp:0};
+        $scope.formTab[item] = 1;
+    }
+    
+    var uploader = $scope.uploader = new FileUploader({
+            url: BASE+'employee/save-photo',
+            headers: {
+              'X-CSRF-TOKEN': angular.element("input[name='_token']").val()
+            },
+     });
+    
+    uploader.onAfterAddingFile = function(fileItem) {
+           uploader.queue = [];
+           uploader.queue[0] = fileItem;
+    };
+    
+    $scope.clearPhotoQueue = function()
+    {
+        uploader.queue=[];
+    }
+    
+    $scope.saveEmployee = function()
+    {
+         $scope.errors = [];
+         $scope.successes = [];
+         
+         uploader.onBeforeUploadItem = function(item) {
+            item.url = BASE+'employee/update/basic'
+            item.formData.push($scope.form);
+         };
+         
+         uploader.onCompleteAll = function() {
+            $scope.successes.push('Information Updated');
+            uploader.queue = [];
+             $("html,body").animate({ scrollTop: "0px" });
+             $scope.cancelFrm(); 
+             
+         };
+         
+         uploader.onSuccessItem = function(fileItem, response, status, headers) {
+            $scope.form.photo   = response; 
+           
+        };
+        
+         if(uploader.queue.length > 0)
+         {
+            uploader.uploadAll();
+            
+         }else{
+             
+             if($scope.form.id)
+                var response = webservice.post(BASE+'employee/update/basic',$scope.form);
+             else
+                var response = webservice.post(BASE+'employee/create',$scope.form);
+                
+             response.success(function(res){
+                 
+                 for(i in res)
+                {
+                    
+                    if(i == "error")
+                        $scope.errors.push($sce.trustAsHtml(res[i][0]));
+                    else
+                        $scope.successes.push(res[i][0]);
+                }
+               
+               
+             }).error(function(res){
+                 for(i in res)
+                        $scope.errors.push($sce.trustAsHtml(res[i][0]));
+                   
+                $("html,body").animate({ scrollTop: "0px" });
+             });
+             $("html,body").animate({ scrollTop: "0px" });
+             
+             
+         }
+         
+    }
+    
+    
+    
+    /******* Education ******/
+    
+    
+    
+    $scope.rowEdu = function()
+    {
+        $scope.edus.push({institution_name:'',pass_year:'',degree_name:'',grade:''});
+    }
+    
+    $scope.removeEduRow = function(index)
+    {
+        $scope.edus.splice(index,1);
+    }
+    
+    $scope.saveEducation = function()
+    {
+        var response = webservice.post(BASE+'employee/update/edu',{edus:$scope.edus,id:$scope.form.id});
+        response.success(function(res){
+            
+        }).error(function(res){
+            
+        });
+    }
+    
+    
+    /******* Work Experience ******/
+    
+    
+    
+    $scope.rowExp = function()
+    {
+        $scope.exps.push({work_title:'',org_name:'',year_exp:''});
+    }
+    
+    $scope.removeExpRow = function(index)
+    {
+        $scope.exps.splice(index,1);
+    }
+    
+    $scope.saveExperience = function()
+    {
+        var response = webservice.post(BASE+'employee/update/exp',{exps:$scope.exps,id:$scope.form.id});
+        response.success(function(res){
+            
+        }).error(function(res){
+            
+        });
+    }
+    
+    $scope.resetAlert = function()
+    {
+        $scope.successes = [];
+        $scope.errors = [];
+    }
+    
+    loadMyProfile();
+            
 }]);
 

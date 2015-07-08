@@ -1,7 +1,7 @@
 <aside class="col-lg-2" id="sidebar"> 
 	<ul class="nav nav-stacked">
 		<li role="presentation" ><a href="{{url('/')}}"><i class="glyphicon glyphicon-th-large"></i> Dashboard</a></li>
-		<li role="presentation"><a href="{{url('/')}}"><i class="glyphicon glyphicon-user"></i> Profile</a></li>
+		<li role="presentation"><a href="{{url('profile')}}"><i class="glyphicon glyphicon-user"></i> Profile</a></li>
 		<li role="presentation">
 			<a class="hasChild">Attendance <span class="pull-right right-caret"></span></a>
 			<ul class="nav nav-sub"> 

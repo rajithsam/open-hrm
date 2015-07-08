@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Helpers\Breadcrumb;
 use App\Helpers\Theme;
+use App\Helpers\Utils;
 use App\Http\Requests\Department\DepartmentForm;
 use App\Http\Requests\Department\DepartmentUpdateForm;
 use App\Model\System\Department;
@@ -31,7 +32,7 @@ class DepartmentController extends Controller {
 		$viewModel['scripts'] = $theme->getScripts();
 		$viewModel['breadcrumb'] = $breadcrumb->output();
 		$viewModel['page_title'] = "Department";
-		return view('system.department',$viewModel);
+		return view('system.department.department',$viewModel);
 	}
 
 	/**
@@ -185,7 +186,37 @@ class DepartmentController extends Controller {
 	
 	public function trash()
 	{
-		return	Department::onlyTrashed()->get()->toJson();
+		
+		
+		$breadcrumb = new Breadcrumb;
+		$theme = new Theme;
+		
+		$breadcrumb->add('Dashboard',url('/'))->add('Department');
+		$theme->addScript(url('public/js/controller/department-controller.js'));
+		$viewModel['scripts'] = $theme->getScripts();
+		$viewModel['breadcrumb'] = $breadcrumb->output();
+		$viewModel['page_title'] = "Department";
+		return view('system.department.trash',$viewModel);
+	}
+	
+	public function getTrashItems()
+	{
+		return Department::onlyTrashed()->get()->toJson();
+	}
+	
+	public function undo(Request $req)
+	{
+		$department = Department::withTrashed()->where('id',$req->get('id'))->first();
+			
+		
+		$department->deleted_at = null;
+		$department->save();
+	}
+	
+	public function deletePermanent(Request $req)
+	{
+		$department = Department::withTrashed()->where('id',$req->get('id'))->first();
+		$department->forceDelete();
 	}
 
 }

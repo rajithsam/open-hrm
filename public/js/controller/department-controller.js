@@ -113,4 +113,44 @@ controller('departmentCtrl',['$scope','webservice',function($scope,webservice){
     
     loadInfo();
     
+}]).controller('departmentTrashCtrl',['$scope','webservice',function($scope,webservice){
+    $scope.lists = [];
+    
+    var loadTrashItems = function()
+    {
+        var response = webservice.get(BASE+'department-trash.json');
+        response.success(function(res){
+           $scope.lists = res; 
+        });
+    }
+    
+    $scope.retrive = function(d)
+    {
+        bootbox.confirm('Are you sure to undo this item?',function(r){
+            if(r)
+            {
+                var response = webservice.post(BASE+'department/undo',{id:d.id});
+                response.success(function(res){
+                    loadTrashItems();
+                });
+            }
+        });
+        
+    }
+    
+    $scope.deletePermanently = function(d)
+    {
+        bootbox.confirm('Are you sure to delete item permanently? ',function(r){
+            if(r)
+            {
+                var response = webservice.post(BASE+'department/delete-permanent',{id:d.id});
+                response.success(function(res){
+                    loadTrashItems();
+                });
+            }
+        });
+        
+    }
+    
+    loadTrashItems();
 }]);

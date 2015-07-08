@@ -36,6 +36,7 @@ class EmployeeTables extends Migration {
 			$table->string('degree_name',50);
 			$table->string('institution_name',50);
 			$table->string('pass_year',4);
+			$table->string('grade',10);
 			$table->text('certificate_copy')->nullable();
 			$table->timestamps();
 			$table->softDeletes();
@@ -43,7 +44,7 @@ class EmployeeTables extends Migration {
 			$table->foreign('employee_id')->references('id')->on('employees')
 				->onUpdate('cascade')->onDelete('cascade');
 				
-			$table->primary(['employee_id']);
+			$table->index('employee_id');
 		});
 		
 		Schema::create('work_experiences',function(Blueprint $table){
@@ -57,7 +58,7 @@ class EmployeeTables extends Migration {
 			$table->foreign('employee_id')->references('id')->on('employees')
 				->onUpdate('cascade')->onDelete('cascade');
 				
-			$table->primary(['employee_id']);
+			$table->index('employee_id');
 		});
 		
 		Schema::create('employee_skills',function(Blueprint $table){
@@ -73,7 +74,7 @@ class EmployeeTables extends Migration {
 			$table->foreign('employee_id')->references('id')->on('employees')
 				->onUpdate('cascade')->onDelete('cascade');
 				
-			$table->primary(['employee_id']);
+			$table->index('employee_id');
 		});
 		
 		Schema::create('work_shifts',function(Blueprint $table){
@@ -96,7 +97,7 @@ class EmployeeTables extends Migration {
 			$table->foreign('work_shift_id')->references('id')->on('work_shifts')
 				->onUpdate('cascade')->onDelete('cascade');
 				
-			$table->primary(['employee_id','work_shift_id']);
+			$table->index('employee_id','work_shift_id');
 		});
 	}
 

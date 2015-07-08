@@ -8,7 +8,7 @@
 	@include('partials.alertmessage')
 	<div class="panel panel-default">
         <div class="panel-heading">{{$page_title}}
-        <a href="{{url('department/trash')}}" class="btn btn-danger btn-xs pull-right" ><i class="glyphicon glyphicon-remove"></i> Deleted Items</a></div>
+        <a href="{{url('department/trash')}}" class="btn btn-danger btn-xs pull-right" ><i class="glyphicon glyphicon-list"></i> Deleted Items</a></div>
         <div class="panel-body">
             <form class="form-horizontal" ng-submit="saveDepartment()">
                 <div class="col-lg-2 vertical-seperator-right">
