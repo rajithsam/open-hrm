@@ -162,5 +162,16 @@ class UserController extends Controller {
 			return redirect('/');
 		}
 	}
+	
+	public function changePass()
+	{
+		$breadcrumb = new Breadcrumb;
+		$breadcrumb->add('Dashboard',url('/'))->add('Change Password');
+		$theme = new Theme;
+		$theme->addScript(url('public/js/controller/changepass.js'));
+		$viewModel['breadcrumb'] = $breadcrumb->output();
+		$viewModel['scripts'] = $theme->getScripts();
+		return view('user.changepass');
+	}
 
 }

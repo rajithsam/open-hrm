@@ -11,7 +11,9 @@
         
         <!-- Create Form -->
         
-            <div class="panel-heading">Enter Attendance</div>
+            <div class="panel-heading">Enter Attendance
+                <a ng-click="closeFrm()" class="btn btn-danger btn-xs pull-right"><i class="glyphicon glyphicon-remove"></i> </a>
+            </div>
             <div class="panel-body">
                 <form class="form-horizontal" ng-submit="saveAttendance()">
                     <div class="form-group">
@@ -60,7 +62,8 @@
     
     <div class="panel panel-default">
         <div class="panel-heading">{{$page_title}} 
-            <a ng-click="openFrm()" class="btn btn-primary btn-xs pull-right"><i class="glyphicon glyphicon-plus"></i> Add Attendance</a>
+        <a href="{{url('attendance/import')}}" class="btn btn-success btn-xs pull-right" style="margin-left:10px;"><i class="glyphicon glyphicon-upload"></i> Import Attendance</a>
+        <a ng-click="openFrm()" class="btn btn-primary btn-xs pull-right"><i class="glyphicon glyphicon-plus"></i> Add Attendance</a>
         </div>
         <div class="panel-body">
             <table class="table">

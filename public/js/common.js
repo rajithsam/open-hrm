@@ -1,16 +1,15 @@
 $("#sidebar ul.nav li a.hasChild").click(function(){
     var obj = $(this);
     var child_ul = obj.next();
-    
-    if(child_ul.hasClass('nav-sub'))
+    var siblingsChildUl = obj.parent().siblings().children('ul');
+    if(siblingsChildUl.hasClass('nav-sub'))
     {
-        obj.children(':last').removeClass('right-caret').addClass('caret');
-        
-        child_ul.removeClass('nav-sub');
-    }else{
-        obj.children(':last').addClass('right-caret').removeClass('caret');
-        child_ul.addClass('nav-sub');
+        siblingsChildUl.parent().children('a').removeClass('selected');
+        siblingsChildUl.addClass('nav-sub');
+        siblingsChildUl.prev().children('span').removeClass('caret').addClass('right-caret');
     }
-    
-    
+    obj.parent().children('a').addClass('selected');
+    child_ul.removeClass('nav-sub');
+    obj.children(':last').removeClass('right-caret').addClass('caret');
+   
 });

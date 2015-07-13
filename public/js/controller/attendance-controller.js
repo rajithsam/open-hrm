@@ -104,10 +104,10 @@ angular.module('attendance',['ui.bootstrap'])
         });
         
         var sD = new Date();
-        sD.setTime(a.start_time);
+        sD.setTime(a.in_time);
         $scope.form.start_time = sD;
         var eD = new Date();
-        eD.setTime(a.end_time);
+        eD.setTime(a.out_time);
         $scope.form.end_time = eD;
         $scope.form.date = a.date;
         $scope.showFrm = 1;

@@ -11,7 +11,9 @@
         
         <!-- Create Form -->
         <div class="panel panel-default" ng-show="!form.id && !active_job">
-            <div class="panel-heading">Create Employee</div>
+            <div class="panel-heading">Create Employee
+                <button class="btn btn-danger btn-xs pull-right" ng-click="cancelFrm()"><i class="glyphicon glyphicon-remove"></i></button>
+            </div>
             <div class="panel-body">
             <form class="form-horizontal" ng-submit="saveEmployee()">
                 <div class="form-group">
@@ -225,6 +227,7 @@
         <div class="panel panel-default" ng-if="form.id && active_job">
             <div class="panel-heading">
                 Assign Job - to - [@{{form.name}}]
+                <button class="btn btn-danger btn-xs pull-right" ng-click="cancelFrm()"><i class="glyphicon glyphicon-remove"></i></button>
             </div>
             <div class="panel-body">
                 <form class="form-horizontal" ng-submit="saveAssignJob()">

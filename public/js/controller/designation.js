@@ -64,7 +64,7 @@ controller('designationCtrl',['$scope','webservice',function($scope,webservice){
         $scope.parent_designation = [];
     }
     
-    $scope.cancelFrm = function()
+    $scope.closeFrm = function()
     {
         $scope.form={id:'',title:'',quote:'',description:'',parent_department:[],parent_designation:[]};
         $scope.showForm = 0;

@@ -118,8 +118,8 @@ class AttendanceController extends Controller {
 		$attendance = Attendance::find($req->get('id'));
 		$shift = $req->get('shift');
 		$attendance->work_shift_id = $shift['work_shift_id'];
-		$attendance->start_time = $req->get('start_time');
-		$attendance->end_time = $req->get('end_time');
+		$attendance->in_time = $req->get('start_time');
+		$attendance->out_time = $req->get('end_time');
 		$attendance->date = $req->get('date');
 		$attendance->leave_id = null;
 		$attendance->save();
@@ -151,6 +151,54 @@ class AttendanceController extends Controller {
 		}
 		return $attendance;
 		Utils::LastQuery();
+	}
+	
+	public function import()
+	{
+		$breadcrumb = new Breadcrumb;
+		$theme = new Theme;
+		$theme->addScript(url('public/js/controller/attendance-controller.js'))
+		      ->addScript(url('public/bower_components/angular-bootstrap/ui-bootstrap.min.js'))
+			  ->addScript(url('public/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js'));
+		$breadcrumb->add('Dashboard',url('/'))->add('Attendance',url('attendance'))->add('Import Attendance');
+		$viewModel['breadcrumb'] = $breadcrumb->output();
+		$viewModel['scripts'] = $theme->getScripts();
+		$viewModel['page_title'] = 'Import Attendance';
+		return view('leave.import-attendance',$viewModel);
+	}
+	
+	
+	public function saveImportAttendance(Request $req)
+	{
+		
+		if($req->hasFile('attendance'))
+		{
+				$fileObj = $req->file('attendance');
+				$ext = $fileObj->getClientOriginalExtension();
+				$name = $fileObj->getClientOriginalName();
+				$prefix = time();
+				$path = 'data/xls';
+                $name = $prefix.'_'.$name;
+                
+                if(in_array($ext,array('xls'))){
+                    $fileObj->move($path,$name);
+                }
+                $attendance = new Attendance();
+                $viewModel['column_name'] = $attendance->getAllColumnsNames();
+				$viewModel['file_name'] = $name;
+				$breadcrumb = new Breadcrumb;
+				$breadcrumb->add('Dashboard',url('/'))->add('Attendance',url('attendance'))->add('Import Attendance');
+				$viewModel['breadcrumb'] = $breadcrumb->output();
+				$theme = new Theme;
+				$theme->addScript(url('public/js/controller/attendance-controller.js'))
+		      		->addScript(url('public/bower_components/angular-bootstrap/ui-bootstrap.min.js'))
+			  		->addScript(url('public/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js'));
+				$viewModel['scripts'] = $theme->getScripts();
+				$viewModel['page_title'] = 'Import Attendance';
+				return view('leave.import-attendance',$viewModel);
+		}
+		return redirect('attendance/import');
+			
 	}
 
 }

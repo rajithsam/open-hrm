@@ -7,6 +7,7 @@ use App\Helpers\Breadcrumb;
 use App\Helpers\Theme;
 use App\Helpers\Utils;
 use App\Model\Leave\Leave;
+use App\Model\JobDetails;
 use Illuminate\Http\Request;
 
 class LeaveController extends Controller {

@@ -5,17 +5,11 @@ use App\Http\Controllers\Controller;
 use App\Helpers\Theme;
 use App\Helpers\Breadcrumb;
 use App\Helpers\Utils;
-use App\Model\Holiday;
-
+use App\Model\System\Option;
 use Illuminate\Http\Request;
 
-class HolidayController extends Controller {
+class SettingsController extends Controller {
 
-	public function __construct()
-	{
-		$this->middleware('auth');
-	}
-	
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -24,14 +18,15 @@ class HolidayController extends Controller {
 	public function index()
 	{
 		$theme = new Theme;
+		$theme->addScript(url('public/js/common.js'))
+			  ->addScript(url('public/js/controller/settings.js'));
+		
 		$breadcrumb = new Breadcrumb;
-		$breadcrumb->add('Dashboard',url('/'))
-					->add('Holiday');
-		$theme->addScript(url('public/js/controller/holiday-controller.js'));
+		$breadcrumb->add('Dashboard',url('/'))->add('Application Settings');
 		$viewModel['scripts'] = $theme->getScripts();
 		$viewModel['breadcrumb'] = $breadcrumb->output();
-		$viewModel['page_title'] = "Holiday List";
-		return view('system.holiday',$viewModel);
+		$viewModel['page_title'] = 'Application Settings';
+		return view('system.settings',$viewModel);
 	}
 
 	/**
@@ -41,13 +36,14 @@ class HolidayController extends Controller {
 	 */
 	public function create()
 	{
-		//
+		
 	}
 	
-	public function getAll($date=null)
+	public function getSettings()
 	{
-		$date = (empty($date))? date('Y') : $date;
-		return Holiday::where('holiday_date','like',$date.'%')->where('recurring','=',1,'or')->orderBy('holiday_date','asc')->get()->toJson();
+		$attendance = Option::where('type','attendance')->get();
+		$leave = Option::where('type','leave')->get();
+		return array('attendance'=>$attendance,'leave'=>$leave);
 	}
 
 	/**
@@ -55,21 +51,9 @@ class HolidayController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store(Request $req)
+	public function store()
 	{
-		if($req->get('id'))
-		{
-			$holiday = Holiday::find($req->get('id'));
-		
-			$holiday->holiday_date = $req->get('holiday_date');
-		}
-		else
-			$holiday = Holiday::firstOrNew(array('holiday_date'=>$req->get('holiday_date')));
-		
-		$holiday->name = $req->get('name');
-		$holiday->recurring = (int)$req->get('recurring');
-		$holiday->save();
-		return array('message'=>array('Holiday Saved Successfully'));
+		//
 	}
 
 	/**
@@ -115,11 +99,39 @@ class HolidayController extends Controller {
 	{
 		//
 	}
-
-	public function delete(Request $req)
+	
+	public function saveAttendanceSettings(Request $req)
 	{
-		$holiday = Holiday::find($req->get('id'));
-		$holiday->delete();
-		return array('message' => array('Holiday deleted successfully'));
+		$keyPair = $req->get('attendance');
+		if(count($keyPair))
+		{
+			foreach($keyPair as $key =>$value)
+			{
+				$option = Option::firstOrNew(array('key'=>$key));
+				$option->key = $key;
+				$option->value = $value;
+				$option->type = 'attendance';
+				$option->save();
+			}
+		}
+		
+		
 	}
+	
+	public function saveLeaveSettings(Request $req)
+	{
+		$keyPair = $req->get('leave');
+		if(count($keyPair))
+		{
+			foreach($keyPair as $key =>$value)
+			{
+				$option = Option::firstOrNew(array('key'=>$key));
+				$option->key = $key;
+				$option->value = $value;
+				$option->type = 'leave';
+				$option->save();
+			}
+		}
+	}
+
 }

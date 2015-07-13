@@ -8,7 +8,9 @@
 	@include('partials.alertmessage')
 	</div>
 	<div class="panel panel-default" ng-show="showForm">
-	    <div class="panel-heading">Create Designation</div>
+	    <div class="panel-heading">@{{(form.id)? 'Edit' : 'Create' }} Designation
+	    <a ng-click="closeFrm()" class="btn btn-danger btn-xs pull-right"><i class="glyphicon glyphicon-remove"></i> </a>
+	    </div>
 	    <div class="panel-body">
 	        <form class="form-horizontal" ng-submit="saveDesignation()">
 	            <div class="col-lg-3">
@@ -64,7 +66,7 @@
 	            <div class="form-group">
 	                <div class="col-lg-3 col-lg-offset-3">
 	                    <input type="submit" class="btn btn-success btn-sm" value="Save"/>
-	                    <input type="button" ng-click="cancelFrm()" class="btn btn-warning btn-sm" value="Cancel"/>
+	                    <input type="button" ng-click="closeFrm()" class="btn btn-warning btn-sm" value="Cancel"/>
 	                </div>
 	            </div>
 	            </div>

@@ -47,6 +47,9 @@
 							<button type="button" class="btn btn-default navbar-btn dropdown-toogle" data-toggle="dropdown">
 								<span><?php echo (count(Auth::user()))? Auth::user()->name : ''; ?></span>
 								<span class="glyphicon glyphicon-user"></span> 
+								
+							</button>
+							<button type="button" class="btn btn-default navbar-btn dropdown-toggle" data-toggle="dropdown">
 								<span class="caret"></span>
 							</button>
 							<ul class="dropdown-menu top-popup" role="menu">

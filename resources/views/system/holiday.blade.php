@@ -7,7 +7,7 @@
 	</ol>
 	@include('partials.alertmessage')
 	<div class="panel panel-default" ng-show="showFrm">
-        <div class="panel-heading">{{$page_title}}
+        <div class="panel-heading">@{{(form.id)? 'Edit': 'Create'}} Holiday
         <a ng-click="closeFrm()" class="btn btn-danger btn-xs pull-right"><i class="glyphicon glyphicon-remove"></i></a>
         </div>
         <div class="panel-body">
@@ -40,7 +40,7 @@
         </div>
     </div>
     <div class="panel panel-default">
-        <div class="panel-heading">Holiday List
+        <div class="panel-heading">{{$page_title}}
             <a ng-click="openFrm()" class="btn btn-primary btn-xs pull-right"><i class="glyphicon glyphicon-plus"></i> Add Holiday</a>
         </div>
         <div class="panel-body">
@@ -64,7 +64,7 @@
                 <tbody>
                     <tr ng-repeat="h in holidays">
                         <td>@{{h.name}}</th>
-                        <td ng-if="searchYear!=null">@{{searchYear+h.holiday_date.substr(4,h.holiday_date.length)}}</td>
+                        <td ng-if="searchYear!=null">@{{h.holiday_date | selectedYear:searchYear}}</td>
                         <td ng-if="searchYear==null">@{{h.holiday_date}}</td>
                         <td>
                             <a ng-click="editHoliday(h)" class="btn btn-info btn-xs"><i class="glyphicon glyphicon-search"></i> View</a>

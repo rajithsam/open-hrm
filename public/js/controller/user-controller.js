@@ -36,7 +36,7 @@ controller('userCtrl',['$scope','webservice','$sce',function($scope,webservice,$
         });
         $scope.selectedUserId = '';
     }
-    $scope.cancelFrm = function()
+    $scope.closeFrm = function()
     {
         $scope.showForm = 0;
         $scope.successes = [];

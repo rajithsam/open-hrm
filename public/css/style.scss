@@ -7,7 +7,7 @@ $lightBlue : #C9D7F8;
 $lightCermic: #E8E9F3;
 $lightGray : #D7DAE5;
 $white: #efefef;
-
+$darkAmbiantPink:#c51162; 
 
 
 html{
@@ -74,12 +74,12 @@ header{
     li{
         a{
             padding:10px 0px 10px 32px;
-            color:$darkGreen;
+            color:#263238;
             font-weight:500;
             &:hover,&.selected{
                 color:#fff;
                 font-weight:600;
-                background:$pasteGreen;
+                background:#00b8d4;
             }
         }
         
@@ -91,7 +91,7 @@ header{
                     font-weight:400;
                     background:#e5e5e5;
                     &:hover,&.active{
-                        background:transparent;color:$darkGreen;
+                        color:#c51162;
                     }    
                 }
             }
@@ -171,7 +171,7 @@ table.schedule-roster{
         h1{
             font-weight:600;
             width:120px;
-        
+            font-size:25px;
             span{
                 font-weight:normal;
                 font-size:20px;
@@ -182,9 +182,9 @@ table.schedule-roster{
         }
         span.counter{
             margin-top:20px;
-            width:65px;
+            width:45px;
             display:inline;
-            font-size:50px;
+            font-size:35px;
         }
         &-red{
             background:#f44336;
@@ -208,15 +208,26 @@ table.schedule-roster{
 /***** override css *****/
 
 .navbar-default{
-    background: #fcfff4; /* Old browsers */
-    background: -moz-linear-gradient(top,  #fcfff4 0%, #d6cdbe 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fcfff4), color-stop(100%,#d6cdbe)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top,  #fcfff4 0%,#d6cdbe 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top,  #fcfff4 0%,#d6cdbe 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top,  #fcfff4 0%,#d6cdbe 100%); /* IE10+ */
-    background: linear-gradient(to bottom,  #fcfff4 0%,#d6cdbe 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfff4', endColorstr='#d6cdbe',GradientType=0 ); /* IE6-9 */
+    background: #01579b; /* Old browsers */
+    //background: -moz-linear-gradient(top,  #fcfff4 0%, #d6cdbe 100%); /* FF3.6+ */
+   // background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fcfff4), color-stop(100%,#d6cdbe)); /* Chrome,Safari4+ */
+  //  background: -webkit-linear-gradient(top,  #fcfff4 0%,#d6cdbe 100%); /* Chrome10+,Safari5.1+ */
+  //  background: -o-linear-gradient(top,  #fcfff4 0%,#d6cdbe 100%); /* Opera 11.10+ */
+   // background: -ms-linear-gradient(top,  #fcfff4 0%,#d6cdbe 100%); /* IE10+ */
+   // background: linear-gradient(to bottom,  #fcfff4 0%,#d6cdbe 100%); /* W3C */
+  //  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfff4', endColorstr='#d6cdbe',GradientType=0 ); /* IE6-9 */
 
+}
+
+.navbar-brand{
+    a{
+        font-weight:600;
+        color:#80d8ff;
+        &:hover{
+            text-decoration:none;
+            color:#00e5ff;
+        }
+    }
 }
 
 .nav-stacked>li+li{

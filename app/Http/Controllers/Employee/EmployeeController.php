@@ -248,7 +248,7 @@ class EmployeeController extends Controller {
 						$ext = $fileObj->getClientOriginalExtension();
 						$name = $fileObj->getClientOriginalName();
 						$prefix = time();
-						$path = 'data';
+						$path = 'data/profile';
 		                $name = $prefix.'_'.$name;
 		                if(in_array($ext,array('jpg','png','gif'))){
 		                    $fileObj->move($path,$name);

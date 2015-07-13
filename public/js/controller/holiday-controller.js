@@ -17,6 +17,11 @@ service('webservice',function($http){
            });
        }
    }; 
+})
+.filter('selectedYear',function(){
+   return function(input,searchYear){
+       return input.replace(/[0-9]{4}/g,searchYear);
+   };
 }).
 controller('holidayCtrl',['$scope','webservice','$sce',function($scope,webservice,$sce){
     

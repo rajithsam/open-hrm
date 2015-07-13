@@ -10,9 +10,11 @@
     <div class="panel panel-default" ng-if="showForm">
 		<div class="panel-heading" ng-show="!selectedUserId">
 			Add New User
+			<a ng-click="closeFrm()" class="btn btn-danger btn-xs pull-right"><i class="glyphicon glyphicon-remove"></i></a>
 		</div>
 		<div class="panel-heading" ng-show="selectedUserId">
 			Edit User
+			<a ng-click="closeFrm()" class="btn btn-danger btn-xs pull-right"><i class="glyphicon glyphicon-remove"></i></a>
 		</div>
 		<div class="panel-body">
 			<form class="form-horizontal" ng-submit="saveUser()" id="createUserFrm">
@@ -52,7 +54,7 @@
 					<div class="col-lg-3 col-lg-offset-3">
 						<input type="submit" ng-show="!selectedUserId" class="btn btn-success btn-sm" value="Save"/>
 						<input type="submit" ng-show="selectedUserId" class="btn btn-success btn-sm" value="Update"/>
-						<input type="button" ng-click="cancelFrm()" class="btn btn-warning btn-sm" value="Cancel"/>
+						<input type="button" ng-click="closeFrm()" class="btn btn-warning btn-sm" value="Cancel"/>
 					</div>
 
 				</div>
@@ -80,7 +82,6 @@
                         <td>@{{user.role.display_name}}</td>
                         <td>@{{user.email}}</td>
                         <td>
-                        	
                         	<a title="Delete" ng-click="deleteUser(user)" class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-trash"></i></a>
                     	</td>
                     </tr>

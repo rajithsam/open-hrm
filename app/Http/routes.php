@@ -50,7 +50,7 @@ Route::post('user/create','User\UserController@store');
 Route::post('user/update','User\UserController@update');
 Route::post('user/remove','User\UserController@remove');
 Route::get('api/users.json','User\UserController@getAll');
-
+Route::get('changepass','User\UserController@changePass');
 // Role route
 Route::get('role','User\RoleController@index');
 Route::any('role/create','User\RoleController@store');
@@ -131,10 +131,11 @@ Route::get('get-payment-group/{job_type}','Payment\GroupController@getPaymentGro
 
 Route::get('attendance','Leave\AttendanceController@index');
 Route::post('attendance/save-attendance','Leave\AttendanceController@store');
+Route::post('attendance/save-import-attendance','Leave\AttendanceController@saveImportAttendance');
 Route::post('attendance/update','Leave\AttendanceController@update');
 Route::get('attendances.json','Leave\AttendanceController@getAll');
 Route::get('get-my-attendance','Leave\AttendanceController@getMyAttendance');
-
+Route::get('attendance/import','Leave\AttendanceController@import');
 Route::get('leave','Leave\LeaveController@index');
 Route::post('leave/save-leave','Leave\LeaveController@store');
 Route::post('leave/update','Leave\LeaveController@update');
@@ -156,6 +157,13 @@ Route::get('evaluations.json','PerformanceController@getAllEvaluations');
 Route::post('send-evaluation-request','PerformanceController@saveRequest');
 Route::get('get-questions/{id}','PerformanceController@getQuestions');
 Route::post('performance/save-review','PerformanceController@saveReview');
+
+
+Route::get('settings','System\SettingsController@index');
+Route::get('get-settings','System\SettingsController@getSettings');
+Route::post('settings/save-attendance','System\SettingsController@saveAttendanceSettings');
+Route::post('settings/save-leave','System\SettingsController@saveLeaveSettings');
+
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',

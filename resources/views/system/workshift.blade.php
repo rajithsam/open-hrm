@@ -7,7 +7,7 @@
 	</ol>
 	@include('partials.alertmessage')
 	<div class="panel panel-default" ng-show="showFrm">
-        <div class="panel-heading">Create Work shift
+        <div class="panel-heading">@{{(form.id)? 'Edit':'Create'}} Work shift
         <a ng-click="closeFrm()" class="btn btn-danger btn-xs pull-right"><i class="glyphicon glyphicon-remove"></i></a>
         </div>
         <div class="panel-body">
