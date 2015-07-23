@@ -1,4 +1,5 @@
 <?php
+namespace App\Libraries;
 /**
  * A class for reading Microsoft Excel (97/2003) Spreadsheets.
  *
@@ -912,7 +913,7 @@ class SpreadsheetExcelReader {
 	 *
 	 * Some basic initialisation
 	 */
-	function SpreadsheetExcelReader($file='',$store_extended_info=true,$outputEncoding='') {
+	function SpreadsheetExcelReader($file='Hrm_Attendance.xls',$store_extended_info=true,$outputEncoding='') {
 		$this->_ole = new OLERead();
 		$this->setUTFEncoder('iconv');
 		if ($outputEncoding != '') { 
@@ -985,6 +986,7 @@ class SpreadsheetExcelReader {
 			// check other error codes here (eg bad fileformat, etc...)
 		}
 		$this->data = $this->_ole->getWorkBook();
+		
 		$this->_parse();
 	}
 

@@ -157,7 +157,7 @@ Route::get('evaluations.json','PerformanceController@getAllEvaluations');
 Route::post('send-evaluation-request','PerformanceController@saveRequest');
 Route::get('get-questions/{id}','PerformanceController@getQuestions');
 Route::post('performance/save-review','PerformanceController@saveReview');
-
+Route::get('test','Leave\AttendanceController@create');
 
 Route::get('settings','System\SettingsController@index');
 Route::get('get-settings','System\SettingsController@getSettings');

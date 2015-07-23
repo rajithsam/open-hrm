@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Helpers\Breadcrumb;
 use App\Helpers\Theme;
 use App\Helpers\Utils;
+use App\Libraries\SpreadsheetExcelReader;
 use Illuminate\Http\Request;
 use App\Model\Leave\Attendance;
 
@@ -43,7 +44,12 @@ class AttendanceController extends Controller {
 	 */
 	public function create()
 	{
-		//
+		
+		$data = new SpreadsheetExcelReader();
+		 Utils::debug($data);
+                $currentSheet = array_shift($data->sheets);
+                $rows         = $currentSheet['cells'];
+               
 	}
 
 
@@ -178,14 +184,15 @@ class AttendanceController extends Controller {
 				$name = $fileObj->getClientOriginalName();
 				$prefix = time();
 				$path = 'data/xls';
-                $name = $prefix.'_'.$name;
+                $name = $name; // $prefix.'_'.$name;
                 
-                if(in_array($ext,array('xls'))){
+                if(in_array($ext,array('xls','xlsx'))){
                     $fileObj->move($path,$name);
                 }
                 $attendance = new Attendance();
-                $viewModel['column_name'] = $attendance->getAllColumnsNames();
-				$viewModel['file_name'] = $name;
+                $viewModel['system_columns'] = $attendance->getAllColumnsNames();
+                
+				$viewModel['file_columns'] = $name;
 				$breadcrumb = new Breadcrumb;
 				$breadcrumb->add('Dashboard',url('/'))->add('Attendance',url('attendance'))->add('Import Attendance');
 				$viewModel['breadcrumb'] = $breadcrumb->output();

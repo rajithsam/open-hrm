@@ -31,7 +31,56 @@
     </div>
     @else
     <div class="panel panel-default">
-        
+        <form class="form-horizontal">
+            <div class="col-lg-6">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>File Columns</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if(count($file_columns))
+                            @foreach($file_columns as $file_column)
+                                <tr>
+                                    <td>
+                                        <select class="form-control">
+                                            @foreach($file_columns as $file_column)
+                                            <option value="{{$file_column}}">{{$file_column}}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @endif
+                    </tbody>
+                </table>                
+            </div>
+            <div class="col-lg-6">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <td>System Column</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if(count($system_columns))
+                            @foreach($file_columns as $file_column)
+                            <tr>
+                                <td>
+                                    <select class="form-control">
+                                        @foreach($system_columns as $col)
+                                        <option value="{{$col}}">{{$col}}</option>
+                                        @endforeach
+                                    </select>
+                                </td>
+                            </tr>
+                            @endforeach
+                        @endif
+                    </tbody>
+                </table>
+            </div>
+        </form>
     </div>
     @endif
 </section>
