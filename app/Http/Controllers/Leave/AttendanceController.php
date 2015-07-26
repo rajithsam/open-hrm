@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Helpers\Breadcrumb;
 use App\Helpers\Theme;
 use App\Helpers\Utils;
-use App\Libraries\SpreadsheetExcelReader;
+
 use Illuminate\Http\Request;
 use App\Model\Leave\Attendance;
 
@@ -44,12 +44,10 @@ class AttendanceController extends Controller {
 	 */
 	public function create()
 	{
-		
-		$data = new SpreadsheetExcelReader();
-		 Utils::debug($data);
-                $currentSheet = array_shift($data->sheets);
-                $rows         = $currentSheet['cells'];
-               
+		$excel =	\App::make('excel');
+       	$excel->load('Hrm_Attendance.xls',function($reader){
+       		Utils::debug($reader->toArray());
+       	});        
 	}
 
 

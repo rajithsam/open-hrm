@@ -310,7 +310,7 @@ define('SPREADSHEET_EXCEL_READER_DEF_NUM_FORMAT',	"%s");
 /*
 * Main Class
 */
-class SpreadsheetExcelReader {
+class Spreadsheet_Excel_Reader {
 
 	// MK: Added to make data retrieval easier
 	var $colnames = array();
@@ -913,7 +913,7 @@ class SpreadsheetExcelReader {
 	 *
 	 * Some basic initialisation
 	 */
-	function SpreadsheetExcelReader($file='Hrm_Attendance.xls',$store_extended_info=true,$outputEncoding='') {
+	function Spreadsheet_Excel_Reader($file='',$store_extended_info=true,$outputEncoding='') {
 		$this->_ole = new OLERead();
 		$this->setUTFEncoder('iconv');
 		if ($outputEncoding != '') { 
@@ -986,7 +986,6 @@ class SpreadsheetExcelReader {
 			// check other error codes here (eg bad fileformat, etc...)
 		}
 		$this->data = $this->_ole->getWorkBook();
-		
 		$this->_parse();
 	}
 

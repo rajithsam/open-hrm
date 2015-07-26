@@ -53,16 +53,16 @@ return [
 		],
 
 		'mysql' => [
-			'driver'    => 'mysql',
-			'host'      => env('DB_HOST', 'localhost'),
-			'database'  => env('DB_DATABASE', 'open_hrm'),
-			'username'  => env('DB_USERNAME', 'himelcarbon51'),
-			'password'  => env('DB_PASSWORD', ''),
-			'charset'   => 'utf8',
-			'collation' => 'utf8_unicode_ci',
-			'prefix'    => '',
-			'strict'    => false,
-			'unix_socket' => '/home/ubuntu/lib/mysql/socket/mysql.sock'
+			'driver'    =>  'mysql',
+			'host'      =>  'localhost',
+			'database'  =>  'open_hrm',
+			'username'  =>  'root',
+			'password'  =>  'root',
+			'charset'   =>  'utf8',
+			'collation' =>  'utf8_unicode_ci',
+			'prefix'    =>  '',
+			'strict'    =>  false,
+			//'unix_socket' => '/home/ubuntu/lib/mysql/socket/mysql.sock'
 		],
 
 		'pgsql' => [

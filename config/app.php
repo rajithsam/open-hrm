@@ -13,7 +13,7 @@ return [
 	|
 	*/
 
-	'debug' => true, //env('APP_DEBUG'),
+	'debug' => env('APP_DEBUG'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -145,7 +145,8 @@ return [
 		'App\Providers\ConfigServiceProvider',
 		'App\Providers\EventServiceProvider',
 		'App\Providers\RouteServiceProvider',
-		'Zizaco\Entrust\EntrustServiceProvider'
+		'Zizaco\Entrust\EntrustServiceProvider',
+		'Maatwebsite\Excel\ExcelServiceProvider',
 
 	],
 
@@ -196,7 +197,8 @@ return [
 		'View'      => 'Illuminate\Support\Facades\View',
 		'Entrust'   => 'Zizaco\Entrust\EntrustFacade',
 		'Form'      => 'Illuminate\Html\FormFacade',
-		'Html'      => 'Illuminate\Html\HtmlFacade'
+		'Html'      => 'Illuminate\Html\HtmlFacade',
+		'Excel' => 'Maatwebsite\Excel\Facades\Excel',
 
 	],
 
