@@ -8,7 +8,7 @@ use App\Helpers\Utils;
 use App\Model\Employee\Employee;
 use Illuminate\Http\Request;
 
-use App\Libraries\FPDF\Report;
+use App\Libraries\Report\PayrollReport;
 
 class PayrollController extends Controller {
 
@@ -61,13 +61,14 @@ class PayrollController extends Controller {
 	public function show(Request $req)
 	{
 		$employee = Employee::find($req->get('employee'));
-		$payrollReport = new Report(); 
+		$payrollReport = new PayrollReport(); 
 		
 		$payrollReport->AddPage();
         $payrollReport->SetAutoPageBreak(true, 0.0);
         $payrollReport->SetFont('Arial', 'B', 18);
         $payrollReport->Cell(50,50,"Hi",0,1,"C");
         $payrollReport->output();
+        exit;
 	}
 
 	/**
