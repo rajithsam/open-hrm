@@ -29,9 +29,9 @@ Route::get('api/departments.json','System\DepartmentController@getAll');
 Route::get('departments.json','System\DepartmentController@getActiveDepartments');
 Route::get('department/trash','System\DepartmentController@trash');
 Route::get('department-trash.json','System\DepartmentController@getTrashItems');
+
 // Designation route
 Route::get('designation','System\DesignationController@index');
-
 Route::post('designation/create','System\DesignationController@store');
 Route::post('designation/update','System\DesignationController@update');
 Route::post('designation/remove','System\DesignationController@remove');
@@ -51,6 +51,7 @@ Route::post('user/update','User\UserController@update');
 Route::post('user/remove','User\UserController@remove');
 Route::get('api/users.json','User\UserController@getAll');
 Route::get('changepass','User\UserController@changePass');
+
 // Role route
 Route::get('role','User\RoleController@index');
 Route::any('role/create','User\RoleController@store');
@@ -83,7 +84,7 @@ Route::get('leave-request/me','Employee\EmployeeController@myLeaveRequest');
 Route::get('attendance/me','Employee\EmployeeController@myAttendance');
 Route::get('evaluation-requests/me','Employee\EmployeeController@evaluationRequest');
 Route::get('get-evaluation-requests','Employee\EmployeeController@getEvaluationRequests');
-
+Route::get('get-work-history/{id}','Employee\EmployeeController@getWorkHistory');
 
 Route::get('holiday','System\HolidayController@index');
 Route::post('holiday/create','System\HolidayController@store');
@@ -129,6 +130,11 @@ Route::get('groups.json','Payment\GroupController@getAll');
 Route::post('group/remove','Payment\GroupController@remove');
 Route::get('get-payment-group/{job_type}','Payment\GroupController@getPaymentGroup');
 
+// Payroll
+Route::get('payroll','Payment\PayrollController@index');
+Route::post('payroll/save','Payment\PayrollController@store');
+Route::post('payroll/view','Payment\PayrollController@show');
+
 Route::get('attendance','Leave\AttendanceController@index');
 Route::post('attendance/save-attendance','Leave\AttendanceController@store');
 Route::post('attendance/save-import-attendance','Leave\AttendanceController@saveImportAttendance');
@@ -141,6 +147,7 @@ Route::post('leave/save-leave','Leave\LeaveController@store');
 Route::post('leave/update','Leave\LeaveController@update');
 Route::get('leaves.json','Leave\LeaveController@getAll');
 
+// Performance KPI
 Route::get('kpi','PerformanceController@index');
 Route::get('kpi-template','PerformanceController@kpiTemplate');
 Route::get('kpi.json','PerformanceController@getAll');
@@ -152,6 +159,7 @@ Route::post('kpi/update-template','PerformanceController@updateTemplate');
 Route::post('kpi/update','PerformanceController@kpiUpdate');
 Route::post('kpi/remove','PerformanceController@removeKpi');
 
+// Performance Evaluation
 Route::get('evaluation','PerformanceController@evaluation');
 Route::get('evaluations.json','PerformanceController@getAllEvaluations');
 Route::post('send-evaluation-request','PerformanceController@saveRequest');

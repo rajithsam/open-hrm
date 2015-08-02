@@ -51,7 +51,7 @@ class EmployeeTables extends Migration {
 			$table->integer('employee_id')->unsigned();
 			$table->string('work_title',100);
 			$table->string('org_name',100);
-			$table->string('year_exp',2);
+			$table->string('year_exp',5);
 			$table->timestamps();
 			$table->softDeletes();
 			

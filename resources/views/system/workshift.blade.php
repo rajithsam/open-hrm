@@ -21,7 +21,7 @@
                 <div class="form-group">
                     <label class="control-label col-lg-3">Start Time</label>
                     <div class="col-lg-2">
-                        <timepicker ng-model="startTime" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
+                        <timepicker ng-model="startTime" hour-step="hstep" minute-step="mstep" show-meridian="!ismeridian"></timepicker>
                         
                     </div>
                     <div class="col-lg-3">Shift Start Time @{{startTime | date:'shortTime' }}</div>
@@ -29,7 +29,7 @@
                 <div class="form-group">
                     <label class="control-label col-lg-3">End Time</label>
                     <div class="col-lg-2">
-                        <timepicker ng-model="endTime" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
+                        <timepicker ng-model="endTime" hour-step="hstep" minute-step="mstep" show-meridian="!ismeridian"></timepicker>
                         
                     </div>
                     <div class="col-lg-3">Shift Start Time @{{endTime | date:'shortTime' }}</div>

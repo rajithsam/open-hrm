@@ -6,6 +6,7 @@ use App\Helpers\Theme;
 use App\Helpers\Breadcrumb;
 use App\Role;
 use App\User;
+use App\Model\Employee\Employee;
 use App\Http\Requests\User\UserForm;
 use Illuminate\Http\Request;
 
@@ -74,8 +75,13 @@ class UserController extends Controller {
 			$user->save();
 			$role = Role::find($req->get('role_id'));
 			
-			$user->roles()->attach($role->id);
+			$employee = Employee::firstOrNew(array('email'=>$user->email,'name'=>$req->get('name')));
+			$employee->save();
 			
+			
+			$user->roles()->attach($role->id);
+			$user->employee_id = $employee->id;
+			$user->save();
 			
 			return json_encode(array('message'=>array('New user '.$user->name.' successfully created')));
 		}

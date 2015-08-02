@@ -75,13 +75,13 @@ class DesignationController extends Controller {
 	       $designationID = $req->get('parent_designation');
 	       $department  = Department::find($departmentID[0]);
 	       $designation = Designation::firstOrNew(array(
-	       		'title' => $req->get('title'),
+	       	
 	       		'description' => $req->get('description'),
 	       		'quota'  => $req->get('quota'),
 	       		'order'  => (!empty($designationID))? $designationID[0] : 0
 	       		
 	       	));
-	       	
+	       	$designation->title = $req->get('title');
 			$department->Designation()->save($designation);
 			return json_encode(array('message'=>array('Designation added successfully')));
 		}else{

@@ -35,19 +35,19 @@
                     <div class="form-group" ng-show="form.shift">
                         <label class="control-label col-lg-3">Workshift & Time</label>
                         <div class="col-lg-3">
-                            @{{getTime(form.shift.work_shift.start_time) | date:'shortTime'}}-@{{getTime(form.shift.work_shift.end_time) | date:'shortTime'}}
+                            @{{getTime(form.shift.work_shift.start_time) | date:'shortTime'}}-@{{getTime(form.shift.work_shift.end_time) |  date:'shortTime'}}
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-lg-3">Start Time</label>
                         <div class="col-lg-3">
-                            <timepicker ng-model="form.start_time" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
+                            <timepicker ng-model="form.start_time" hour-step="hstep" minute-step="mstep" show-meridian="!ismeridian"></timepicker>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-lg-3">End Time</label>
                         <div class="col-lg-3">
-                            <timepicker ng-model="form.end_time" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
+                            <timepicker ng-model="form.end_time" hour-step="hstep" minute-step="mstep" show-meridian="!ismeridian"></timepicker>
                         </div>
                     </div>
                     
@@ -62,7 +62,9 @@
     
     <div class="panel panel-default">
         <div class="panel-heading">{{$page_title}} 
+        @if(strtolower(Auth::user()->Role->name) == "admin")
         <a href="{{url('attendance/import')}}" class="btn btn-success btn-xs pull-right" style="margin-left:10px;"><i class="glyphicon glyphicon-upload"></i> Import Attendance</a>
+        @endif
         <a ng-click="openFrm()" class="btn btn-primary btn-xs pull-right"><i class="glyphicon glyphicon-plus"></i> Add Attendance</a>
         </div>
         <div class="panel-body">
@@ -83,8 +85,8 @@
                         <td>@{{attendance.date}}</td>
                         <td>@{{attendance.employee.name}}</td>
                         <td>@{{attendance.work_shift.shift_name}}</td>
-                        <td>@{{attendance.start_time | date:'shortTime'}}</td>
-                        <td>@{{attendance.end_time | date:'shortTime'}}</td>
+                        <td>@{{attendance.in_time | date:'shortTime'}}</td>
+                        <td>@{{attendance.out_time | date:'shortTime'}}</td>
                         <td>@{{attendance.working_time}}</td>
                         <td>
                             <a ng-click="editAttendance(attendance)" class="btn btn-info btn-xs" ><i class="glyphicon glyphicon-pencil"></i> Edit</a>

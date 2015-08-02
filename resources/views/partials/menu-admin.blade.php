@@ -46,6 +46,7 @@
 			<ul class="nav nav-sub">
 				<li><a href="{{url('head')}}">Head</a></li>
 				<li><a href="{{url('group')}}">Group</a></li>
+				<li><a href="{{url('payroll')}}">Payroll</a></li>
 			</ul>
 		</li>
 		<li role="presentation">
@@ -59,8 +60,8 @@
 		<li role="presentation">
 			<a class="hasChild"><i class="glyphicon glyphicon-paste"></i> Report <span class="pull-right right-caret"></span></a>
 			<ul class="nav nav-sub">
-				<li><a href="{{url('report/attendance')}}">Attendance</a></li>
-				<li><a href="{{url('report/payment')}}">Payment</a></li>
+				<li><a href="#">Attendance</a></li>
+				<li><a href="#">Payment</a></li>
 			</ul>
 		</li>
 

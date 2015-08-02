@@ -248,3 +248,7 @@ ul.errors,ul.success{
     font-weight: 500;
     line-height: 20px;
 }
+
+.table > tbody > tr > td{
+    vertical-align:text-top;
+}

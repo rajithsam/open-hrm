@@ -21,7 +21,7 @@ angular.module('attendance',['ui.bootstrap'])
 .controller('attendanceCtrl',['$scope','webservice',function($scope,webservice){
     $scope.hstep = 1;
     $scope.mstep = 15;
-     $scope.form = {employee_id:'',start_time:'',end_time:'',date:'',shift:''};
+    $scope.form = {id:'',employee_id:'',start_time:'',end_time:'',date:'',shift:''};
     $scope.shift = '';
     $scope.showFrm = 0;
     $scope.attendances = [];
@@ -42,13 +42,13 @@ angular.module('attendance',['ui.bootstrap'])
         var m = (today.getMonth()+1 < 10)? '0'+(today.getMonth()+1) : today.getMonth()+1;
         var d = (today.getDate() <10)? '0'+today.getDate() : today.getDate();
         var t = today.getFullYear()+'-'+m+'-'+d;
-        $scope.form = {employee_id:'',start_time:'',end_time:'',date:t,shift:''};
+        $scope.form = {id:'',employee_id:'',start_time:new Date(),end_time:new Date(),date:t,shift:''};
     }
     
     $scope.closeFrm = function()
     {
         $scope.showFrm = 0;
-        $scope.form = {employee_id:'',start_time:new Date(),end_time:new Date(),date:'',shift:''};
+        $scope.form = {id:'',employee_id:'',start_time:new Date(),end_time:new Date(),date:'',shift:''};
         
     }
     
@@ -77,17 +77,36 @@ angular.module('attendance',['ui.bootstrap'])
     $scope.saveAttendance = function()
     {
         
-        $scope.form.start_time = $scope.form.start_time.getTime();
-        $scope.form.end_time = $scope.form.end_time.getTime();
+        var start_time = $scope.form.start_time.getTime();
+        var end_time = $scope.form.end_time.getTime();
+        var timestamp = end_time - start_time;
+        
+        if(timestamp<0)
+        {
+            end_time = $scope.form.end_time.setDate($scope.form.end_time.getDate()+1);
+            
+        }
+        
         $scope.successes = $scope.errors = [];
         if($scope.form.shift == "")
         {
             $scope.errors = ['Work Shift not available today.'];
         }else{
-            var response = webservice.post(BASE+'attendance/save-attendance',$scope.form);
+            $scope.form.start_time = start_time;
+            $scope.form.end_time = end_time;
+           
+            if($scope.form.id)
+                var response = webservice.post(BASE+'attendance/save-attendance',$scope.form);
+            else
+                var response = webservice.post(BASE+'attendance/update',$scope.form);
+                
             response.success(function(res){
+               
                 $scope.successes = res.message;
+                $scope.errors = res.error;
                 $scope.closeFrm();
+                loadAttendances();
+                
             }).error(function(res){
                 
             });
@@ -96,6 +115,7 @@ angular.module('attendance',['ui.bootstrap'])
     
     $scope.editAttendance = function(a)
     {
+        $scope.form.id = a.id;
         $scope.form.employee_id = a.employee_id;
         var response = webservice.get(BASE+'employee/workshift/'+$scope.form.employee_id);
         

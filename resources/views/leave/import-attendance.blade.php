@@ -8,7 +8,7 @@
 	</ol>
     @include('partials.alertmessage')
     
-    @if(empty($file_name))
+    @if(!count($file_columns))
     <div class="panel panel-default">
         
         <div class="panel-heading">{{$page_title}}</div>
@@ -30,9 +30,10 @@
         </div>
     </div>
     @else
-    <div class="panel panel-default">
-        <form class="form-horizontal">
-            <div class="col-lg-6">
+    <div class="">
+        <form class="form-horizontal" action="{{url('attendance/save-import-attendance')}}" mehtod="post">
+            
+            <div class="col-lg-5 panel panel-default">
                 <table class="table">
                     <thead>
                         <tr>
@@ -56,11 +57,12 @@
                     </tbody>
                 </table>                
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-2"></div>
+            <div class="col-lg-5 panel panel-default">
                 <table class="table">
                     <thead>
                         <tr>
-                            <td>System Column</td>
+                            <th>System Column</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -70,7 +72,9 @@
                                 <td>
                                     <select class="form-control">
                                         @foreach($system_columns as $col)
-                                        <option value="{{$col}}">{{$col}}</option>
+                                            @if(in_array($col,$system_col_filter))
+                                                <option value="{{$col}}">{{$col}}</option>
+                                            @endif
                                         @endforeach
                                     </select>
                                 </td>
@@ -79,6 +83,9 @@
                         @endif
                     </tbody>
                 </table>
+            </div>
+            <div class="from-group">
+                <input type="submit" class="btn btn-success btn-sm" value="Save"/>
             </div>
         </form>
     </div>

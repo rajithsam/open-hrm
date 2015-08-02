@@ -72,18 +72,30 @@ class AttendanceController extends Controller {
 		 
 		 $st = $req->get('start_time');
 		 $et = $req->get('end_time');
+		 
 		 $st_diff = date('H:i:s',(($st - $shift_st)/1000));
 		 $et_diff = date('H:i:s',(($et - $shift_et)/1000));
-		 $work_time = date('H:i:s',($et-$st)/1000);
+		 
+		 $work_time = round(($et-$st)/1000);
+		 $wh = ($work_time/3600);
+		 
+		 $wm = ($wh/60);
+		 $wh = ($wh>0)? round($wh): '00';
+		 $wT = (strlen($wh)<2)? '0'.$wh : $wh;
+		 $wT .= ":";
+		 $wT .= ($wm >= 1 && $wm < 60)? ((strlen($wm)<2)? '0'.$wm:$wm) : '00';
+		 
+		 
 		 
 		 $attendance->work_shift_id = $shift['work_shift_id'];
-		 $attendance->start_time = $st;
-		 $attendance->end_time = $et;
+		 $attendance->in_time = $st;
+		 $attendance->out_time = $et;
 		 $attendance->start_after = $st_diff;
 		 $attendance->end_before = $et_diff;
-		 $attendance->working_time = $work_time;
+		 $attendance->working_time = $wT;
 		 $attendance->date = $req->get('date');
 		 $attendance->leave_id = null;
+		 
 		 $attendance->save();
 		 
 		 return array('message'=>array('Attendance Successfully saved'));
@@ -159,6 +171,7 @@ class AttendanceController extends Controller {
 	
 	public function import()
 	{
+		
 		$breadcrumb = new Breadcrumb;
 		$theme = new Theme;
 		$theme->addScript(url('public/js/controller/attendance-controller.js'))
@@ -168,20 +181,21 @@ class AttendanceController extends Controller {
 		$viewModel['breadcrumb'] = $breadcrumb->output();
 		$viewModel['scripts'] = $theme->getScripts();
 		$viewModel['page_title'] = 'Import Attendance';
+		$viewModel['file_columns'] = [];
 		return view('leave.import-attendance',$viewModel);
 	}
 	
 	
 	public function saveImportAttendance(Request $req)
 	{
-		
+		$viewModel['file_columns'] = '';
 		if($req->hasFile('attendance'))
 		{
 				$fileObj = $req->file('attendance');
 				$ext = $fileObj->getClientOriginalExtension();
 				$name = $fileObj->getClientOriginalName();
 				$prefix = time();
-				$path = 'data/xls';
+				$path = 'data/xls/';
                 $name = $name; // $prefix.'_'.$name;
                 
                 if(in_array($ext,array('xls','xlsx'))){
@@ -190,8 +204,16 @@ class AttendanceController extends Controller {
                 $attendance = new Attendance();
                 $viewModel['system_columns'] = $attendance->getAllColumnsNames();
                 
-				$viewModel['file_columns'] = $name;
+				
+				$excel =	\App::make('excel');
+				$result = '';
+		       	$excel->load($path.$name,function($reader)use(&$result){
+		       		
+		       		$result = array_keys($reader->first()->toArray());
+		       	});        
+				$viewModel['file_columns'] = $result;
 				$breadcrumb = new Breadcrumb;
+				
 				$breadcrumb->add('Dashboard',url('/'))->add('Attendance',url('attendance'))->add('Import Attendance');
 				$viewModel['breadcrumb'] = $breadcrumb->output();
 				$theme = new Theme;
@@ -200,7 +222,10 @@ class AttendanceController extends Controller {
 			  		->addScript(url('public/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js'));
 				$viewModel['scripts'] = $theme->getScripts();
 				$viewModel['page_title'] = 'Import Attendance';
+				$viewModel['system_col_filter'] = ['work_shift_id','employee_id','in_time','out_time','date'];
 				return view('leave.import-attendance',$viewModel);
+		}else{
+			Utils::debug($req->all());
 		}
 		return redirect('attendance/import');
 			

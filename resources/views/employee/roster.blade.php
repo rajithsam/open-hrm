@@ -13,7 +13,7 @@
 
             <div class="panel-heading">Schedule Roster</div>
             <div class="panel-body">
-                <schedule-roster title="'Himel'"></schedule-roster>
+                <schedule-roster title="'Himel'" ></schedule-roster>
             </div>
         
     </div>

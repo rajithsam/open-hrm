@@ -133,7 +133,7 @@ class EmployeeController extends Controller {
 		$results = EmployeeWorkshift::with('WorkShift')->where('employee_id',$employee)->where('shift_date','like',$searchDuration.'%')->get();
 	}
 	
-	public function getWorkShiftByEmployee($employee_id,$date)
+	public function getWorkShiftByEmployee($employee_id,$date='')
 	{
 		
 		$searchDuration = ($date != "")? $date : date('Y-m-d');
@@ -284,6 +284,7 @@ class EmployeeController extends Controller {
 							$employeeEdu->save();
 						}
 					}
+					return json_encode(array('message'=>array('Information updated')));
 					break;
 				
 				case 'exp':
@@ -304,6 +305,7 @@ class EmployeeController extends Controller {
 							$employeeExp->save();
 						}
 					}
+					return json_encode(array('message'=>array('Information updated')));
 					break;
 					
 				case 'assign':
@@ -447,6 +449,11 @@ class EmployeeController extends Controller {
 		$viewModel['page_title'] = 'Evaluation Requests';
 		
 		return view('employee.evaluation-request',$viewModel);
+	}
+	
+	public function getWorkHistory($id)
+	{
+		return JobDetails::with('Department','Designation')->where('employee_id',$id)->orderBy('id','desc')->get();
 	}
 	
 	public function getEvaluationRequests()

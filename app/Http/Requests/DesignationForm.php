@@ -22,7 +22,7 @@ class DesignationForm extends Request {
 	public function rules()
 	{
 		return [
-			'title'=>'required|unique:designations',
+			'title'=>'required',
 			'quota'=>'required'
 			
 		];

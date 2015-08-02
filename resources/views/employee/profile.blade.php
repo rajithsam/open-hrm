@@ -24,6 +24,7 @@
                     <li role="presentation" ng-class="{active:formTab.basic}"><a ng-click="selectFormTab('basic')">Basic Info</a></li>
                     <li role="presentation" ng-class="{active:formTab.edu}"><a ng-click="selectFormTab('edu')">Education</a></li>
                     <li role="presentation" ng-class="{active:formTab.work_exp}"><a ng-click="selectFormTab('work_exp')">Work Experience</a></li>
+                    <li role="presentation" ng-class="{active:formTab.work_history}"><a ng-click="selectFormTab('work_history')">Work History</a></li>
                 </ul>
                 <form class="form-horizontal" ng-show="formTab.basic" ng-submit="saveEmployee()">
                 <div class="col-lg-12" style="margin-top:20px">
@@ -86,7 +87,7 @@
                             <input type="file" multiple="" uploader="uploader" nv-file-select="">
                         </div>
                         <div class="col-lg-3">
-                            <div ng-show="form.photo && uploader.queue.length==0"><img alt="image"  height="100" ng-src="{{url('data')}}/@{{form.photo}}"/></div>
+                            <div ng-show="form.photo && uploader.queue.length==0"><img alt="image"  height="100" ng-src="{{url('data/profile')}}/@{{form.photo}}"/></div>
                             <div ng-repeat="item in uploader.queue" ng-show="uploader.isHTML5">
                             <div ng-thumb="{ file: item._file, height: 100 }"></div>
                                 <div style="margin-bottom: 0;" class="progress">
@@ -153,6 +154,26 @@
                 </table>
                 <button type="submit" class="btn btn-success btn-sm">Update</button>
             </form>
+            <div class="form-horizontal" ng-show="formTab.work_history">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Department</th>
+                            <th>Designation</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="history in work_history">
+                            <td>@{{history.department.name}}</td>
+                            <td>@{{history.designation.title}}</td>
+                            <td>@{{history.job_start}}</td>
+                            <td>@{{(history.active_job)? 'Continuing' : history.job_end}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             </div>
         
         </div>

@@ -27,7 +27,7 @@ controller('employeeCtrl',['$scope','webservice','$sce','FileUploader',function(
     $scope.form = {employee_id:'',name:'',present_address:'',
                 permanent_address:'',email:'',phone:'',source:'',source_name:''};
     $scope.tab = {avaiable_resource:1,assigned_resource:0};
-    $scope.formTab = {basic:1,edu:0,work_exp:0};
+    $scope.formTab = {basic:1,edu:0,work_exp:0,work_history:0};
     
     
     $scope.cancelFrm = function()
@@ -62,7 +62,7 @@ controller('employeeCtrl',['$scope','webservice','$sce','FileUploader',function(
     
     $scope.selectFormTab = function(item)
     {
-        $scope.formTab = {basic:0,edu:0,work_exp:0};
+        $scope.formTab = {basic:0,edu:0,work_exp:0,work_history:0};
         $scope.formTab[item] = 1;
     }
     
@@ -161,6 +161,10 @@ controller('employeeCtrl',['$scope','webservice','$sce','FileUploader',function(
         $scope.active_job = 0;
         $scope.edus = employee.education;
         $scope.exps = employee.work_experience;
+        var response = webservice.get(BASE+'get-work-history/'+$scope.form.id);
+        response.success(function(res){
+            $scope.work_history = res;
+        });
        
     }
     
@@ -191,9 +195,24 @@ controller('employeeCtrl',['$scope','webservice','$sce','FileUploader',function(
     {
         var response = webservice.post(BASE+'employee/update/edu',{edus:$scope.edus,id:$scope.form.id});
         response.success(function(res){
+            for(i in res)
+            {
+                
+                if(i == "error")
+                    $scope.errors.push($sce.trustAsHtml(res[i][0]));
+               
+            }
             
+            $scope.successes = res.message;
+            $("html,body").animate({ scrollTop: "0px" });
         }).error(function(res){
-            
+            for(i in res)
+            {
+                if(i == "error")
+                    $scope.errors.push($sce.trustAsHtml(res[i][0]));
+               
+            }
+            $("html,body").animate({ scrollTop: "0px" });
         });
     }
     
@@ -216,9 +235,22 @@ controller('employeeCtrl',['$scope','webservice','$sce','FileUploader',function(
     {
         var response = webservice.post(BASE+'employee/update/exp',{exps:$scope.exps,id:$scope.form.id});
         response.success(function(res){
-            
+            for(i in res)
+            {
+                if(i == "error")
+                    $scope.errors.push($sce.trustAsHtml(res[i][0]));
+               
+            }
+            $scope.successes = res.message;
+            $("html,body").animate({ scrollTop: "0px" });
         }).error(function(res){
-            
+            for(i in res)
+            {
+                if(i == "error")
+                    $scope.errors.push($sce.trustAsHtml(res[i][0]));
+               
+            }
+            $("html,body").animate({ scrollTop: "0px" });
         });
     }
     
@@ -347,8 +379,13 @@ controller('employeeCtrl',['$scope','webservice','$sce','FileUploader',function(
             $scope.form = res;
             $scope.formTab['basic'] = 1;
             $scope.edus = res.education;
-            $scope.exps = res.work_experience
+            $scope.exps = res.work_experience;
+            var response = webservice.get(BASE+'get-work-history/'+$scope.form.id);
+            response.success(function(res){
+                $scope.work_history = res;
+            });
         });
+       
     }
     
     $scope.selectFormTab = function(item)

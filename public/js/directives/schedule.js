@@ -4,7 +4,7 @@ angular.module('schedule',[])
         restrict:"EA",
         scope:{
             title:'=',
-            
+            callback: '&mySaveCallback'
         },
         
         replace:true,
@@ -30,6 +30,8 @@ angular.module('schedule',[])
                 return blankCount = $scope.firstDateObj.getDay();
 
             }
+            
+            
             
             var drawRosterGrid = function()
             {   
@@ -59,7 +61,10 @@ angular.module('schedule',[])
                 {
                     
                     
-                     
+                    /*if((cur_date+idate) == 7)
+                    {
+                        trHtml+'</tr>';
+                    }*/
                     if(cur_date%7 == 0)
                     {   
                        if(blankCount)
@@ -132,17 +137,31 @@ angular.module('schedule',[])
                 thisMonth = $scope.firstDateObj.getMonth()-1;
                 thisYear = $scope.firstDateObj.getFullYear();
                 $scope.firstDateObj = new Date(thisYear,thisMonth,1);
-                drawRosterGrid();
-                
+               // drawRosterGrid();
+                $http({
+                    url: BASE+'employee-workshifts/'+(thisMonth+1)+'/'+$scope.lastDateObj.getFullYear(),
+                    
+                }).success(function(res){
+                    $scope.employee_workshifts = res;
+                    drawRosterGrid();
+                });
             }
             
             $scope.nextMonth = function()
             {
                 cur_date = 0;
                 thisMonth = $scope.firstDateObj.getMonth()+1;
+                
                 thisYear = $scope.firstDateObj.getFullYear();
                 $scope.firstDateObj = new Date(thisYear,thisMonth,1);
-                drawRosterGrid();
+                //drawRosterGrid();
+                $http({
+                    url: BASE+'employee-workshifts/'+(thisMonth+1)+'/'+$scope.lastDateObj.getFullYear(),
+                    
+                }).success(function(res){
+                    $scope.employee_workshifts = res;
+                    drawRosterGrid();
+                });
                 
             }
             

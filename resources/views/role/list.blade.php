@@ -46,7 +46,7 @@
 	    				<th>Sl No.</th>
 	    				<th>Role Name</th>
 	    				<th>Description</th>
-	    				<th>Action</th>
+	    				<!--<th>Action</th>-->
 	    			</tr>
 	    		</thead>
 	    		<tbody>
@@ -54,7 +54,7 @@
 	    				<td>@{{($index+1)}}</td>
 	    				<td>@{{role.display_name}}</td>
 	    				<td>@{{role.description}}</td>
-	    				<td><a title="Settings" href="{{url('permissions')}}/@{{role.id}}" class="btn btn-primary btn-xs"><i class="glyphicon glyphicon-cog"></i></a></td>
+	    				<!--<td><a title="Settings" href="{{url('permissions')}}/@{{role.id}}" class="btn btn-primary btn-xs"><i class="glyphicon glyphicon-cog"></i></a></td>-->
 	    			</tr>
 	    		</tbody>
 	    	</table>
