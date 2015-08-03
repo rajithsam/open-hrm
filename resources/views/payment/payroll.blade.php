@@ -39,7 +39,7 @@
                         <tr ng-repeat="e in employees">
                             <td>@{{e.employee.name}}</td>
                             <td>
-                                <form action="{{url('payroll/view')}}" method="post">
+                                <form action="{{url('payroll/view')}}" target="_blank" method="post">
                                     <input type="hidden" name="_token" value="{{csrf_token()}}"/>
                                     <input type="hidden" name="employee" value="@{{e.employee_id}}"/>
                                     <input type="submit" class="btn btn-info btn-sm" value="View Payroll"/>

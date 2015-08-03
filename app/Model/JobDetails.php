@@ -22,5 +22,10 @@ class JobDetails extends Model {
 	{
 		return $this->belongsTo('App\Model\Employee\Employee','employee_id');
 	}
+	
+	public function PaymentGroup()
+	{
+		return $this->belongsTo('App\Model\Payment\Group','payment_group');
+	}
 
 }

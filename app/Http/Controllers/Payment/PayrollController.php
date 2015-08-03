@@ -6,6 +6,8 @@ use App\Helpers\Theme;
 use App\Helpers\Breadcrumb;
 use App\Helpers\Utils;
 use App\Model\Employee\Employee;
+use App\Model\JobDetails;
+use App\Model\System\HrmOrg;
 use Illuminate\Http\Request;
 
 use App\Libraries\Report\PayrollReport;
@@ -61,12 +63,28 @@ class PayrollController extends Controller {
 	public function show(Request $req)
 	{
 		$employee = Employee::find($req->get('employee'));
-		$payrollReport = new PayrollReport(); 
-		
+		$jobDetails = JobDetails::with('Employee','Department','Designation','PaymentGroup')
+						->where('employee_id',$employee->id)
+						->where('active_job',1)
+						->first();
+						
+		$payrollReport = new PayrollReport("L"); 
+		$org = HrmOrg::first();
 		$payrollReport->AddPage();
         $payrollReport->SetAutoPageBreak(true, 0.0);
         $payrollReport->SetFont('Arial', 'B', 18);
-        $payrollReport->Cell(50,50,"Hi",0,1,"C");
+        $payrollReport->reportAreaWidth = 276;
+        $payrollReport->columnWidth = $payrollReport->reportAreaWidth/4;
+        $payrollReport->height = 10;
+        $payrollReport->Cell($payrollReport->reportAreaWidth,$payrollReport->height,$org->title,0,1,"C");
+        $payrollReport->SetFont('Arial', '', 14);
+        $payrollReport->Cell($payrollReport->reportAreaWidth,$payrollReport->height*2,$org->address,0,1,"C");
+        $payrollReport->SetFont('Arial', '', 12);
+        $payrollReport->Cell($payrollReport->reportAreaWidth,$payrollReport->height,"Salary Slip",0,1,"C");
+        $payrollReport->setEmployeeInfo($jobDetails);
+        
+       
+        $payrollReport->setPayRollInfo($jobDetails);
         $payrollReport->output();
         exit;
 	}
